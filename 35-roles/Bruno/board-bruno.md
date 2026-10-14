@@ -19,10 +19,9 @@ frente: Frontend y demo
 Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
 
 ## En curso
-- 
+- [ ] **T22** · P0 · B1 · Wireframe y flujo en `20-arquitectura/ux-demo.md`: invitación → aceptar o declinar → autorización → ruta y checklist → chat → sucursal — ✅ aprobado por el equipo antes de las 21:00 del miércoles · _borrador escrito, pendiente aprobación del equipo_
 
 ## Por hacer
-- [ ] **T22** · P0 · B1 · Wireframe y flujo en `20-arquitectura/ux-demo.md`: invitación → aceptar o declinar → autorización → ruta y checklist → chat → sucursal — ✅ aprobado por el equipo antes de las 21:00 del miércoles
 - [ ] **T23** · P0 · B2 · Streamlit, vista de la persona: recibe la invitación, acepta o declina, autoriza el uso de datos, ve su ruta y checklist, y conversa con el agente. Primero contra un mock — ✅ el flujo completo funciona con mock
 - [ ] **T24** · P0 · B2 · Panel del ejecutivo: busca un RUN y ve el resultado preliminar, los motivos, la ruta, los hitos, el checklist (lo puede marcar) y el historial del caso por canal — ✅ funciona con mock
 - [ ] **T25** · P0 · B3 · Conectar ambas vistas a la API real — ✅ el mismo caso se ve en vivo desde las dos vistas · depende de T16, T19 y T21
