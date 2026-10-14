@@ -13,6 +13,9 @@ dependencies = [
     "python-dotenv>=1,<2",
 ]
 
+[project.scripts]
+agente = "src.agent.cli:main"
+
 [dependency-groups]
 dev = [
     "pytest>=8,<10",

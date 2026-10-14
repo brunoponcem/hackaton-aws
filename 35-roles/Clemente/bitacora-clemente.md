@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-14 · T04 · rama `clemente/T04-agente`
+- Agente con Converse + tool use: límite de iteraciones, formato común de errores, contexto del caso en el prompt e historial entre canales. Ruta y checklist deterministas. CLI `uv run agente --run <RUN>`. Guía en [[T04-agente]].
+- 57 tests (11 nuevos) y ruff OK. Prueba real con Bedrock Sonnet 5 y el RUN `100000010-4`: consulta el perfil, cita el dataset y no adjudica la PGU.
+- Falta: conectar T11 y T12 de Johann (se registran solas desde `src/rules`). Ajustar el prompt, porque sin `evaluar_pgu` el modelo igual explica requisitos de memoria.
+
 ### 2026-10-14 · T07 · merge de T03 y T05 a `main` (`36cd846`)
 - Revisión (Claude): aprobadas. 46 tests, `ruff check` y `ruff format --check` OK. El DV módulo 11 es correcto, la autorización se valida antes de leer el archivo y no se puede consultar otro RUN que el del caso.
 - Pendientes para T04, no bloqueantes:
