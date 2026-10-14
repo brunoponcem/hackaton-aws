@@ -16,7 +16,6 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 - [ ] Catálogo de otros beneficios de jubilación (solicitud de pensión, bono por hijo) — dueño: codex — valida contra el esquema
 
 ### Backend
-- [ ] Herramienta `consultar_perfil(run)` sobre `perfiles.json` — dueño: codex — tests: RUN existente, RUN inexistente, perfil con `rsh = null`
 - [ ] Herramienta `evaluar_pgu(perfil, fecha_ref)` → `elegible | no_elegible | antecedente_faltante | proximo | ya_recibe` + motivos — dueño: codex — tests con un perfil real del dataset por cada resultado
 - [ ] Script de evaluación por lotes de los 500 perfiles → `reports/pgu_dataset_A.csv` + resumen — dueño: codex — cuadra con los conteos de [[datos-dataset-A]] o explica la diferencia
 - [ ] Herramienta `calcular_plazos` (aviso antes de los 65, vigencia del RSH) — dueño: codex — tests con fechas límite
@@ -35,6 +34,7 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 - [ ] Guion del pitch y de la demo — dueño: humano — listo el viernes antes de las 10:15
 
 ## En curso
+- [ ] T03 · Consulta de perfil por RUN y autorización del caso — dueño: codex / Clemente — rama `codex/T03`; tests sobre dataset A y permisos
 
 ## Hecho
 - [x] T01 · Scaffold de `src/` (uv, ruff, pytest y cliente Bedrock configurable) — dueño: codex / Clemente — revisada e integrada a `main` (T07) · [[T01-scaffold-python]]

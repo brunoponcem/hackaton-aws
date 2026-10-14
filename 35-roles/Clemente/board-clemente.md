@@ -19,10 +19,9 @@ frente: Agente e integración
 Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
 
 ## En curso
-- 
+- [ ] **T03** · P0 · B1 · (Codex, `codex/T03`) Implementada y lista para revisión: consultar RUN y devolver `Profile` con autorización — 40 tests OK (19 nuevos); pendiente integración T07 · [[T03-consultar-perfil]]
 
 ## Por hacer
-- [ ] **T03** · P0 · B1 · Herramienta `consultar_perfil(run)` sobre `perfiles.json`, aceptando RUN con o sin puntos (Codex) — ✅ tests: RUN existente, inexistente y con `rsh = null` · ~~depende de T02~~ desbloqueada: devolver `Profile` de `src.contracts`
 - [ ] **T04** · P0 · B2 · Bucle del agente con Bedrock Converse + tool use, con límite de iteraciones y manejo de errores de herramientas ([[0003-orquestacion-agente]]) — ✅ `uv run agente --run <RUN>` devuelve ruta, hitos y checklist · depende de T03, T11 y T12
 - [ ] **T05** · P0 · B2 · Prompt del sistema y especificación de herramientas: lenguaje claro, citar `fuente_url`, nunca inventar requisitos ni montos, presentar `elegible` como orientación preliminar y no consultar el perfil sin autorización — ✅ en `50-prompts/agente-pgu.md` y `src/agent/prompts.py`
 - [ ] **T06** · P0 · B3 · Integración de punta a punta: agente real detrás de la API (con Jonmor) — ✅ 5 RUN, uno por cada estado, dan una ruta correcta desde la API · depende de T04, T16 y T21
