@@ -8,29 +8,29 @@ arquitectura: "[[arquitectura-chileatiende]]"
 
 Plan de trabajo sobre [[arquitectura-chileatiende]] (MVP jubilación + PGU, [[0004-mvp-jubilacion-pgu]], datos en [[datos-dataset-A]]). Sigue la experiencia objetivo del PPT institucional, resumida en [[contexto-compartido-chileatiende]]: **detectar → invitar → autorizar → preparar ruta → acompañar → cerrar y anticipar**.
 
-Cada integrante tiene un **frente**, sus **propias carpetas** para no pisarse y una nota con sus 7 tareas en esta carpeta.
+Cada integrante tiene un **frente**, sus **propias carpetas de código** y **una carpeta en `35-roles/`** con su board (7 tareas) y su bitácora. El avance de todos se ve junto en [[_avance]].
 
 > Principio del PPT: la IA **orienta** y el organismo **resuelve**. `elegible` es una orientación preliminar, nunca una adjudicación de PGU.
 
 ## Equipo y frentes
 | # | Integrante | Entorno | Frente | Carpetas propias |
 |---|---|---|---|---|
-| 1 | [[Clemente]] | Claude Code + Codex | Agente e integración | `src/contracts/`, `src/agent/`, `src/tools/`, `50-prompts/` |
-| 2 | [[Johann]] | Kiro IDE Pro | Reglas PGU, hitos y catálogo | `data/catalogo/`, `src/rules/`, `reports/`, `.kiro/` |
-| 3 | [[Jonmor]] | Kiro IDE Pro | API, casos e invitaciones | `src/api/`, `src/cases/`, `src/alerts/` |
-| 4 | [[Bruno]] | Kiro IDE Pro | Frontend y demo | `src/web/`, `20-arquitectura/ux-demo.md` |
-| 5 | [[Jp]] | Kiro IDE Pro | Infra, simulador, medición y pitch | `infra/`, `src/sim/`, `60-pitch/` |
+| 1 | [[board-clemente\|Clemente]] | Claude Code + Codex | Agente e integración | `src/contracts/`, `src/agent/`, `src/tools/`, `50-prompts/` |
+| 2 | [[board-johann\|Johann]] | Kiro IDE Pro | Reglas PGU, hitos y catálogo | `data/catalogo/`, `src/rules/`, `reports/`, `.kiro/` |
+| 3 | [[board-jonmor\|Jonmor]] | Kiro IDE Pro | API, casos e invitaciones | `src/api/`, `src/cases/`, `src/alerts/` |
+| 4 | [[board-bruno\|Bruno]] | Kiro IDE Pro | Frontend y demo | `src/web/`, `20-arquitectura/ux-demo.md` |
+| 5 | [[board-jp\|Jp]] | Kiro IDE Pro | Infra, simulador, medición y pitch | `infra/`, `src/sim/`, `60-pitch/` |
 
 ## Mapa de tareas sobre el pipeline
 Es el mismo pipeline de [[arquitectura-chileatiende]], con cada componente coloreado según quién lo construye y las tareas que le corresponden. Los nodos con borde punteado son apoyos que no forman parte del flujo en producción.
 
 | Color | Integrante | Tareas |
 |---|---|---|
-| 🟦 Azul | [[Clemente]] | T01–T07 |
-| 🟩 Verde | [[Johann]] | T08–T14 |
-| 🟧 Naranjo | [[Jonmor]] | T15–T21 |
-| 🟪 Morado | [[Bruno]] | T22–T28 |
-| 🟥 Rojo | [[Jp]] | T29–T35 |
+| 🟦 Azul | [[board-clemente\|Clemente]] | T01–T07 |
+| 🟩 Verde | [[board-johann\|Johann]] | T08–T14 |
+| 🟧 Naranjo | [[board-jonmor\|Jonmor]] | T15–T21 |
+| 🟪 Morado | [[board-bruno\|Bruno]] | T22–T28 |
+| 🟥 Rojo | [[board-jp\|Jp]] | T29–T35 |
 | ⬜ Gris | Dato entregado | — |
 
 ```mermaid
@@ -109,7 +109,9 @@ Prioridad: **P0** = imprescindible para la demo · **P1** = suma puntos · si fa
 - **Contratos primero**: nadie cambia `src/contracts/` sin avisar a Clemente. Si necesitas un campo, pídelo.
 - **Mocks mientras tanto**: front, API y agente arrancan con datos falsos con la forma de los contratos y no esperan a los demás.
 - **Kiro**: usar specs en `.kiro/specs/T<nn>/`, una por tarea. El steering (T08) es común.
-- **Al tomar una tarea**: marcarla en tu nota de rol y anotarla en "En curso" en [[board]].
+- **Al tomar una tarea**: muévela a "En curso" en tu board. Al terminar, pásala a "Hecho" y anota el commit en tu bitácora.
+- **Cada uno edita solo su carpeta de `35-roles/`**: así los commits de notas no chocan entre integrantes.
+- **Commits**: empiezan con el ID de la tarea (`T11: evaluar_pgu con precedencia de estados`).
 - **Regla del dominio**: elegibilidad, montos e hitos salen de código y del catálogo con fuente, nunca del LLM. Sin autorización no se consulta el perfil ampliado.
 
 ## Ruta crítica

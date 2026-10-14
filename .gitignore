@@ -7,3 +7,9 @@ node_modules/
 .DS_Store
 .obsidian/workspace*.json
 .obsidian/cache
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.worktrees/
