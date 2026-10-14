@@ -4,6 +4,7 @@ Este archivo es la **fuente única de verdad** para cualquier agente de IA que t
 Codex lo lee automáticamente; Claude Code lo importa desde `CLAUDE.md`.
 
 ## Contexto
+- Lectura de entrada para ambos agentes: [[contexto-compartido-chileatiende]] (presentación institucional, decisiones, estado comprobado y pendientes); después revisar [[board]] y la bitácora vigente.
 - Hackatón AWS, Chile, octubre 2026. Tiempo limitado: priorizar demo funcional sobre perfección.
 - **Reto elegido: [[ChileAtiende-a-tiempo]]**: ruta de beneficios y plazos por evento de vida, con continuidad entre canales. Arquitectura en [[arquitectura-chileatiende]].
 - Cuenta AWS del evento: perfil `hackaton`, región `us-east-1`. Modelos Bedrock permitidos: `us.anthropic.claude-sonnet-5` (por defecto), `us.anthropic.claude-opus-5` y `us.anthropic.claude-haiku-4-5`. Los modelos `*-5-5` y Fable están bloqueados.

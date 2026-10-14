@@ -4,6 +4,8 @@ Formato: `- [ ] tarea — dueño: humano|claude|codex — criterio de aceptació
 
 Reto: [[ChileAtiende-a-tiempo]] · Arquitectura: [[arquitectura-chileatiende]] · Datos: [[datos-dataset-A]]
 
+Contexto de entrada para ambos agentes y presentación institucional: [[contexto-compartido-chileatiende]].
+
 **Foco del MVP: jubilación + PGU** ([[0004-mvp-jubilacion-pgu]]).
 
 ## Por hacer
@@ -25,6 +27,9 @@ Reto: [[ChileAtiende-a-tiempo]] · Arquitectura: [[arquitectura-chileatiende]] �
 - [ ] API FastAPI (`/cases`, `/cases/{id}/messages`, `GET /cases/{id}`) — dueño: codex — test de integración con un agente falso
 
 ### Producto y demo
+- [ ] Diseñar aceptación/rechazo de invitación, autorización de datos y checklist del caso — dueño: claude — contratos y flujo documentados según [[contexto-compartido-chileatiende]]
+- [ ] Verificar hitos oficiales: jubilación por perfil y solicitud PGU desde 64 años y 9 meses — dueño: humano + claude — fuentes, vigencias y reglas documentadas antes de implementar
+- [ ] Definir medición de próximo paso, comprensión y continuidad — dueño: humano + claude — denominadores y evidencia definidos; metas del PPT separadas de resultados simulados
 - [ ] Frontend: chat de la persona + panel del ejecutivo — dueño: claude — ambas vistas muestran el mismo caso en vivo
 - [ ] Simulador de usuarios con Haiku 4.5 (a partir de perfiles del dataset) + métricas — dueño: claude — reporte con % de rutas completas sobre N personas
 - [ ] Despliegue en AWS con CDK (Lambda + API Gateway + DynamoDB) — dueño: codex — `cdk deploy` OK y URL pública (opcional)
@@ -33,6 +38,8 @@ Reto: [[ChileAtiende-a-tiempo]] · Arquitectura: [[arquitectura-chileatiende]] �
 ## En curso
 
 ## Hecho
+- [x] Agregar pipeline del MVP al contexto compartido — dueño: codex — diagrama Mermaid, flujo técnico y ejemplo de demo en [[contexto-compartido-chileatiende]]
+- [x] Revisar trabajo de Claude y extraer presentación a contexto compartido — dueño: codex — [[contexto-compartido-chileatiende]] y `scripts/extract-ppt-context.ps1` verificado sobre 7 diapositivas
 - [x] Estructura del repo — dueño: claude
 - [x] Elegir reto con [[_seleccion]] — dueño: humano — ChileAtiende a tiempo ([[0002-seleccion-reto]])
 - [x] Verificar acceso a cuenta AWS y Bedrock — dueño: humano — perfil `hackaton`, us-east-1, Sonnet 5 / Opus 5 / Haiku 4.5
