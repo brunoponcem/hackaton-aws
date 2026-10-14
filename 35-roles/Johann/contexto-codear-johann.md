@@ -27,13 +27,14 @@ El heatmap propone comunas para campañas según casos sin respuesta en última 
 | Consulta de perfil | `src/tools/profiles.py`; RUN con/sin puntos, DV, permisos y separación entre casos |
 | Agente conversacional | `src/agent/{bedrock,loop,tools,route,cli,prompts}.py`; Bedrock Converse, tool use, manejo de errores y máximo de iteraciones |
 | App de Johann | `src/app/app.py`, Streamlit: persona, ejecutivo, invitaciones simuladas y métricas; `ui_persona.py` implementa la guía ciudadana |
+| Portal y ayuda | `src/app/portal.py`: estructura del portal oficial, Inicio/Ayuda/Mi ruta, búsqueda y links oficiales. `ruta/chatbot.py` conecta el chat Bedrock al Agent/cliente común con la ruta autorizada; plantilla sin configuración |
 | Motor y casos de la app | `src/app/ruta/`: reglas, hitos, rutas con dependencias, casos SQLite y asistente por plantillas/Bedrock opcional. Autónomo: aún no usa los contratos/agente comunes |
 | Reglas y catálogo | `src/rules/` y `data/catalogo/` todavía no existen en el estado revisado |
 | API, persistencia y contactos | Por implementar; FastAPI y repositorio en memoria primero, DynamoDB después |
 | Frontend y back-office | Por implementar: chat, ficha de beneficiario y campañas/heatmap; framework pendiente |
 | Simulación e infraestructura | Por implementar: `src/sim/`, `infra/`; despliegue AWS opcional después de demo local |
 
-El agente CLI y la app de Johann aún son flujos separados. La app ya evalúa con su motor, pero `src.rules` no existe para el registro de la CLI. Falta reconciliar modelos, estados (`futuro`/`excluido` adicionales), historial y persistencia. Contacto escalonado y heatmap siguen pendientes. Revisión y límites en `20-arquitectura/revision-aporte-johann.md`; no confundir merge textual con unificación funcional.
+La app ya usa el agente común en su chatbot configurado (herramienta `leer_caso` con contexto de la ruta), pero las reglas/SQLite siguen propios. Falta reconciliar estados (`futuro`/`excluido`), historial y persistencia. Contacto escalonado y heatmap siguen pendientes. `20-arquitectura/portal-ayuda-tramites.md` describe la nueva pestaña; `revision-aporte-johann.md` conserva la revisión previa.
 
 ## Interfaces de integración
 
@@ -72,7 +73,7 @@ El dataset **no tiene email, teléfono, empleador, dirección ni comuna**. Pedir
 
 ## Arranque, pruebas y entrega
 
-Desde la raíz: `uv sync --group app`, `uv run --group app pytest` (61 tests tras integración), `uv run --group app python src/app/verificar.py` (500 perfiles, offline). App: `uv run --group app streamlit run src/app/app.py --server.address localhost`. Tests cubren contratos, perfiles, agentes y flujo UI aceptar/autorizar/revocar sin AWS. Ruff de la app tiene observaciones pendientes; no afirmar lint global aprobado. No instalar su requirements autónomo sobre la venv compartida.
+Desde la raíz: `uv sync --group app`, `uv run --group app pytest` (64 tests tras portal/chatbot), `uv run --group app python src/app/verificar.py` (500 perfiles, offline). App: `uv run --group app streamlit run src/app/app.py --server.address localhost`. Tests cubren contratos, agentes, navegación y flujo aceptar/autorizar/revocar sin AWS. Ruff histórico de la app sigue pendiente. No instalar requirements autónomo sobre la venv compartida.
 
 Para una prueba real: copiar `.env.example` a `.env` **solo si no existe**, configurar credenciales AWS propias autorizadas y ejecutar `uv run agente --run 100000010-4 --mensaje "¿Qué hago ahora?"`. La CLI simula consentimiento para demo y consume Bedrock; no es el flujo real de autorización. No hace falta AWS para escribir/probar reglas.
 

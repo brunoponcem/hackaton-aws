@@ -8,13 +8,15 @@ import pandas as pd
 import streamlit as st
 
 import ui_persona
+import portal
 from ruta import asistente, casos, config
 from ruta import reglas as R
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
 
-st.set_page_config(page_title="ChileAtiende a Tiempo", page_icon="🧭", layout="wide")
+st.set_page_config(page_title="ChileAtiende · Ayuda para tus trámites", page_icon="🧭", layout="wide",
+                   initial_sidebar_state="collapsed")
 
 ICONO_REQ = {R.CUMPLE: "✅", R.NO_CUMPLE: "❌", R.FALTA: "⚠️", R.PENDIENTE: "⏳"}
 ICONO_PASO = {"completado": "✅", "disponible": "👉", "bloqueado": "🔒", "en_espera": "📅"}
@@ -256,12 +258,20 @@ def vista_kpis(diags):
 
 # --------------------------------------------------------------------------
 diags = diagnosticos()
-st.sidebar.title("🧭 ChileAtiende a Tiempo")
-st.sidebar.caption("MVP Jubilación + PGU · datos 100% sintéticos")
-vista = st.sidebar.radio("Vista", ["Ruta de la persona", "Vista ejecutivo", "Detectar e invitar", "Medición"])
-st.sidebar.caption("La IA explica y organiza. AFP / IPS validan requisitos, resuelven y comunican la decisión.")
-st.sidebar.divider()
-if vista == "Ruta de la persona":
-    ui_persona.vista(diags, casos_demo(diags))
-else:
+section = portal.render_header()
+portal.hero(section)
+with st.sidebar:
+    st.title("Controles de demostración")
+    st.caption("Perfiles sintéticos · El organismo valida y resuelve.")
+    vista = st.radio("Vista de demostración", ["Persona", "Vista ejecutivo", "Detectar e invitar", "Medición"])
+    st.divider()
+if vista != "Persona":
     {"Vista ejecutivo": vista_ejecutivo, "Detectar e invitar": vista_panel, "Medición": vista_kpis}[vista](diags)
+elif section == "Inicio":
+    portal.render_discovery()
+    st.info("Entra a la pestaña Ayuda para tus trámites para preparar tu ruta y conversar con el asistente.")
+else:
+    if section == "Ayuda para tus trámites":
+        portal.render_help_intro()
+    ui_persona.vista(diags, casos_demo(diags))
+portal.render_footer()

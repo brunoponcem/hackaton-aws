@@ -4,23 +4,12 @@
 - Sin él, responde con plantillas a partir del mismo contexto estructurado.
 En ambos casos solo usa hechos calculados por el motor de reglas: no decide ni inventa.
 """
-import json
 import unicodedata
 
 from . import config
 from . import reglas as R
 from .fechas import fmt
 from .rutas import Paso
-
-SISTEMA = """Eres el asistente de ChileAtiende a Tiempo. Acompañas a personas que se acercan a la jubilación
-y a la Pensión Garantizada Universal (PGU).
-Reglas:
-- Usa SOLO los datos del CONTEXTO. Si algo no está, dilo y sugiere consultar en ChileAtiende (101).
-- Nunca digas que la persona "tiene derecho" o "fue aprobada": entregas una orientación; AFP/IPS resuelven.
-- Si no hay autorización, no menciones datos de RSH, previsión, pensiones ni residencia.
-- Lenguaje claro, cercano, sin tecnicismos (explica AFP, PGU, SCOMP, RSH si aparecen). Máximo 120 palabras.
-- Termina indicando el próximo paso concreto de la ruta y su fuente si existe."""
-
 
 def _peso(n: int | float | None) -> str:
     return "—" if n is None else f"${n:,.0f}".replace(",", ".")
@@ -42,6 +31,7 @@ def construir_contexto(d: R.Diagnostico, ruta: list[Paso], estados: dict, prox: 
         "fuente_pgu": config.FUENTE_PGU,
     }
     if autorizado:
+        ctx["run"] = d.run
         ctx["pgu"] = {
             "resultado_orientativo": d.pgu.resultado,
             "motivo": d.pgu.motivo,
@@ -57,18 +47,9 @@ def construir_contexto(d: R.Diagnostico, ruta: list[Paso], estados: dict, prox: 
 
 # --------------------------------------------------------------------------
 def _bedrock(pregunta: str, ctx: dict, historial: list[dict]) -> str:
-    import boto3  # import diferido: el MVP funciona sin boto3 configurado
+    from .chatbot import answer
 
-    cliente = boto3.client("bedrock-runtime", region_name=config.AWS_REGION)
-    mensajes = [{"role": m["rol"], "content": [{"text": m["texto"]}]} for m in historial[-6:]]
-    mensajes.append({"role": "user", "content": [{"text": f"CONTEXTO:\n{json.dumps(ctx, ensure_ascii=False)}\n\nPREGUNTA: {pregunta}"}]})
-    resp = cliente.converse(
-        modelId=config.BEDROCK_MODEL_ID,
-        system=[{"text": SISTEMA}],
-        messages=mensajes,
-        inferenceConfig={"maxTokens": 500, "temperature": 0.2},
-    )
-    return resp["output"]["message"]["content"][0]["text"]
+    return answer(pregunta, ctx, historial)
 
 
 def _norm(t: str) -> str:

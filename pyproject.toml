@@ -30,6 +30,9 @@ dev = [
 where = ["."]
 include = ["src", "src.*"]
 
+[tool.setuptools.package-data]
+"src.app" = ["assets/*.svg"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"

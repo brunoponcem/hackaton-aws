@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-14 · Portal de ayuda y chatbot (Codex)
+- `src/app/portal.py` agrega estructura del portal oficial y pestaña de ayuda. `ui_persona` mantiene ruta/permisos; ahora muestra chat desde la invitación.
+- El chat configurado delega en `src/app/ruta/chatbot.py` y reutiliza Agent, prompt y BedrockClient compartidos; contexto proviene del motor existente, sin cambiar reglas. SQLite sigue igual.
+- 64 tests + verificador OK. Guía [[portal-ayuda-tramites]]. Mantener la navegación y el adaptador al integrar próximos aportes en `src/app`.
+
 ### 2026-10-14 · Revisión del aporte `0d06dab` / merge `ed989ad`
 - App Streamlit recibida e integrada localmente sin conflictos. Se conservó el motor y las vistas; agregados grupo uv `app`, tests de consentimiento y recorrido UI aceptar/autorizar/preguntar/revocar.
 - Corregidos historial tras revocación, consulta Bedrock sin permiso, autorización sin aceptación y verificador que podía usar Bedrock. 61 tests + verificador de 500 perfiles OK.

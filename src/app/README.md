@@ -24,6 +24,7 @@ La app no tiene login: es para demo local. `--server.address localhost` evita ex
 IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.claude-sonnet-5`) junto con `AWS_PROFILE=hackaton` y `AWS_REGION=us-east-1`. Sin ella, el asistente responde con plantillas a partir del mismo contexto.
 
 ## Vistas
+- Portal inspirado en `https://www.chileatiende.gob.cl/`: Inicio, Ayuda para tus trámites (entrada del MVP) y Mi ruta. Buscador y enlaces al portal oficial. Chatbot integrado con el agente compartido cuando se configura Bedrock; sin configuración responde por plantillas. Ver [[portal-ayuda-tramites]].
 - **Ruta de la persona**: guía ciudadana paso a paso (invitación → autorización → tu situación → tu ruta) con asistente.
 - **Vista ejecutivo**: el mismo caso con requisitos, fuentes e historial, para sucursal o call center.
 - **Detectar e invitar**: segmentos sobre los 500 perfiles y campaña de invitación simulada.
@@ -45,6 +46,6 @@ IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.c
 Un incumplimiento verificable pesa más que un antecedente faltante, porque conseguir el antecedente no cambiaría el resultado.
 
 ## Pendiente de integrar con el resto del repo
-Este MVP es autónomo: todavía no usa `src/contracts/`, `src/tools/` ni `src/agent/`. Los identificadores están en español, a diferencia de la convención del repo (código en inglés).
+El motor de rutas y SQLite mantienen el aporte autónomo. El chatbot Bedrock ya usa `src/contracts/` y `src/agent/` mediante `ruta/chatbot.py`; la unificación de reglas/persistencia sigue pendiente. Para este agente compartido usar el entorno uv de la raíz. Los identificadores históricos siguen en español, a diferencia de la convención del repo.
 
 Revisión de integración en [[revision-aporte-johann]]. `futuro` y `excluido` no pertenecen a `PguStatus` del contrato compartido; hace falta acordar su representación antes de conectar los motores. Los montos/fechas se calculan en código con los parámetros del prototipo, no constituyen adjudicación ni validación completa de la normativa.

@@ -19,10 +19,10 @@ ETAPAS = ["Invitación", "Autorización", "Tu situación", "Tu ruta"]
 
 CSS = """
 <style>
-.ca-hero{background:#0F4C81;color:#fff;padding:1.3rem 1.6rem;border-radius:16px;margin-bottom:1rem}
+.ca-hero{background:#0d4d82;color:#fff;padding:1.3rem 1.6rem;border-radius:6px;margin-bottom:1rem}
 .ca-hero h2{color:#fff;margin:0 0 .3rem 0;font-size:1.7rem}
 .ca-hero p{color:#fff;margin:0;font-size:1.1rem;opacity:.95}
-.ca-card{border:1px solid #d5dde8;border-radius:14px;padding:1rem 1.2rem;background:#fff;color:#1b2733;margin-bottom:.7rem}
+.ca-card{border:1px solid #d5dde8;border-radius:6px;padding:1rem 1.2rem;background:#fff;color:#1b2733;margin-bottom:.7rem}
 .ca-card h4{margin:.1rem 0 .35rem 0;color:#0F2F4F;font-size:1.15rem}
 .ca-card p{margin:.2rem 0;font-size:1.05rem;line-height:1.5}
 .ca-now{border:2px solid #0F69B4;background:#F3F8FD}
@@ -31,7 +31,7 @@ CSS = """
 .ok{background:#E3F2E7;color:#1B5E2E}.warn{background:#FFF1DC;color:#7A4100}
 .bad{background:#FCE4E4;color:#9B1C1C}.wait{background:#E4EEF9;color:#0F4C81}.lock{background:#ECEFF3;color:#3D4A57}
 .ca-steps{display:flex;gap:.4rem;margin:.2rem 0 1.1rem 0;flex-wrap:wrap}
-.ca-step{flex:1;min-width:120px;text-align:center;padding:.55rem .3rem;border-radius:10px;font-weight:600;font-size:.95rem;
+.ca-step{flex:1;min-width:105px;text-align:center;padding:.55rem .3rem;border-radius:4px;font-weight:600;font-size:.85rem;
          background:#ECEFF3;color:#3D4A57;border-bottom:4px solid #C5CDD6}
 .ca-step.done{background:#E3F2E7;color:#1B5E2E;border-bottom-color:#2E7D32}
 .ca-step.cur{background:#0F4C81;color:#fff;border-bottom-color:#EB3C46}
@@ -318,8 +318,8 @@ PREGUNTAS = ["¿Qué es la PGU?", "¿Cuánto recibiría?", "¿Qué documentos ne
 
 def _asistente(d, run, canal, ctx):
     with st.container(border=True):
-        st.markdown("#### 💬 ¿Tienes dudas?")
-        st.caption("Toca una pregunta o escribe la tuya.")
+        st.markdown("#### Asistente de ayuda")
+        st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
         clave = f"chat-{run}"
         saludo = {"rol": "assistant", "texto": asistente.explicar_resumen(ctx)}
         if not ctx["autorizado"] or len(st.session_state.get(clave, [])) <= 1:
@@ -340,7 +340,7 @@ def _asistente(d, run, canal, ctx):
         mensajes = st.container(height=360)
         for m in hist:
             mensajes.chat_message(m["rol"], avatar="🧭" if m["rol"] == "assistant" else "🙂").write(m["texto"])
-        if q := st.chat_input("Escribe tu pregunta aquí"):
+        if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
             st.rerun()
         st.caption("También puedes llamar al 101 o ir a una sucursal ChileAtiende: verán tu avance.")
@@ -395,9 +395,11 @@ def vista(diags: dict, demo: dict[str, str]) -> None:
     ctx = asistente.construir_contexto(d, ruta, estados, proximo_paso(ruta, estados), autorizado)
 
     if caso["invitacion"] in ("no_invitado", "invitado"):
-        _, centro, _ = st.columns([1, 3, 1])
-        with centro:
+        route_col, chat_col = st.columns([3, 2], gap="large")
+        with route_col:
             _pantalla_invitacion(d, run, canal)
+        with chat_col:
+            _asistente(d, run, canal, ctx)
         return
     if caso["invitacion"] == "rechazado":
         _, centro, _ = st.columns([1, 3, 1])
