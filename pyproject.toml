@@ -17,6 +17,10 @@ dependencies = [
 agente = "src.agent.cli:main"
 
 [dependency-groups]
+app = [
+    "streamlit==1.40.1",
+    "pandas==2.2.3",
+]
 dev = [
     "pytest>=8,<10",
     "ruff>=0.9,<1",

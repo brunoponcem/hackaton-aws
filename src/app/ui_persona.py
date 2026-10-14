@@ -322,7 +322,7 @@ def _asistente(d, run, canal, ctx):
         st.caption("Toca una pregunta o escribe la tuya.")
         clave = f"chat-{run}"
         saludo = {"rol": "assistant", "texto": asistente.explicar_resumen(ctx)}
-        if len(st.session_state.get(clave, [])) <= 1:
+        if not ctx["autorizado"] or len(st.session_state.get(clave, [])) <= 1:
             # Sin preguntas todavía: el saludo se recalcula para reflejar autorización y avance actuales.
             st.session_state[clave] = [saludo]
         hist = st.session_state[clave]

@@ -2,7 +2,15 @@
 
 Prototipo del desafío IPS/ChileAtiende: detecta hitos, invita, pide autorización, arma una ruta personalizada, acompaña con un asistente y mide el avance. La IA explica; las reglas están en código y AFP/IPS resuelven.
 
-## Ejecutar (desde `src/app/`)
+## Ejecutar con el entorno compartido (desde la raíz)
+```powershell
+uv sync --group app
+uv run python src/app/verificar.py
+uv run --group app streamlit run src/app/app.py --server.address localhost
+```
+El grupo `app` instala Streamlit y pandas con las versiones del aporte; boto3 usa el lock del repo. Las verificaciones son offline incluso con `BEDROCK_MODEL_ID` exportado. No instalar `requirements.txt` sobre el entorno compartido: fija otra versión de boto3.
+
+## Alternativa autónoma (desde `src/app/`)
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements.txt
@@ -38,3 +46,5 @@ Un incumplimiento verificable pesa más que un antecedente faltante, porque cons
 
 ## Pendiente de integrar con el resto del repo
 Este MVP es autónomo: todavía no usa `src/contracts/`, `src/tools/` ni `src/agent/`. Los identificadores están en español, a diferencia de la convención del repo (código en inglés).
+
+Revisión de integración en [[revision-aporte-johann]]. `futuro` y `excluido` no pertenecen a `PguStatus` del contrato compartido; hace falta acordar su representación antes de conectar los motores. Los montos/fechas se calculan en código con los parámetros del prototipo, no constituyen adjudicación ni validación completa de la normativa.

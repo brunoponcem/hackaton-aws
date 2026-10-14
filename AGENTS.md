@@ -28,6 +28,7 @@ Codex lo lee automáticamente; Claude Code lo importa desde `CLAUDE.md`.
 | `scripts/` | Utilidades (chequeo de entorno, deploy) |
 
 ## Reparto de trabajo entre agentes
+- **Flujo vigente del código (acordado con el usuario):** Clemente trabaja con Codex + Claude y Johann con Kiro, actualmente desde `src/app`. No se asignan tareas ni carpetas exclusivas; se permiten aportes que se superpongan. Guardar cada aporte en commit, traer `origin/main`, integrar mediante merge, resolver conflictos y revisar duplicaciones funcionales, ejecutar las verificaciones aplicables y hacer push. Si el remoto avanzó, repetir la integración. Esta regla sustituye el reparto y la prohibición de solapamientos que se describen abajo para el código; las reglas de dominio y protección de credenciales siguen vigentes. Git no detecta automáticamente toda duplicación o incompatibilidad lógica.
 - **Claude Code**: arquitectura, diseño de módulos, refactors grandes, revisión de PRs, documentación en el vault.
 - **Codex**: implementación de tareas acotadas, tests, scripts, fixes puntuales.
 - Nunca dos agentes sobre los mismos archivos a la vez. Usar ramas `claude/<tarea>` y `codex/<tarea>` (o git worktrees).

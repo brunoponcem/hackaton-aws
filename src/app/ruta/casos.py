@@ -82,13 +82,21 @@ def invitar(runs: list[str], canal: str) -> int:
 def responder_invitacion(run: str, acepta: bool, canal: str) -> None:
     with _conn() as con:
         _asegurar(con, run)
-        con.execute("UPDATE casos SET invitacion=? WHERE run=?", ("aceptado" if acepta else "rechazado", run))
+        con.execute(
+            "UPDATE casos SET invitacion=?, "
+            "autorizacion=CASE WHEN ? THEN autorizacion ELSE 0 END, "
+            "fecha_autorizacion=CASE WHEN ? THEN fecha_autorizacion ELSE NULL END WHERE run=?",
+            ("aceptado" if acepta else "rechazado", acepta, acepta, run),
+        )
     registrar_evento(run, canal, "invitacion_aceptada" if acepta else "invitacion_rechazada")
 
 
 def autorizar(run: str, autoriza: bool, canal: str) -> None:
     with _conn() as con:
         _asegurar(con, run)
+        invitation = con.execute("SELECT invitacion FROM casos WHERE run=?", (run,)).fetchone()
+        if autoriza and invitation["invitacion"] != "aceptado":
+            raise PermissionError("Debe aceptar el acompañamiento antes de autorizar datos.")
         con.execute("UPDATE casos SET autorizacion=?, fecha_autorizacion=? WHERE run=?",
                     (int(autoriza), _ahora() if autoriza else None, run))
     registrar_evento(run, canal, "autorizacion_otorgada" if autoriza else "autorizacion_revocada")

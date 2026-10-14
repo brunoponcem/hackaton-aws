@@ -15,6 +15,9 @@ from ruta.datos import cargar_perfiles
 from ruta.fechas import cumple, edad
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
 
+# This verification must stay offline even when BEDROCK_MODEL_ID is exported.
+config.BEDROCK_MODEL_ID = ""
+
 sys.stdout.reconfigure(encoding="utf-8")
 errores: list[str] = []
 

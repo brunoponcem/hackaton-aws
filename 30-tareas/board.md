@@ -36,6 +36,7 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 ## En curso
 
 ## Hecho
+- [x] Preparar contexto acotado exclusivo de Johann para Kiro — dueño: codex — [[contexto-codear-johann]] y [[inicio-kiro-johann]], instalador verificado; activación en el IDE de Johann pendiente
 - [x] T05 · Prompt y especificación de herramientas para PGU — dueño: codex / Clemente — revisada e integrada a `main` (T07, `36cd846`) · [[agente-pgu]]
 - [x] T03 · Consulta de perfil por RUN y autorización del caso — dueño: codex / Clemente — revisada e integrada a `main` (T07, `6ea8da0`) · [[T03-consultar-perfil]]
 - [x] T01 · Scaffold de `src/` (uv, ruff, pytest y cliente Bedrock configurable) — dueño: codex / Clemente — revisada e integrada a `main` (T07) · [[T01-scaffold-python]]

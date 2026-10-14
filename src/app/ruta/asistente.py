@@ -151,6 +151,9 @@ def explicar_resumen(ctx: dict) -> str:
 
 def responder(pregunta: str, ctx: dict, historial: list[dict]) -> tuple[str, str]:
     """Devuelve (respuesta, motor) donde motor es 'bedrock' o 'plantillas'."""
+    # A revoked consent must not forward previously authorized chat to the LLM.
+    if not ctx["autorizado"]:
+        return _plantilla(pregunta, ctx), "plantillas"
     if config.BEDROCK_MODEL_ID:
         try:
             return _bedrock(pregunta, ctx, historial), "bedrock"

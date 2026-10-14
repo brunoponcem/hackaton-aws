@@ -201,7 +201,7 @@ def vista_ejecutivo(diags):
         st.caption("Motor: " + (f"Amazon Bedrock ({config.BEDROCK_MODEL_ID})" if config.BEDROCK_MODEL_ID else
                                 "plantillas (configura BEDROCK_MODEL_ID para usar IA generativa)"))
         clave = f"chat-{run}"
-        if clave not in st.session_state:
+        if not autorizado or clave not in st.session_state:
             st.session_state[clave] = [{"rol": "assistant", "texto": asistente.explicar_resumen(ctx)}]
         for m in st.session_state[clave]:
             st.chat_message(m["rol"]).write(m["texto"])
