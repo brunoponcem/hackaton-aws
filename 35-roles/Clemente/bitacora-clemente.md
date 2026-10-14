@@ -8,6 +8,13 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-14 · T07 · merge de T03 y T05 a `main` (`36cd846`)
+- Revisión (Claude): aprobadas. 46 tests, `ruff check` y `ruff format --check` OK. El DV módulo 11 es correcto, la autorización se valida antes de leer el archivo y no se puede consultar otro RUN que el del caso.
+- Pendientes para T04, no bloqueantes:
+  - `guardar_caso` no tiene parámetros: T04 debe definir qué guarda (ruta, checklist) y validarlo contra `RouteStep` y `ChecklistItem`.
+  - El prompt no incluye el contexto dinámico del caso (estado de la autorización, canal, fecha de referencia): T04 lo inyecta en cada turno.
+  - `normalize_run` rechaza un RUN sin guion (`1000000015`), que es habitual al escribirlo. Conviene aceptarlo.
+
 ### 2026-10-14 · T05 · rama `codex/T05`
 - Prompt ejecutable y [[agente-pgu]]: orientación preliminar, fuentes, consentimiento registrado por la aplicación, conservación de estados y separación entre hitos/vencimientos.
 - Especificaciones Converse para adaptadores del caso actual; solo se exponen handlers registrados. Casos/perfiles/fechas vienen del servidor, no del LLM. Los handlers de otros frentes siguen pendientes; no se anuncian como implementados.

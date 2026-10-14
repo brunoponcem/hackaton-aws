@@ -34,10 +34,10 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 - [ ] Guion del pitch y de la demo — dueño: humano — listo el viernes antes de las 10:15
 
 ## En curso
-- [ ] T05 · Prompt y especificación de herramientas para PGU — dueño: codex / Clemente — implementada en `codex/T05`, suite 46 tests OK; pendiente revisión/integración T07 · [[agente-pgu]]
-- [ ] T03 · Consulta de perfil por RUN y autorización del caso — dueño: codex / Clemente — implementada en `codex/T03` (`6ea8da0`), 19 tests nuevos; pendiente revisión/integración T07 · [[T03-consultar-perfil]]
 
 ## Hecho
+- [x] T05 · Prompt y especificación de herramientas para PGU — dueño: codex / Clemente — revisada e integrada a `main` (T07, `36cd846`) · [[agente-pgu]]
+- [x] T03 · Consulta de perfil por RUN y autorización del caso — dueño: codex / Clemente — revisada e integrada a `main` (T07, `6ea8da0`) · [[T03-consultar-perfil]]
 - [x] T01 · Scaffold de `src/` (uv, ruff, pytest y cliente Bedrock configurable) — dueño: codex / Clemente — revisada e integrada a `main` (T07) · [[T01-scaffold-python]]
 - [x] Agregar pipeline del MVP al contexto compartido — dueño: codex — diagrama Mermaid, flujo técnico y ejemplo de demo en [[contexto-compartido-chileatiende]]
 - [x] Revisar trabajo de Claude y extraer presentación a contexto compartido — dueño: codex — [[contexto-compartido-chileatiende]] y `scripts/extract-ppt-context.ps1` verificado sobre 7 diapositivas
