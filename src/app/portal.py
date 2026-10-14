@@ -47,15 +47,15 @@ CSS = """
  display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap;color:#4a4a4a;font-size:13px}
 .portal-footer a {color:#0d4d82;text-decoration:none}
 div[data-testid="stRadio"] > div {gap:1.5rem;border-bottom:1px solid #d9e2eb;padding-bottom:12px}
-section[data-testid="stMain"] [data-testid="stRadio"] label[data-baseweb="radio"] {
+[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"] {
  padding:10px 16px;margin-right:8px;border-bottom:3px solid transparent;color:#0d4d82}
-section[data-testid="stMain"] [data-testid="stRadio"]
+[role="radiogroup"][aria-label="Secciones del portal"]
  label[data-baseweb="radio"] > div:first-child {
  display:none}
-section[data-testid="stMain"] [data-testid="stRadio"]
+[role="radiogroup"][aria-label="Secciones del portal"]
  label[data-baseweb="radio"]:has(input:checked) {
  border-bottom-color:#0f69b4;background:#edf6fc;font-weight:700}
-section[data-testid="stMain"] [data-testid="stRadio"] label[data-baseweb="radio"]:focus-within {
+[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"]:focus-within {
  outline:2px solid #0f69b4;outline-offset:2px}
 div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 @media(max-width:700px){.portal-header{align-items:flex-start}.portal-utilities{gap:12px}
