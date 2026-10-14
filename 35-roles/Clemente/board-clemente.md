@@ -19,11 +19,9 @@ frente: Agente e integración
 Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
 
 ## En curso
-- [ ] **T01** · P0 · B1 · Scaffold del repo: `pyproject.toml` con uv, ruff y pytest; estructura `src/`; cliente Bedrock que lee el modelo desde `.env` (Codex) — ✅ `uv run pytest` pasa en `main`
-  - T01 implementada por Codex en `codex/T01`: configuración Python, estructura inicial y cliente Bedrock. `uv run pytest`: 11 tests pasan; ruff check y format OK. Documentación en [[T01-scaffold-python]]. Pendiente revisión e integración a `main` según T07.
+- [ ] **T02** · P0 · B1 · (Claude) Contratos compartidos en `src/contracts/` (pydantic): `Perfil`, `ResultadoPGU` (estado, motivos, fuentes), `Hito`, `PasoRuta`, `ChecklistItem`, `Invitacion` (aceptada o declinada), `Autorizacion` (fuentes y finalidad), `Caso`, `Mensaje` (con `canal`) — ✅ en `main` antes de las 18:00; desbloquea a todos
 
 ## Por hacer
-- [ ] **T02** · P0 · B1 · (Claude) Contratos compartidos en `src/contracts/` (pydantic): `Perfil`, `ResultadoPGU` (estado, motivos, fuentes), `Hito`, `PasoRuta`, `ChecklistItem`, `Invitacion` (aceptada o declinada), `Autorizacion` (fuentes y finalidad), `Caso`, `Mensaje` (con `canal`) — ✅ en `main` antes de las 18:00; desbloquea a todos
 - [ ] **T03** · P0 · B1 · Herramienta `consultar_perfil(run)` sobre `perfiles.json`, aceptando RUN con o sin puntos (Codex) — ✅ tests: RUN existente, inexistente y con `rsh = null` · depende de T02
 - [ ] **T04** · P0 · B2 · Bucle del agente con Bedrock Converse + tool use, con límite de iteraciones y manejo de errores de herramientas ([[0003-orquestacion-agente]]) — ✅ `uv run agente --run <RUN>` devuelve ruta, hitos y checklist · depende de T03, T11 y T12
 - [ ] **T05** · P0 · B2 · Prompt del sistema y especificación de herramientas: lenguaje claro, citar `fuente_url`, nunca inventar requisitos ni montos, presentar `elegible` como orientación preliminar y no consultar el perfil sin autorización — ✅ en `50-prompts/agente-pgu.md` y `src/agent/prompts.py`
@@ -34,4 +32,4 @@ Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuan
 -
 
 ## Hecho
--
+- [x] **T01** · P0 · B1 · Scaffold del repo: `pyproject.toml` con uv, ruff y pytest; estructura `src/`; cliente Bedrock que lee el modelo desde `.env` (Codex) — ✅ `uv run pytest` pasa en `main` (11 tests) · commit `125f8f8` · [[T01-scaffold-python]]

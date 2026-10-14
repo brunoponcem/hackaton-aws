@@ -16,7 +16,6 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 - [ ] Catálogo de otros beneficios de jubilación (solicitud de pensión, bono por hijo) — dueño: codex — valida contra el esquema
 
 ### Backend
-- [ ] Scaffold de `src/` (uv, ruff, pytest, cliente Bedrock con el modelo desde `.env`) — dueño: codex — `uv run pytest` pasa
 - [ ] Herramienta `consultar_perfil(run)` sobre `perfiles.json` — dueño: codex — tests: RUN existente, RUN inexistente, perfil con `rsh = null`
 - [ ] Herramienta `evaluar_pgu(perfil, fecha_ref)` → `elegible | no_elegible | antecedente_faltante | proximo | ya_recibe` + motivos — dueño: codex — tests con un perfil real del dataset por cada resultado
 - [ ] Script de evaluación por lotes de los 500 perfiles → `reports/pgu_dataset_A.csv` + resumen — dueño: codex — cuadra con los conteos de [[datos-dataset-A]] o explica la diferencia
@@ -38,6 +37,7 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 ## En curso
 
 ## Hecho
+- [x] T01 · Scaffold de `src/` (uv, ruff, pytest y cliente Bedrock configurable) — dueño: codex / Clemente — revisada e integrada a `main` (T07) · [[T01-scaffold-python]]
 - [x] Agregar pipeline del MVP al contexto compartido — dueño: codex — diagrama Mermaid, flujo técnico y ejemplo de demo en [[contexto-compartido-chileatiende]]
 - [x] Revisar trabajo de Claude y extraer presentación a contexto compartido — dueño: codex — [[contexto-compartido-chileatiende]] y `scripts/extract-ppt-context.ps1` verificado sobre 7 diapositivas
 - [x] Estructura del repo — dueño: claude
