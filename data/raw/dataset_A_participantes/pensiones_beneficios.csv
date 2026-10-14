@@ -1,0 +1,76 @@
+run,id_registro,tipo_registro,tipo_pension,tipo_beneficio,monto,entidad_pagadora,pension_sobrevivencia,beneficio_ips,estado
+100000010-4,100000010-4-1,pension,vejez,,266000,CIA SEGUROS DEMO,false,false,vigente
+100000017-1,100000017-1-1,pension,vejez,,229000,CIA SEGUROS DEMO,false,false,vigente
+100000030-9,100000030-9-1,pension,vejez,,405000,AFP DEMO TRES,false,false,vigente
+100000036-8,100000036-8-1,pension,vejez,,918000,AFP DEMO UNO,false,false,vigente
+100000036-8,100000036-8-2,pension,sobrevivencia,,596000,CIA SEGUROS DEMO,true,false,vigente
+100000050-3,100000050-3-1,pension,vejez,,802000,AFP DEMO CUATRO,false,false,terminado
+100000050-3,100000050-3-2,pension,sobrevivencia,,223000,CIA SEGUROS DEMO,true,false,terminado
+100000050-3,100000050-3-3,beneficio_ips,,PGU,231732,IPS,false,true,terminado
+100000051-1,100000051-1-1,pension,vejez,,254000,CIA SEGUROS DEMO,false,false,vigente
+100000051-1,100000051-1-2,beneficio_ips,,PGU,231732,IPS,false,true,suspendido
+100000062-7,100000062-7-1,pension,vejez,,484000,AFP DEMO CUATRO,false,false,terminado
+100000062-7,100000062-7-2,pension,sobrevivencia,,231000,CIA SEGUROS DEMO,true,false,terminado
+100000062-7,100000062-7-3,beneficio_ips,,PGU,231732,IPS,false,true,terminado
+100000063-5,100000063-5-1,pension,sobrevivencia,,130000,CIA SEGUROS DEMO,true,false,vigente
+100000067-8,100000067-8-1,pension,vejez,,122000,AFP DEMO UNO,false,false,vigente
+100000071-6,100000071-6-1,pension,vejez,,1036000,AFP DEMO CUATRO,false,false,vigente
+100000077-5,100000077-5-1,pension,vejez,,288000,CIA SEGUROS DEMO,false,false,vigente
+100000098-8,100000098-8-1,pension,vejez,,249000,AFP DEMO DOS,false,false,terminado
+100000108-9,100000108-9-1,pension,vejez,,910000,AFP DEMO TRES,false,false,vigente
+100000108-9,100000108-9-2,pension,sobrevivencia,,585000,AFP DEMO TRES,true,false,vigente
+100000124-0,100000124-0-1,pension,sobrevivencia,,131000,AFP DEMO UNO,true,false,vigente
+100000127-5,100000127-5-1,pension,vejez,,200000,AFP DEMO TRES,false,false,vigente
+100000127-5,100000127-5-2,pension,sobrevivencia,,237000,AFP DEMO TRES,true,false,vigente
+100000132-1,100000132-1-1,pension,vejez,,142000,CIA SEGUROS DEMO,false,false,terminado
+100000135-6,100000135-6-1,pension,vejez,,413000,AFP DEMO DOS,false,false,vigente
+100000136-4,100000136-4-1,pension,vejez,,121000,AFP DEMO TRES,false,false,vigente
+100000139-9,100000139-9-1,pension,vejez,,2152000,CIA SEGUROS DEMO,false,false,vigente
+100000156-9,100000156-9-1,pension,vejez,,143000,CIA SEGUROS DEMO,false,false,vigente
+100000170-4,100000170-4-1,pension,sobrevivencia,,191000,CIA SEGUROS DEMO,true,false,vigente
+100000176-3,100000176-3-1,pension,sobrevivencia,,169000,AFP DEMO TRES,true,false,terminado
+100000180-1,100000180-1-1,pension,vejez,,173000,CIA SEGUROS DEMO,false,false,vigente
+100000187-9,100000187-9-1,pension,vejez,,345000,CIA SEGUROS DEMO,false,false,vigente
+100000187-9,100000187-9-2,pension,sobrevivencia,,141000,CIA SEGUROS DEMO,true,false,vigente
+100000195-K,100000195-K-1,pension,sobrevivencia,,166000,AFP DEMO TRES,true,false,vigente
+100000201-8,100000201-8-1,pension,sobrevivencia,,152000,AFP DEMO CUATRO,true,false,vigente
+100000206-9,100000206-9-1,pension,vejez,,945000,AFP DEMO DOS,false,false,vigente
+100000206-9,100000206-9-2,pension,sobrevivencia,,512000,AFP DEMO DOS,true,false,vigente
+100000232-8,100000232-8-1,pension,vejez,,387000,AFP DEMO DOS,false,false,vigente
+100000232-8,100000232-8-2,beneficio_ips,,PGU,231732,IPS,false,true,suspendido
+100000238-7,100000238-7-1,pension,sistema_antiguo,,464000,IPS,false,false,vigente
+100000253-0,100000253-0-1,pension,sobrevivencia,,247000,CIA SEGUROS DEMO,true,false,vigente
+100000271-9,100000271-9-1,beneficio_ips,,PGU,231732,IPS,false,true,terminado
+100000275-1,100000275-1-1,pension,vejez,,144000,AFP DEMO TRES,false,false,vigente
+100000279-4,100000279-4-1,pension,vejez,,111000,AFP DEMO TRES,false,false,vigente
+100000279-4,100000279-4-2,pension,sobrevivencia,,208000,CIA SEGUROS DEMO,true,false,vigente
+100000286-7,100000286-7-1,pension,vejez,,803000,AFP DEMO DOS,false,false,terminado
+100000290-5,100000290-5-1,pension,sobrevivencia,,193000,AFP DEMO CUATRO,true,false,vigente
+100000298-0,100000298-0-1,pension,vejez,,121000,CIA SEGUROS DEMO,false,false,vigente
+100000302-2,100000302-2-1,pension,vejez,,184000,CIA SEGUROS DEMO,false,false,vigente
+100000314-6,100000314-6-1,pension,vejez,,859000,AFP DEMO TRES,false,false,vigente
+100000319-7,100000319-7-1,pension,vejez,,1984000,AFP DEMO UNO,false,false,vigente
+100000328-6,100000328-6-1,pension,vejez,,120000,CIA SEGUROS DEMO,false,false,vigente
+100000333-2,100000333-2-1,pension,sobrevivencia,,248000,CIA SEGUROS DEMO,true,false,vigente
+100000334-0,100000334-0-1,pension,vejez,,417000,AFP DEMO CUATRO,false,false,vigente
+100000335-9,100000335-9-1,pension,sobrevivencia,,223000,AFP DEMO UNO,true,false,vigente
+100000356-1,100000356-1-1,pension,vejez,,932000,AFP DEMO UNO,false,false,vigente
+100000364-2,100000364-2-1,pension,sistema_antiguo,,505000,IPS,false,false,vigente
+100000372-3,100000372-3-1,beneficio_ips,,PGU,231732,IPS,false,true,terminado
+100000383-9,100000383-9-1,pension,sobrevivencia,,125000,CIA SEGUROS DEMO,true,false,vigente
+100000388-K,100000388-K-1,beneficio_ips,,PGU,231732,IPS,false,true,terminado
+100000408-8,100000408-8-1,pension,sobrevivencia,,157000,CIA SEGUROS DEMO,true,false,vigente
+100000412-6,100000412-6-1,pension,vejez,,1663000,CIA SEGUROS DEMO,false,false,vigente
+100000416-9,100000416-9-1,pension,vejez,,183000,CIA SEGUROS DEMO,false,false,vigente
+100000416-9,100000416-9-2,pension,sobrevivencia,,188000,AFP DEMO DOS,true,false,vigente
+100000422-3,100000422-3-1,pension,vejez,,412000,AFP DEMO CUATRO,false,false,vigente
+100000454-1,100000454-1-1,pension,sobrevivencia,,186000,AFP DEMO CUATRO,true,false,vigente
+100000460-6,100000460-6-1,pension,vejez,,353000,AFP DEMO DOS,false,false,vigente
+100000477-0,100000477-0-1,pension,sobrevivencia,,526000,CIA SEGUROS DEMO,true,false,vigente
+100000487-8,100000487-8-1,pension,vejez,,203000,AFP DEMO TRES,false,false,vigente
+100000489-4,100000489-4-1,pension,vejez,,304000,AFP DEMO TRES,false,false,vigente
+100000490-8,100000490-8-1,pension,vejez,,207000,AFP DEMO TRES,false,false,vigente
+100000491-6,100000491-6-1,beneficio_ips,,PGU,231732,IPS,false,true,terminado
+100000492-4,100000492-4-1,pension,sobrevivencia,,156000,CIA SEGUROS DEMO,true,false,vigente
+100000495-9,100000495-9-1,pension,vejez,,1351000,CIA SEGUROS DEMO,false,false,vigente
+100000498-3,100000498-3-1,pension,vejez,,224000,AFP DEMO UNO,false,false,vigente

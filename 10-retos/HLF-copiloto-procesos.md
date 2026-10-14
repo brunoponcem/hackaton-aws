@@ -2,7 +2,7 @@
 tipo: reto
 area: Salud
 organizacion: Hospital Clínico Dra. Eloísa Díaz (HLF)
-estado: por-evaluar
+estado: descartado
 ---
 # Copiloto de procesos — IA + gamificación
 

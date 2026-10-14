@@ -1,10 +1,10 @@
 ---
 tipo: arquitectura
-estado: borrador
+estado: plantilla
 ---
 # Arquitectura base (agnóstica al reto)
 
-Plantilla para adaptar en cuanto se elija el reto. Cada bloque se reemplaza o elimina.
+Plantilla genérica. **Ya está adaptada al reto elegido en [[arquitectura-chileatiende]].**
 
 ```mermaid
 flowchart LR

@@ -2,7 +2,7 @@
 tipo: reto
 area: Sustentabilidad
 organizacion: CR2
-estado: por-evaluar
+estado: descartado
 ---
 # Detección temprana de tornados en Chile
 

@@ -2,7 +2,7 @@
 tipo: reto
 area: Educación
 organizacion: Fundación Integra
-estado: por-evaluar
+estado: descartado
 ---
 # Beneficios del Estado para cada niño/a y familia
 

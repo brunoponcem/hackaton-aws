@@ -2,7 +2,7 @@
 tipo: reto
 area: Sustentabilidad
 organizacion: CASE
-estado: por-evaluar
+estado: descartado
 ---
 # Electromovilidad eficiente
 
