@@ -18,4 +18,4 @@ frente: Agente e integración
 - [ ] **T07** · P0 · B3–B4 · Revisión de PR (Claude), merges a `main` y congelamiento a las 09:30 del viernes — ✅ `main` siempre corre; bitácora del día al cierre
 
 ## Notas
--
+- T01 implementada por Codex en `codex/T01`: configuración Python, estructura inicial y cliente Bedrock. `uv run pytest`: 11 tests pasan; ruff check y format OK. Documentación en [[T01-scaffold-python]]. Pendiente revisión e integración a `main` según T07 para cerrar el criterio de aceptación.
