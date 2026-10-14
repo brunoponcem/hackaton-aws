@@ -19,10 +19,9 @@ frente: Agente e integración
 Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
 
 ## En curso
-- 
+- [ ] **T04** · P0 · B2 · Bucle del agente con Bedrock Converse + tool use, con límite de iteraciones y manejo de errores de herramientas ([[0003-orquestacion-agente]]) — ✅ `uv run agente --run <RUN>` devuelve ruta, hitos y checklist · depende de T03, T11 y T12
 
 ## Por hacer
-- [ ] **T04** · P0 · B2 · Bucle del agente con Bedrock Converse + tool use, con límite de iteraciones y manejo de errores de herramientas ([[0003-orquestacion-agente]]) — ✅ `uv run agente --run <RUN>` devuelve ruta, hitos y checklist · depende de T03, T11 y T12
 - [ ] **T06** · P0 · B3 · Integración de punta a punta: agente real detrás de la API (con Jonmor) — ✅ 5 RUN, uno por cada estado, dan una ruta correcta desde la API · depende de T04, T16 y T21
 - [ ] **T07** · P0 · B3–B4 · Revisión de PR (Claude), merges a `main` y congelamiento a las 09:30 del viernes — ✅ `main` siempre corre; bitácora del día al cierre
 
