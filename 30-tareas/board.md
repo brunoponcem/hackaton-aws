@@ -34,7 +34,8 @@ Contexto de entrada para ambos agentes y presentación institucional: [[contexto
 - [ ] Guion del pitch y de la demo — dueño: humano — listo el viernes antes de las 10:15
 
 ## En curso
-- [ ] T03 · Consulta de perfil por RUN y autorización del caso — dueño: codex / Clemente — rama `codex/T03`; tests sobre dataset A y permisos
+- [ ] T05 · Prompt y especificación de herramientas para PGU — dueño: codex / Clemente — implementada en `codex/T05`, suite 46 tests OK; pendiente revisión/integración T07 · [[agente-pgu]]
+- [ ] T03 · Consulta de perfil por RUN y autorización del caso — dueño: codex / Clemente — implementada en `codex/T03` (`6ea8da0`), 19 tests nuevos; pendiente revisión/integración T07 · [[T03-consultar-perfil]]
 
 ## Hecho
 - [x] T01 · Scaffold de `src/` (uv, ruff, pytest y cliente Bedrock configurable) — dueño: codex / Clemente — revisada e integrada a `main` (T07) · [[T01-scaffold-python]]
