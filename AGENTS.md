@@ -7,6 +7,7 @@ Codex lo lee automáticamente; Claude Code lo importa desde `CLAUDE.md`.
 - Lectura de entrada para ambos agentes: [[contexto-compartido-chileatiende]] (presentación institucional, decisiones, estado comprobado y pendientes); después revisar [[board]] y la bitácora vigente.
 - Hackatón AWS, Chile, octubre 2026. Tiempo limitado: priorizar demo funcional sobre perfección.
 - **Reto elegido: [[ChileAtiende-a-tiempo]]**: ruta de beneficios y plazos por evento de vida, con continuidad entre canales. Arquitectura en [[arquitectura-chileatiende]].
+- **Idea central desde el 14-10** ([[0005-asistente-contacto-escalonado]]): asistente frontal estilo ChileAtiende; contacto escalonado email → llamada → trabajo → puerta a puerta (solo se escala si no hay respuesta; declinar detiene todo); campañas por heatmap; acompañamiento hasta la derivación al ejecutivo; ficha clara para ejecutivos y trabajadores sociales. Diseño en [[contacto-y-campanas]].
 - Cuenta AWS del evento: perfil `hackaton`, región `us-east-1`. Modelos Bedrock permitidos: `us.anthropic.claude-sonnet-5` (por defecto), `us.anthropic.claude-opus-5` y `us.anthropic.claude-haiku-4-5`. Los modelos `*-5-5` y Fable están bloqueados.
 - Regla del dominio: la elegibilidad y los plazos se calculan en código, nunca los inventa el LLM, y toda respuesta cita su fuente.
 - El repo es también un **vault de Obsidian**: las notas `.md` son documentación viva.
