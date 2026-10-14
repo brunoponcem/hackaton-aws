@@ -1,14 +1,27 @@
 ---
-tipo: rol
+tipo: board
 integrante: Bruno
+color: morado
 entorno: Kiro IDE Pro
 frente: Frontend y demo
 ---
-# Bruno — Frontend y demo
+# 🟪 Board de Bruno — Frontend y demo
 
-**Entorno:** Kiro IDE Pro · **Color en el pipeline:** 🟪 Morado · Plan general, reglas y mapa del pipeline en [[_equipo]].
+| | |
+|---|---|
+| **Entorno** | Kiro IDE Pro |
+| **Carpetas de código propias** | `src/web/`, `20-arquitectura/ux-demo.md` |
+| **Ramas** | `bruno/T<nn>-<descripcion>` |
+| **Commits** | `T<nn>: <qué hiciste>` |
+| **Bitácora** | [[bitacora-bruno]] |
+| **Equipo, mapa y reglas** | [[_equipo]] · [[_avance]] |
 
-## Tareas
+Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
+
+## En curso
+- 
+
+## Por hacer
 - [ ] **T22** · P0 · B1 · Wireframe y flujo en `20-arquitectura/ux-demo.md`: invitación → aceptar o declinar → autorización → ruta y checklist → chat → sucursal — ✅ aprobado por el equipo antes de las 21:00 del miércoles
 - [ ] **T23** · P0 · B2 · Streamlit, vista de la persona: recibe la invitación, acepta o declina, autoriza el uso de datos, ve su ruta y checklist, y conversa con el agente. Primero contra un mock — ✅ el flujo completo funciona con mock
 - [ ] **T24** · P0 · B2 · Panel del ejecutivo: busca un RUN y ve el resultado preliminar, los motivos, la ruta, los hitos, el checklist (lo puede marcar) y el historial del caso por canal — ✅ funciona con mock
@@ -17,5 +30,8 @@ frente: Frontend y demo
 - [ ] **T27** · P1 · B3 · Pulido: lenguaje claro, letra grande, contraste, estados de carga y error, sin logos oficiales — ✅ revisado con alguien que no conoce el proyecto
 - [ ] **T28** · P0 · B4 · Guion de la demo, clic a clic, con 3 RUN elegidos (persona próxima a su hito que acepta la invitación, persona con antecedente faltante, persona que declina) — ✅ la demo dura menos de 3 minutos y se ensayó dos veces
 
-## Notas
+## Bloqueos
+-
+
+## Hecho
 -
