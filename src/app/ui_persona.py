@@ -356,9 +356,6 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
             st.rerun()
-        if sidebar:
-            with st.expander("Preguntas frecuentes"):
-                preguntas_rapidas()
         st.caption("También puedes llamar al 101 o ir a una sucursal ChileAtiende: verán tu avance.")
 
 

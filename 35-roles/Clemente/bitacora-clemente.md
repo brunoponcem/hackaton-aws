@@ -8,6 +8,9 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Sin preguntas frecuentes en Mi Gobierno (Codex)
+- Por solicitud del usuario se retiró el desplegable del asistente en Beneficios y guía PGU; quedan la conversación y el campo para escribir. Cuatro pruebas de UI/integración OK. [[mi-gobierno]]. Commit «Quitar preguntas frecuentes de Mi Gobierno».
+
 ### 2026-10-15 · Asistente de Mi Gobierno (Codex)
 - Panel ampliado al 40% del espacio entre columnas, conversación de 420 px antes de las sugerencias, preguntas frecuentes desplegables con botones en una columna. Beneficios y guía PGU comparten presentación; hasta 1050 px se apila a todo el ancho.
 - Chrome 1440/900/390 px sin desbordamiento horizontal; pregunta rápida y acceso a guía OK. 146 pruebas y verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Ordenar y ampliar el asistente de Mi Gobierno».
