@@ -5,6 +5,22 @@ responsable: codex
 ---
 # Heatmap y despliegue simulado de campañas
 
+## Área propuesta de despliegue (actualización vigente)
+
+La demo dibuja un **contorno amarillo** de campaña desde las mismas ubicaciones que alimentan el heatmap. Ver [[0011-area-campana-segun-heatmap]]. El ranking comunal se conserva como contexto, pero el despliegue se propone por concentración espacial y puede abarcar varias comunas.
+
+En «Área de despliegue propuesta según el heatmap», ajustar radio (500–3000 m), personal y capacidad diaria; ocultar/mostrar el contorno con su casilla. El radio recalcula el sector de máxima cobertura; la capacidad estima jornadas sin desplazar el área. Solo aparece en Cola presencial. Se mantiene el calor, paleta y los controles de direcciones ficticias.
+
+`ruta/despliegue.py` consume puntos publicables de peso 1, sin RUN/nombres. Busca máxima cobertura para un radio fijo en una aproximación plana local: ubicaciones individuales y centros de los círculos definidos por pares (distancia ≤ 2r). Desempata por compactación y coordenadas, independientemente del orden. El centro medio reemplaza al candidato cuando conserva los casos cubiertos. Umbral de propuesta: cinco casos próximos; si no se alcanza, se explica y no se dibuja un área.
+
+El GeoJSON es un círculo aproximado por 96 segmentos, orden longitud/latitud. Distancias y superficie usan una proyección equirectangular a latitud −33,5°, apropiada para esta simulación local y no para medir deslindes. No usa distancia de calles, rutas, tiempos de viaje ni accesibilidad. El centro no representa una sucursal o sede validada. La propuesta puede cruzar límites comunales.
+
+Escenario precargado: **10 de 84 casos publicables (11,9%) en San Bernardo** con radio 1,5 km; superficie aproximada 7,07 km², dos funcionarios × ocho atenciones/día → una jornada. Son cifras sintéticas; el porcentaje se calcula sobre ubicaciones efectivamente dibujables, no sobre los 92 casos totales. Inicios y rechazos retiran ubicaciones y recalculan la propuesta.
+
+Descargas: JSON con cobertura/capacidad y GeoJSON del área, sin direcciones individuales ni identificadores. La propuesta no se agenda, persiste ni despacha. Se calcula de nuevo desde el snapshot vigente.
+
+Verificación: **126 tests pasan** (13 nuevos), incluyendo concentración real del escenario, centros entre personas, radio/cobertura, jornadas por capacidad, determinismo, datos inválidos, umbral mínimo y recorrido de UI (slider, contorno, ocultación y diagnóstico). Ruff y verificador de 500 perfiles OK; Chrome valida superposición sin excepciones.
+
 ## Ubicaciones individuales ficticias (vista vigente)
 
 El usuario pidió mostrar dispersión dentro de la RM, conservando diseño/paleta, en vez de concentrar cada comuna en un círculo. Esta actualización sustituye la representación de centroide del apartado siguiente. [[0010-direcciones-simuladas]].

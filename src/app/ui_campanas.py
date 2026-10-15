@@ -6,7 +6,8 @@ from pathlib import Path
 import pandas as pd
 import pydeck as pdk
 import streamlit as st
-from ruta.campanas import deployment_proposal, metropolitan_locations, metropolitan_ranking
+from ruta.campanas import metropolitan_locations, metropolitan_ranking
+from ruta.despliegue import propose_campaign_area
 
 LABELS = {
     "rank": "Orden",
@@ -28,6 +29,7 @@ def campaign_map(
     show_points=False,
     show_totals=False,
     detail="Barrios",
+    campaign_area=None,
 ):
     boundaries = json.loads(
         (Path(__file__).parent / "assets/metropolitana-comunas.geojson").read_text(encoding="utf-8")
@@ -87,6 +89,58 @@ def campaign_map(
                     pickable=True,
                 )
             )
+    if campaign_area:
+        props = campaign_area["properties"]
+        area_feature = {
+            **campaign_area,
+            "properties": {
+                **props,
+                "tooltip_title": "Área propuesta de campaña",
+                "tooltip_detail": f"{props['people']} personas · radio "
+                f"{props['radius_m'] / 1000:g} km · "
+                f"{props['estimated_days']} jornada(s)",
+            },
+        }
+        layers.extend(
+            [
+                pdk.Layer(
+                    "GeoJsonLayer",
+                    area_feature,
+                    id="rm-campaign-area",
+                    filled=True,
+                    stroked=True,
+                    get_fill_color=[250, 204, 21, 26],
+                    get_line_color=[250, 204, 21, 245],
+                    line_width_min_pixels=3,
+                    pickable=True,
+                ),
+                pdk.Layer(
+                    "TextLayer",
+                    [
+                        {
+                            "longitude": props["center_longitude"],
+                            "latitude": props["center_latitude"],
+                            "label": f"ÁREA PROPUESTA · {props['people']} personas",
+                            "tooltip_title": "Área propuesta de campaña",
+                            "tooltip_detail": f"Radio {props['radius_m'] / 1000:g} km · "
+                            f"{props['coverage_percent']}% de casos del mapa",
+                        }
+                    ],
+                    id="rm-campaign-label",
+                    get_position="[longitude, latitude]",
+                    get_text="label",
+                    character_set='"auto"',
+                    get_size=14,
+                    font_weight=700,
+                    get_color=[250, 204, 21],
+                    background=True,
+                    get_background_color=[15, 23, 42, 245],
+                    background_padding=[10, 6],
+                    get_pixel_offset=[0, 35],
+                    pickable=True,
+                ),
+            ]
+        )
     if rows and show_totals:
         points = [
             {
@@ -165,6 +219,45 @@ def render_campaigns(state, profiles):
     scope = "in_person" if scope_label.startswith("Cola") else "active"
     rows = metropolitan_ranking(state, profiles, scope=scope)
     locations = metropolitan_locations(state, rows, scope=scope)
+    area = None
+    with st.expander("Área de despliegue propuesta según el heatmap", expanded=True):
+        if scope != "in_person":
+            st.info(
+                "Para proponer un despliegue, selecciona Cola presencial. "
+                "Esta vista es diagnóstica."
+            )
+            show_area = False
+        else:
+            settings = st.columns([2, 1, 1])
+            radius = settings[0].slider(
+                "Radio de cobertura (metros)", min_value=500, max_value=3000, value=1500, step=250
+            )
+            staff = settings[1].number_input(
+                "Personal disponible", min_value=1, max_value=100, value=2
+            )
+            capacity = settings[2].number_input(
+                "Personas por funcionario al día", min_value=1, max_value=100, value=8
+            )
+            show_area = st.checkbox("Mostrar área propuesta en el mapa", value=True)
+            area = propose_campaign_area(
+                locations, radius_m=radius, staff=int(staff), daily_capacity=int(capacity)
+            )
+            if area:
+                info = area["properties"]
+                st.success(
+                    f"Propuesta: cubrir {info['people']} personas en un radio de "
+                    f"{radius / 1000:g} km · {info['coverage_percent']}% de los casos del mapa "
+                    f"· {info['estimated_days']} jornada(s) estimada(s)."
+                )
+                st.caption(
+                    "El contorno amarillo prioriza la mayor cantidad de casos cercanos "
+                    "dentro del radio elegido. La capacidad del equipo estima las jornadas."
+                )
+            else:
+                st.info(
+                    "No hay un área con al menos cinco casos dentro de este radio. "
+                    "Amplía el radio o avanza la simulación."
+                )
     total = sum(row["people"] for row in rows)
     most = rows[0] if rows else None
     metrics = st.columns(3)
@@ -185,6 +278,7 @@ def render_campaigns(state, profiles):
             show_points=show_points,
             show_totals=show_totals,
             detail=detail,
+            campaign_area=area if show_area else None,
         ),
         use_container_width=True,
         height=650,
@@ -228,30 +322,34 @@ def render_campaigns(state, profiles):
             mime="text/csv",
         )
     with right:
-        st.markdown("#### Preparar despliegue")
+        st.markdown("#### Área de campaña recomendada")
         if scope != "in_person":
             st.info("Vista de diagnóstico. Selecciona Cola presencial para planificar.")
             return
-        choices = {row["commune"]: row for row in rows}
-        if st.session_state.get("campaign_commune") not in choices:
-            st.session_state["campaign_commune"] = next(iter(choices))
-        selected = st.selectbox("Comuna para el despliegue", list(choices), key="campaign_commune")
-        staff = st.number_input("Personal disponible", min_value=1, max_value=100, value=2)
-        capacity = st.number_input(
-            "Personas por funcionario al día", min_value=1, max_value=100, value=8
+        if not area:
+            st.caption("Ajusta el radio arriba para encontrar un sector con cinco o más casos.")
+            return
+        info = area["properties"]
+        st.write(" · ".join(f"{commune}: {count}" for commune, count in info["communes"].items()))
+        st.write(
+            f"**{info['people']} personas** · {info['area_km2']} km² aproximados · "
+            f"{info['estimated_days']} jornada(s)."
         )
-        proposal = deployment_proposal(
-            choices[selected], staff=int(staff), daily_capacity=int(capacity)
-        )
-        st.success(
-            f"Propuesta: {selected} · {proposal['people']} personas · "
-            f"{proposal['estimated_days']} jornada(s) con {staff} funcionarios."
+        st.caption(
+            "Propuesta geométrica de cobertura, no un lugar habilitado para atender. "
+            "Puede cruzar límites comunales. El responsable valida acceso, sede y recorridos."
         )
         st.download_button(
             "Descargar propuesta de despliegue (JSON)",
-            json.dumps({"clock": state["clock"]["now"], **proposal}, ensure_ascii=False, indent=2),
+            json.dumps({"clock": state["clock"]["now"], **info}, ensure_ascii=False, indent=2),
             file_name="propuesta-campana-rm.json",
             mime="application/json",
+        )
+        st.download_button(
+            "Descargar área propuesta (GeoJSON)",
+            json.dumps(area, ensure_ascii=False, indent=2),
+            file_name="area-campana-rm.geojson",
+            mime="application/geo+json",
         )
     st.caption(
         "Orden por volumen de pendientes, luego puntaje demo. Puntaje: 1 base + 2 posible "
