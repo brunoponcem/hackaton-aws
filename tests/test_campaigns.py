@@ -125,24 +125,26 @@ def test_visual_campaign_map_tracks_clock_and_filters(tmp_path, monkeypatch):
     click("Avanzar 19 días")
     assert len(app.get("deck_gl_json_chart")) == 1
     map_payload = json.loads(app.get("deck_gl_json_chart")[0].proto.json)
-    from urllib.parse import unquote
-
-    style = json.loads(unquote(map_payload["mapStyle"].split(",", 1)[1]))
-    assert style["sources"] == {} and style["layers"] == []
+    assert map_payload["mapStyle"].startswith("https://basemaps.cartocdn.com/")
+    assert map_payload["initialViewState"]["zoom"] > 10
+    assert len(map_payload["layers"][0]["data"]["features"]) == 52
     assert "SIM-" not in json.dumps(map_payload)
     assert any("Propuesta:" in item.value for item in app.success)
     from src.app.ruta.colador import Funnel
 
     state = Funnel(tmp_path / "map.db").snapshot()
+    from src.app.ruta.campanas import metropolitan_ranking
     from src.app.ruta.datos import cargar_perfiles
 
-    rows = campaign_ranking(state, cargar_perfiles())
-    assert len(rows) == 6 and sum(row["people"] for row in rows) == 92
-    region = next(box for box in app.selectbox if box.label == "Región de campaña")
-    region.select("La Araucanía").run()
+    rows = metropolitan_ranking(state, cargar_perfiles())
+    assert len(rows) >= 4 and sum(row["people"] for row in rows) <= 92
+    assert all(row["region"] == "Metropolitana de Santiago" for row in rows)
+    next(box for box in app.selectbox if box.label == "Encuadre").select("Región completa").run()
     assert not app.exception
-    province = next(box for box in app.selectbox if box.label == "Provincia para el despliegue")
-    assert len(province.options) == 1 and province.value.startswith("Cautín")
+    assert json.loads(app.get("deck_gl_json_chart")[0].proto.json)["initialViewState"]["zoom"] < 9
+    app.toggle[0].set_value(False).run()
+    payload = json.loads(app.get("deck_gl_json_chart")[0].proto.json)
+    assert all(layer["@@type"] != "HeatmapLayer" for layer in payload["layers"])
     next(box for box in app.selectbox if box.label == "Población del mapa").select_index(1).run()
     assert not app.exception
-    assert not any(box.label == "Provincia para el despliegue" for box in app.selectbox)
+    assert not any(box.label == "Comuna para el despliegue" for box in app.selectbox)

@@ -5,6 +5,26 @@ responsable: codex
 ---
 # Heatmap y despliegue simulado de campañas
 
+## Vista vigente: Región Metropolitana (rediseño solicitado)
+
+**Este apartado sustituye la vista nacional descrita debajo, que queda como registro del aporte inicial.** El mapa actual se limita a la RM y publica agregados por comuna. El usuario pidió más detalle, resolución y concentración legible. Decisión: [[0009-heatmap-metropolitano]].
+
+- Fondo urbano oscuro CARTO Dark Matter / OpenStreetMap con calles y etiquetas vectoriales; necesita internet. Sin claves aportadas por el usuario. Los datos del mapa son exclusivamente agregados sintéticos.
+- Contornos locales de las 52 comunas: servicio público BCN `comunas2017`, consultado con `codregion=13`, WGS84, precisión 5 decimales y simplificación 0,00025 grados. Ver `assets/metropolitana-comunas.README.md`. Son referencias cartográficas de 2017, no límites validados a 2026.
+- Encuadres Gran Santiago y Región completa, mapa de 650 px de alto, zoom hasta 15. Heatmap de textura 2048, halos cualitativos y círculos de área proporcional al volumen. Etiquetas con conteo exacto y comuna; tooltip con provincia/puntaje. Interruptor para retirar halos y comparar círculos sin suavizado.
+- Colores estables por número de personas: 5–9 celeste, 10–14 turquesa, 15–19 amarillo, 20–24 naranja, 25+ rosado. La leyenda corresponde a los círculos; el halo es suavizado relativo, no una tasa ni un conteo por vivienda.
+- Ranking por volumen descendente, luego puntaje demo. Propuesta descargable por comuna y capacidad del equipo. **Supresión mínima de cinco ahora por comuna**, más estricta que el agregado provincial previo. No se infiere el conteo de grupos omitidos en las métricas visibles.
+
+Nuevas inicializaciones de la UI usan `generate_contacts(..., territory="metropolitana")`, con ocho comunas y pesos deliberadamente desiguales. No son estadísticas RSH ni de población. Solo cambia ubicación; conserva emails/teléfonos/empleadores y probabilidades. Las personas del escenario anterior no se reasignan al consultar el mapa.
+
+El laboratorio usa ahora `src/app/funnel-demo-rm.db`, conservando la base anterior `funnel-demo.db`. Ejecución habitual: `uv run --group app streamlit run src/app/demo_embudo.py --server.address localhost --server.port 8502`. Escenario reproducible: Nueva simulación → Sin respuestas → Inicializar → +19 días. Con semilla 20261008: 92 casos en presencial; 84 se publican en seis comunas (21 Maipú, 17 Puente Alto, 14 San Bernardo, 14 Santiago, 13 La Florida, 5 Quilicura); el resto queda omitido por el umbral. Ninguna cifra es institucional.
+
+Las coordenadas son puntos comunales aproximados de referencia, no domicilios ni distribución dentro de cada comuna. Los mapas muestran el área urbana; no fabrican ubicaciones individuales para llenar la imagen. Para otros procesos, el generador nacional y `campaign_ranking` se conservan compatibles, pero la UI solo usa `metropolitan_ranking`.
+
+Verificación ampliada: **99 tests** (antes 90), con determinismo territorial, conservación de canales y personas, exclusión de otras regiones, umbral comunal 4/5, casos terminales, encuadres, interruptor de calor, colores estables, textura 2048 y etiquetas Unicode correctamente serializadas. Chrome a doble densidad verifica la presentación real; ruff OK y verificador de 500 perfiles TODO OK.
+
+## Registro de la implementación nacional inicial
+
 Extensión de [[backend-embudo-contacto]], según [[contacto-y-campanas]] y [[0008-heatmap-campanas-sinteticas]]. Disponible en **http://localhost:8502** y en Detectar e invitar del portal. No necesita AWS, claves de mapas ni geocodificación.
 
 ## Recorrido de demostración

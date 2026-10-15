@@ -47,11 +47,14 @@ def render_funnel(profiles, db_path=None):
     if not state["clock"]:
         st.caption(
             "La detección reutiliza reglas.py sobre 500 perfiles. "
-            "Las provincias son asignaciones sintéticas, no domicilios reales."
+            "Escenario territorial: comunas de la Región Metropolitana, asignadas sintéticamente."
         )
         if st.button("Inicializar embudo", type="primary"):
             engine.initialize(
-                profiles, generate_contacts(profiles, int(seed)), seed=int(seed), simulate=simulate
+                profiles,
+                generate_contacts(profiles, int(seed), territory="metropolitana"),
+                seed=int(seed),
+                simulate=simulate,
             )
             st.rerun()
         return

@@ -17,6 +17,18 @@ TERRITORIES = (
     ("Tarapacá", "Iquique", "Iquique"),
 )
 
+# Deliberately uneven demo distribution; not census/RSH population estimates.
+METROPOLITAN_COMMUNES = (
+    ("Santiago", "Maipú", -33.510, -70.758, 23),
+    ("Cordillera", "Puente Alto", -33.608, -70.575, 21),
+    ("Santiago", "La Florida", -33.536, -70.582, 15),
+    ("Santiago", "Santiago", -33.448, -70.660, 13),
+    ("Maipo", "San Bernardo", -33.593, -70.704, 12),
+    ("Santiago", "Pudahuel", -33.437, -70.767, 8),
+    ("Santiago", "Quilicura", -33.363, -70.733, 6),
+    ("Santiago", "Recoleta", -33.402, -70.642, 4),
+)
+
 
 def stable_random(seed: int, *parts: object) -> random.Random:
     key = "|".join(map(str, (seed, *parts)))
@@ -35,20 +47,29 @@ class Contact:
     synthetic: bool = True
 
 
-def generate_contacts(profiles: dict[str, dict], seed: int = 20261008) -> dict[str, Contact]:
+def generate_contacts(
+    profiles: dict[str, dict], seed: int = 20261008, *, territory="national"
+) -> dict[str, Contact]:
+    if territory not in {"national", "metropolitana"}:
+        raise ValueError("Territorio de simulación no reconocido.")
     contacts = {}
     for run, profile in sorted(profiles.items()):
         rng = stable_random(seed, run, "contact")
-        territory = rng.choice(TERRITORIES)
+        location = rng.choice(TERRITORIES)
+        if territory == "metropolitana":
+            province, commune, *_ = stable_random(seed, run, "rm-territory").choices(
+                METROPOLITAN_COMMUNES, weights=[row[4] for row in METROPOLITAN_COMMUNES]
+            )[0]
+            location = "Metropolitana de Santiago", province, commune
         works = bool((profile.get("situacion_laboral") or {}).get("trabaja_actualmente"))
         contacts[run] = Contact(
             run=run,
             email=f"persona.{run}@example.com" if rng.random() >= 0.15 else "",
             phone=f"SIM-TEL-{run}" if rng.random() >= 0.1 else "",
             employer=f"Empleador ficticio {rng.randrange(1, 20)}" if works else "",
-            region=territory[0],
-            province=territory[1],
-            commune=territory[2],
+            region=location[0],
+            province=location[1],
+            commune=location[2],
         )
     return contacts
 
