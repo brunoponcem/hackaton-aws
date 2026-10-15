@@ -74,20 +74,21 @@ def render(diags) -> None:
 
 
 def _benefits_page(d, authorized: bool) -> None:
-    benefits, chat = st.columns([2.4, 1], gap="large")
+    layout = st.container(key="gov_benefits_layout")
+    benefits, chat = layout.columns([1.5, 1], gap="large")
     with benefits:
         if authorized:
             _benefits(d)
         else:
             _consent(d)
-    with chat:
+    with chat, st.container(key="gov_assistant"):
         case = casos.obtener_caso(d.run)
         route = generar_ruta(d)
         states = estado_pasos(route, case["completados"])
         context = asistente.construir_contexto(
             d, route, states, proximo_paso(route, states), authorized
         )
-        ui_persona._asistente(d, d.run, CANAL, context)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)
 
 
 def _personal_page(d, profile) -> None:
@@ -549,7 +550,8 @@ def _journey(d, case, benefit) -> None:
         completed / len(route) if route else 0,
         text=f"{completed} de {len(route)} pasos completados",
     )
-    main, chat = st.columns([2, 1], gap="large")
+    layout = st.container(key="gov_journey_layout")
+    main, chat = layout.columns([1.5, 1], gap="large")
     with main:
         for index, step in enumerate(route, 1):
             state = states[step.id]
@@ -582,6 +584,6 @@ def _journey(d, case, benefit) -> None:
                     if st.button("Ya completé este paso", key=f"gov_step_{d.run}_{step.id}"):
                         casos.completar_paso(d.run, step.id, CANAL, step.titulo)
                         st.rerun()
-    with chat:
+    with chat, st.container(key="gov_assistant"):
         context = asistente.construir_contexto(d, route, states, next_step, True)
-        ui_persona._asistente(d, d.run, CANAL, context)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)

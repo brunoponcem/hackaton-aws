@@ -1,5 +1,15 @@
 .gov-welcome{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:32px 0 28px}
 .gov-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.7px;color:#587184}
+/* Give the help conversation room, including on tablets and small laptops. */
+.st-key-gov_assistant h4{font:500 22px/1.35 Roboto,Arial,sans-serif;color:#143550;padding:0 0 8px}
+.st-key-gov_assistant [data-testid="stChatMessage"]{padding:12px;gap:10px}
+.st-key-gov_assistant [data-testid="stChatMessage"] p{line-height:1.65;overflow-wrap:anywhere}
+.st-key-gov_assistant [data-testid="stChatInput"]{border-radius:10px}
+.st-key-gov_assistant button{min-height:44px;text-align:left}
+@media(max-width:1050px){
+  :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant){flex-direction:column;gap:24px}
+  :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant)>[data-testid="stColumn"]{width:100%!important;flex:1 1 auto!important;min-width:0!important}
+}
 .gov-welcome h1{font:400 40px/1.25 "Roboto Slab",Georgia,serif;color:#143550;margin:10px 0 12px;letter-spacing:-1px}
 .gov-welcome h1{padding:0!important}
 [data-testid="stTabs"] [aria-selected="true"]{color:#0f69b4}

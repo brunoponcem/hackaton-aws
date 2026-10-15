@@ -316,7 +316,7 @@ PREGUNTAS = ["¿Qué es la PGU?", "¿Cuánto recibiría?", "¿Qué documentos ne
              "¿Cuándo puedo hacerlo?", "¿Dónde lo hago?", "¿Cumplo los requisitos?"]
 
 
-def _asistente(d, run, canal, ctx):
+def _asistente(d, run, canal, ctx, *, sidebar=False):
     with st.container(border=True):
         st.markdown("#### Asistente de ayuda")
         st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
@@ -340,17 +340,25 @@ def _asistente(d, run, canal, ctx):
         if pending_question := st.session_state.pop("portal_pending_question", None):
             preguntar(pending_question)
 
-        cols = st.columns(2)
-        for i, q in enumerate(PREGUNTAS if ctx["autorizado"] else PREGUNTAS[:1] + PREGUNTAS[3:4]):
-            if cols[i % 2].button(q, key=f"q-{run}-{i}", use_container_width=True):
-                preguntar(q)
-                st.rerun()
-        mensajes = st.container(height=360)
+        def preguntas_rapidas():
+            cols = st.columns(1 if sidebar else 2)
+            questions = PREGUNTAS if ctx["autorizado"] else PREGUNTAS[:1] + PREGUNTAS[3:4]
+            for i, q in enumerate(questions):
+                if cols[i % len(cols)].button(q, key=f"q-{run}-{i}", use_container_width=True):
+                    preguntar(q)
+                    st.rerun()
+
+        if not sidebar:
+            preguntas_rapidas()
+        mensajes = st.container(height=420 if sidebar else 360)
         for m in hist:
             mensajes.chat_message(m["rol"], avatar="🧭" if m["rol"] == "assistant" else "🙂").write(m["texto"])
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
             st.rerun()
+        if sidebar:
+            with st.expander("Preguntas frecuentes"):
+                preguntas_rapidas()
         st.caption("También puedes llamar al 101 o ir a una sucursal ChileAtiende: verán tu avance.")
 
 

@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Asistente de Mi Gobierno (Codex)
+- Panel ampliado al 40% del espacio entre columnas, conversación de 420 px antes de las sugerencias, preguntas frecuentes desplegables con botones en una columna. Beneficios y guía PGU comparten presentación; hasta 1050 px se apila a todo el ancho.
+- Chrome 1440/900/390 px sin desbordamiento horizontal; pregunta rápida y acceso a guía OK. 146 pruebas y verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Ordenar y ampliar el asistente de Mi Gobierno».
+
 ### 2026-10-15 · Vista ejecutivo unificada (Codex)
 - Una única entrada principal «Vista ejecutivo» reúne mapa/campañas, detección/invitaciones, ficha, atención del caso y medición mediante selector interno. Se reutilizan las vistas existentes y solo se ejecuta la elegida.
 - Actualizados los recorridos de UI para acceder a la ficha y recorrer las cinco herramientas; 146 pruebas y verificador de 500 perfiles OK. [[ficha-beneficiario]]. Commit «Unificar herramientas de gestión en Vista ejecutivo».
