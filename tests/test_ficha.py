@@ -84,7 +84,38 @@ def test_record_view_renders(tmp_path, monkeypatch):
     app_config = importlib.import_module("ruta.config")
     monkeypatch.setattr(app_config, "DB_PATH", tmp_path / "ui-ficha.db")
     monkeypatch.setattr(app_config, "BEDROCK_MODEL_ID", "")
+    monkeypatch.setenv("FUNNEL_DEMO_DB", str(tmp_path / "lab.db"))
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
-    app.sidebar.radio[0].set_value("Ficha del beneficiario").run()
+    app.radio(key="portal_section").set_value("Vista ejecutivo").run()
+    app.radio(key="executive_section").set_value("Ficha del beneficiario").run()
     assert not app.exception
     assert any("Ficha del beneficiario" in h.value for h in app.header)
+
+
+def test_every_portal_tab_renders(tmp_path, monkeypatch):
+    pytest.importorskip("streamlit", reason="Instalar el grupo app para verificar la UI")
+    from streamlit.testing.v1 import AppTest
+
+    app_dir = Path(__file__).resolve().parents[1] / "src/app"
+    monkeypatch.syspath_prepend(str(app_dir))
+    app_config = importlib.import_module("ruta.config")
+    monkeypatch.setattr(app_config, "DB_PATH", tmp_path / "ui-tabs.db")
+    monkeypatch.setattr(app_config, "BEDROCK_MODEL_ID", "")
+    monkeypatch.setenv("FUNNEL_DEMO_DB", str(tmp_path / "lab.db"))
+    portal = importlib.import_module("portal")
+    app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=60).run()
+    tabs = app.radio(key="portal_section")
+    assert list(tabs.options) == portal.CITIZEN_SECTIONS + portal.OFFICE_SECTIONS
+    assert list(tabs.options) == [
+        "Inicio", "Mi Gobierno", "Ayuda para tus trámites", "Vista ejecutivo"
+    ]
+    for section in portal.CITIZEN_SECTIONS + portal.OFFICE_SECTIONS:
+        app.radio(key="portal_section").set_value(section).run()
+        assert not app.exception, section
+    for tool in portal.EXECUTIVE_SECTIONS:
+        app.radio(key="executive_section").set_value(tool).run()
+        assert not app.exception, tool
+    app.radio(key="portal_section").set_value("Inicio").run()
+    assert not any(r.key == "executive_section" for r in app.radio)
+    app.radio(key="portal_section").set_value("Vista ejecutivo").run()
+    assert not app.exception

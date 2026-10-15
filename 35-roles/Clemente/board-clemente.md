@@ -66,6 +66,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Reunir mapa, detección, ficha, atención y medición bajo «Vista ejecutivo», con selector interno y verificación de UI · commit «Unificar herramientas de gestión en Vista ejecutivo» · [[ficha-beneficiario]].
 - [x] Ficha del beneficiario en la app y fuente única de contacto para Mi Gobierno, colador y ficha · [[ficha-beneficiario]]
 - [x] Contacto confirmado detiene canales posteriores; responded/accepted separados de inicio, barra por personas y tabla de intentos, ejemplos con/sin respuestas y meta 75% sin falsos resultados — `0642159`, 136 tests · [[0012-detener-contacto-confirmado]]
 - [x] Área propuesta sobre el heatmap por máxima cobertura espacial, radio ajustable, jornadas por capacidad y descargas JSON/GeoJSON — `66dbea8`, 126 tests · [[heatmap-campanas-simulado]]

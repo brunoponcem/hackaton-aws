@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Vista ejecutivo unificada (Codex)
+- Una única entrada principal «Vista ejecutivo» reúne mapa/campañas, detección/invitaciones, ficha, atención del caso y medición mediante selector interno. Se reutilizan las vistas existentes y solo se ejecuta la elegida.
+- Actualizados los recorridos de UI para acceder a la ficha y recorrer las cinco herramientas; 146 pruebas y verificador de 500 perfiles OK. [[ficha-beneficiario]]. Commit «Unificar herramientas de gestión en Vista ejecutivo».
+
 ### 2026-10-15 · Ficha del beneficiario y fuente única de contacto (Claude)
 - Mi Gobierno armaba email y teléfono por su cuenta y no coincidía con el colador. Ahora todo lee `ruta.ficha.contact_for`: el contacto del colador si la persona está en la campaña y, si no, la capa sintética. Si falta un canal, se muestra «Sin información».
 - Formato legible y ficticio en la capa: `nombre.apellido@example.com` y `+56 9 0000 xxxx`; se mantienen la semilla y los canales vacíos. Se regeneró `data/synthetic/contacto.csv`.

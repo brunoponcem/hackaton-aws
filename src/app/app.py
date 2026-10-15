@@ -10,7 +10,7 @@ import streamlit as st
 import ui_persona
 import ui_government
 import ui_ficha
-from ui_embudo import render_funnel
+from ui_embudo import render_campaign_lab
 import portal
 from ruta import asistente, casos, config
 from ruta import reglas as R
@@ -56,9 +56,12 @@ def casos_demo(diags: dict[str, R.Diagnostico]) -> dict[str, str]:
 
 
 # --------------------------------------------------------------------------
+def vista_mapa(diags):
+    st.header("Mapa de calor y campañas")
+    render_campaign_lab(cargar_perfiles())
+
+
 def vista_panel(diags):
-    render_funnel(cargar_perfiles())
-    st.divider()
     st.header("1 · Detectar e invitar")
     st.caption(f"Evaluación de los {len(diags)} perfiles del dataset A al {fmt(config.FECHA_REFERENCIA)}. "
                "Solo se usan datos autorizados para detectar el hito; las personas fallecidas quedan excluidas.")
@@ -261,6 +264,25 @@ def vista_kpis(diags):
         st.rerun()
 
 
+def vista_oficina(diags):
+    st.header("Vista ejecutivo")
+    st.caption("Gestiona campañas, revisa beneficiarios, atiende casos y consulta los resultados.")
+    selected = st.radio(
+        "Herramientas del ejecutivo",
+        portal.EXECUTIVE_SECTIONS,
+        horizontal=True,
+        key="executive_section",
+    )
+    views = {
+        "Mapa de calor y campañas": vista_mapa,
+        "Detectar e invitar": vista_panel,
+        "Ficha del beneficiario": ui_ficha.render,
+        "Atención del caso": vista_ejecutivo,
+        "Medición": vista_kpis,
+    }
+    views[selected](diags)
+
+
 # --------------------------------------------------------------------------
 diags = diagnosticos()
 if next_section := st.session_state.pop("portal_next_section", None):
@@ -270,11 +292,9 @@ portal.hero(section)
 with st.sidebar:
     st.title("Controles de demostración")
     st.caption("Perfiles sintéticos · El organismo valida y resuelve.")
-    vista = st.radio("Vista de demostración", ["Persona", "Vista ejecutivo", "Ficha del beneficiario", "Detectar e invitar", "Medición"])
     st.divider()
-if vista != "Persona":
-    {"Vista ejecutivo": vista_ejecutivo, "Ficha del beneficiario": ui_ficha.render,
-     "Detectar e invitar": vista_panel, "Medición": vista_kpis}[vista](diags)
+if section == "Vista ejecutivo":
+    vista_oficina(diags)
 elif section == "Inicio":
     portal.render_discovery()
 elif section == "Mi Gobierno":

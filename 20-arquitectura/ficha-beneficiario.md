@@ -19,7 +19,9 @@ Mi Gobierno y el colador mostraban datos de contacto distintos para la misma per
 Las campañas que ya estaban guardadas en una base SQLite conservan el contacto con el que se crearon. Para ver el formato nuevo en el embudo, hay que iniciar una simulación nueva.
 
 ## Ficha del beneficiario
-Vista **«Ficha del beneficiario»** en la barra lateral de la app (`src/app/ui_ficha.py`). Es para ejecutivos y trabajadores sociales: reúne en una página todo lo que se sabe de una persona, sin escribir nada.
+Vista **«Ficha del beneficiario»** dentro de **«Vista ejecutivo»** en la app (`src/app/ui_ficha.py`). Es para ejecutivos y trabajadores sociales: reúne en una página todo lo que se sabe de una persona, sin escribir nada.
+
+Desde el 15-10, la navegación principal reúne todas las herramientas de gestión en «Vista ejecutivo»: Mapa de calor y campañas, Detectar e invitar, Ficha del beneficiario, Atención del caso y Medición. El selector interno ejecuta solo la herramienta elegida y conserva los flujos existentes. Las sesiones que estaban en una de las antiguas entradas se redirigen a su herramienta dentro de «Vista ejecutivo».
 
 | Sección | Fuente |
 |---|---|
