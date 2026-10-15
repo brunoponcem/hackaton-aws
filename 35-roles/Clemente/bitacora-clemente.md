@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Conversación y presentación del asistente (Codex)
+- Corregida la repetición del resumen ante «hola»: saludos/agradecimientos con respuesta breve y preguntas no reconocidas solicitan aclaración. Mi Gobierno inicia con bienvenida breve y distingue mensajes de persona (burbuja gris a la derecha) y asistente (fondo blanco); conserva campo debajo e historial.
+- Siete regresiones nuevas (saludos con/sin autorización y consulta no reconocida). 153 pruebas pasan excluyendo la suite proactiva no versionada, verificador de 500 perfiles OK. Chrome 1440/390 px valida saludo sin duplicación de diagnóstico y sin desbordamiento. [[mi-gobierno]]. Commit «Mejorar la conversación y presentación del asistente».
+
 ### 2026-10-15 · Campo debajo de una conversación más corta (Codex)
 - Corrección solicitada: entrada debajo del historial; altura del chat en Mi Gobierno de 420 a 240 px para evitar espacio vacío. Retirado el aviso del 101/sucursal del asistente compartido. Verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Acercar la entrada al chat y retirar aviso de atención».
 - 146 pruebas pasan (`pytest tests --ignore=tests/test_proactivo.py`); se excluye únicamente la suite nueva no versionada del aporte proactivo, ajeno a este cambio.

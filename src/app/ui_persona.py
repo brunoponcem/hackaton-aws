@@ -322,6 +322,11 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
         clave = f"chat-{run}"
         saludo = {"rol": "assistant", "texto": asistente.explicar_resumen(ctx)}
+        if sidebar and ctx["autorizado"]:
+            saludo["texto"] = (
+                f"Hola, {ctx['nombre']}. Estoy aquí para ayudarte con tus beneficios y trámites. "
+                "¿Qué te gustaría saber?"
+            )
         permiso_clave = f"assistant_consent_{run}"
         if (
             st.session_state.get(permiso_clave) != ctx["autorizado"]
@@ -350,9 +355,11 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
 
         if not sidebar:
             preguntas_rapidas()
-        mensajes = st.container(height=240 if sidebar else 360)
-        for m in hist:
-            mensajes.chat_message(m["rol"], avatar="🧭" if m["rol"] == "assistant" else "🙂").write(m["texto"])
+        mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
+        for i, m in enumerate(hist):
+            target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
+            avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")
+            target.chat_message(m["rol"], avatar=avatar).write(m["texto"])
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
             st.rerun()

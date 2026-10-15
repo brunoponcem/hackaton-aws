@@ -16,7 +16,6 @@ Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de
 
 ## En curso
 - [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): código y tests listos en `claude/deteccion-proactiva`; falta desplegar (credenciales vencidas) · [[deteccion-proactiva-aws]]
-- [ ] Dar al asistente una conversación más natural: responder saludos sin repetir el diagnóstico y distinguir mensajes de persona/asistente · [[mi-gobierno]].
 
 ## Por hacer
 ### Validar con los mentores
@@ -68,6 +67,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Chat con bienvenida breve, burbujas de persona diferenciadas y saludos sin repetir diagnóstico; preguntas no reconocidas piden aclaración. 153 pruebas, verificador y Chrome OK · commit «Mejorar la conversación y presentación del asistente» · [[mi-gobierno]].
 - [x] Campo para preguntar debajo del chat de Mi Gobierno, con historial reducido a 240 px y sin aviso del 101/sucursal · commit «Acercar la entrada al chat y retirar aviso de atención» · [[mi-gobierno]].
 - [x] Campo para preguntar justo debajo del encabezado del asistente de Mi Gobierno, antes del historial · commit «Subir el campo de consulta del asistente» · [[mi-gobierno]].
 - [x] Retirar las preguntas frecuentes del asistente de Mi Gobierno; conversación y campo de escritura conservados. Cuatro pruebas de UI/integración OK · commit «Quitar preguntas frecuentes de Mi Gobierno» · [[mi-gobierno]].
