@@ -1,0 +1,34 @@
+---
+tipo: implementacion
+fecha: 2026-10-14
+responsable: codex
+---
+# Portal — Ayuda para tus trámites y chatbot
+
+Decisión en [[0006-portal-ayuda-chatbot]]. El usuario solicitó una sección de ChileAtiende que reúna ayuda para trámites, la ruta del MVP y el agente conversacional.
+
+## Referencia utilizada
+Únicamente el [portal oficial ChileAtiende](https://www.chileatiende.gob.cl/). Se recuperó su HTML y CSS mediante `Invoke-WebRequest` el 14-10-2026; la herramienta web y Chrome headless recibían 403, pero la petición HTTP directa sí devolvió el sitio. No se usaron portales alternativos como referencia visual.
+
+Estructura observada: logo/encabezado, Red de atención, Mi ChileAtiende, buscador `buscar?query=`, destacados, Lo más buscado, momentos de vida, servicios por temas y contacto institucional. Se reutiliza el [SVG oficial](https://www.chileatiende.gob.cl/bulma/images/logo-cha.svg) en `src/app/assets/`, incluido como package data. Azules observados en el CSS oficial: `#0f69b4`, `#0d4d82`. No se copian noticias ni condiciones de beneficios al MVP.
+
+## Comportamiento
+- **Inicio**: destacados de la demo, acceso a Mi ChileAtiende, servicios/momentos de vida y enlaces oficiales.
+- **Ayuda para tus trámites** (pestaña inicial): explicación del acompañamiento, invitación/autorización, ruta existente y chatbot al lado. El chat aparece desde la invitación; sin permiso solo ofrece orientación inicial y no llama AWS.
+- **Mi ruta**: retoma el mismo caso SQLite, con antecedentes, checklist, permisos e historial. Cambiar pestaña no crea otro caso.
+- Buscador: selección local de accesos verificados y botón que continúa en el buscador oficial. No afirmar que el catálogo reducido contiene todos los trámites.
+- Vistas ejecutivo/campañas/medición y selección de persona/canal siguen en controles de demostración, en la barra lateral colapsada.
+
+## Chatbot y límite del MVP
+`src/app/ruta/asistente.py` conserva las plantillas y delega Bedrock a `chatbot.answer`. Este usa `BedrockClient.from_env()` (modelo/credenciales configurables y allowlist), `Agent` y un handler `leer_caso` con el contexto calculado por el motor de la app. El modelo recibe estado, ruta y fuente; no aporta RUN, permiso ni resultados inventados. El permiso viene del flujo real de la app antes de crear el cliente. Las fuentes del prototipo mantienen su marca de no verificadas.
+
+El modo Bedrock se activa con `BEDROCK_MODEL_ID` del proceso, como en el aporte de Johann; una vez activo, el cliente común también lee `.env`. Sin configuración o ante error sigue funcionando por plantillas. No se verificó una inferencia real en este cambio: el tool use se probó con un cliente falso.
+
+La **ruta personalizada** sigue cubriendo jubilación y PGU. Los accesos generales remiten al portal oficial y no generan evaluaciones o plazos para beneficios no implementados. El layout reproduce la organización del portal y añade la sección solicitada; no es una copia exacta de todos sus componentes/funcionalidades.
+
+## Verificación
+`uv run --group app pytest`: **64 tests pasan**. Pruebas nuevas: navegación Inicio/Ayuda/Mi ruta, búsqueda, permisos del chatbot y ejecución de `leer_caso` con el agente compartido. Se mantiene el test de aceptar/autorizar/preguntar/revocar y el script `src/app/verificar.py` sigue con TODO OK sobre 500 perfiles.
+
+Ruff check/format OK en los módulos y test nuevos (`portal.py`, `chatbot.py`, `test_portal.py`); el lint histórico completo de la app sigue pendiente. Chrome headless mostró el layout en 1440 px y 390 px; en móvil el ancho de contenido coincide con el viewport, sin desbordamiento horizontal. No se modifican reglas normativas ni el dataset.
+
+Ejecutar: `uv run --group app streamlit run src/app/app.py --server.address localhost`. Preview local: `http://localhost:8501`.

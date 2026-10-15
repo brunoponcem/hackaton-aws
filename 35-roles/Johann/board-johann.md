@@ -3,35 +3,39 @@ tipo: board
 integrante: Johann
 color: verde
 entorno: Kiro IDE Pro
-frente: Reglas PGU, hitos y catálogo
+frente: Desarrollo del MVP desde src/app
 ---
-# 🟩 Board de Johann — Reglas PGU, hitos y catálogo
+# 🟩 Board de Johann — Desarrollo con Kiro
+
+## Entrada para Johann y sus agentes
+
+El código se trabaja entre **Clemente (Codex + Claude)** y **Johann (Kiro de AWS)**, sin asignación de tareas ni carpetas exclusivas. Johann está trabajando desde `src/app`. Ambos envían sus aportes; antes de publicar se integran por merge y se revisan conflictos, duplicaciones e incompatibilidades lógicas.
+
+La guía técnica autocontenida está en [[contexto-codear-johann]]: producto actualizado, pipeline, estado real, módulos, contratos, datos y pruebas. Para reducir el contexto de Kiro, usar [[inicio-kiro-johann]]; cargar la guía bajo demanda y leer después solo los archivos de la tarea elegida. Esta preparación es exclusiva de Johann y no cambia el setup de Clemente.
 
 | | |
 |---|---|
 | **Entorno** | Kiro IDE Pro |
-| **Carpetas de código propias** | `data/catalogo/`, `src/rules/`, `reports/`, `.kiro/` |
-| **Ramas** | `johann/T<nn>-<descripcion>` |
-| **Commits** | `T<nn>: <qué hiciste>` |
+| **Alcance actual** | `src/app` como punto de trabajo; contexto completo del MVP disponible |
+| **Integración** | Commit del aporte → fetch/merge de `origin/main` → resolver y verificar → push |
+| **Commits** | Descripción breve del aporte, sin ID de tarea obligatorio |
 | **Bitácora** | [[bitacora-johann]] |
-| **Equipo, mapa y reglas** | [[_equipo]] · [[_avance]] |
+| **Contexto para codear** | [[contexto-codear-johann]] · [[inicio-kiro-johann]] |
 
-Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
+Este tablero registra avances e integración; no asigna tareas. La guía [[contexto-codear-johann]] incluye el flujo de merge. Las funciones del reparto anterior se conservan en el historial Git, no dirigen a los agentes de Johann.
 
 ## En curso
-- 
+- Desarrollo de Johann desde `src/app`: aporte `0d06dab` integrado en `origin/main` (`ed989ad`) y traído localmente. Streamlit/SQLite, motor de rutas y cuatro vistas disponibles.
 
-## Por hacer
-- [ ] **T08** · P0 · B1 · Steering de Kiro en `.kiro/steering/` que referencie [[AGENTS]], [[contexto-compartido-chileatiende]] y [[arquitectura-chileatiende]] (lo usan los 4 integrantes con Kiro) — ✅ Kiro respeta carpetas, idioma y reglas del dominio
-- [ ] **T09** · P0 · B1 · Parámetros e hitos verificados en fichas oficiales → `data/catalogo/pgu.json` y `data/catalogo/hitos.json`: montos, umbral y **definición oficial de pensión base**, PFP, residencia, edad legal de vejez (el PPT dice 60 para mujeres y 65 para hombres) y apertura de la solicitud PGU (el PPT dice 64 años y 9 meses) — ✅ cada valor con `fuente_url`, vigencia y fecha de consulta; lo que no se verifique queda marcado `sin_verificar`
-- [ ] **T10** · P0 · B1 · `data/catalogo/schema.json` + test que valide todos los JSON del catálogo — ✅ `pgu.json` y `hitos.json` validan
-- [ ] **T11** · P0 · B2 · `evaluar_pgu(perfil, fecha_ref)` → `elegible | no_elegible | antecedente_faltante | proximo | ya_recibe`, con motivos, fuentes y **precedencia documentada** cuando hay varios motivos — ✅ test con un perfil real del dataset por cada estado; considera `estado = vigente` · depende de T02 y T09
-- [ ] **T12** · P0 · B2 · `calcular_hitos`: edad legal de vejez según el perfil, apertura de la solicitud PGU, acceso a la PGU a los 65 e invitación unos 12 meses antes. Las aperturas son hitos, no vencimientos — ✅ tests con bordes (cumpleaños el mismo día, 64 años y 9 meses exactos) · depende de T09
-- [ ] **T13** · P0 · B2 · Evaluación por lotes de los 500 perfiles → `reports/pgu_dataset_A.csv` + `reports/resumen.md` (estados, antecedentes faltantes, próximos hitos y a quién invitar) — ✅ cuadra con los conteos de [[datos-dataset-A]] o explica la diferencia · depende de T11 y T12
-- [ ] **T14** · P1 · B3 · Otros beneficios de jubilación en el catálogo (solicitud de pensión de vejez, bono por hijo) + herramienta `buscar_beneficios` — ✅ validan contra el esquema; test por evento
+## Integración pendiente
+- Unificar app y agente/contratos existentes: modelos, estados extra, repositorio/historial y clientes Bedrock. Ver [[revision-aporte-johann]]; merge textual completado, unificación semántica pendiente.
+- Contexto local de Kiro preparado; activación en el checkout de Johann según [[inicio-kiro-johann]].
 
 ## Bloqueos
 -
 
 ## Hecho
--
+- `ff8c1d8` · Mi Gobierno y portada: beneficios como vista inicial, datos personales separados, documentos compartidos por requisito, asistente y confirmación de revocación. 139 pruebas y verificador de 500 perfiles OK. [[mi-gobierno]].
+- Mi Gobierno validado localmente: panel separado de Inicio, autorización, documentos, declaración económica y guía PGU según requisitos. 139 pruebas, verificador 500 perfiles y recorrido Chrome escritorio/móvil OK. [[mi-gobierno]].
+- Portada de ChileAtiende reproducida desde los recursos públicos del 15-10-2026, con navegación al acompañamiento y 136 pruebas OK. [[portada-chileatiende]].
+- Revisión del aporte y correcciones de integración: grupo uv `app`, revocación de consentimiento/historial y verificador offline. 61 tests y verificación de 500 perfiles OK; lint completo de la app pendiente.

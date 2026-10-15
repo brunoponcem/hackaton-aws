@@ -10,6 +10,18 @@ fecha-eleccion: 2026-10-14
 > **Reto elegido** el 2026-10-14. Ver [[0002-seleccion-reto]] y [[arquitectura-chileatiende]].
 > **Foco del MVP: jubilación + PGU**, con el dataset entregado por la organización ([[datos-dataset-A]], [[0004-mvp-jubilacion-pgu]]).
 
+## Idea central (reestructurada el 14-10)
+Ver [[0005-asistente-contacto-escalonado]], [[arquitectura-chileatiende]] y [[contacto-y-campanas]].
+
+1. **Asistente frontal** con la experiencia de la página de ChileAtiende: un chatbot que conversa y guía a la persona en su trámite.
+2. **Pipeline medular por detrás**: detectar → contactar → invitar y autorizar → consultar → evaluar → preparar ruta → acompañar → derivar → seguir.
+3. **Contacto escalonado** ante una alerta. Solo se pasa a la etapa siguiente si no hay respuesta: **email → llamada telefónica → lugar de trabajo → campaña puerta a puerta**.
+4. **Campañas puerta a puerta guiadas por un heatmap**, para no recorrer al azar ni sin resultados.
+5. **Acompañamiento completo** una vez contactada la persona: recolección de documentos, guía de los pasos del trámite y contacto con el ejecutivo que lo pone en marcha.
+6. **Claridad para ejecutivos y trabajadores sociales**: qué se recopiló del beneficiario, de dónde viene y en qué estado están sus solicitudes.
+
+Las secciones siguientes son del planteamiento inicial y siguen vigentes donde no contradicen esta idea central.
+
 ## Problema
 A partir de un evento de vida (nacimiento, cesantía, jubilación), construir una ruta de beneficios, plazos y pasos que mantenga la continuidad entre canales (web, teléfono, sucursal, WhatsApp).
 

@@ -1,22 +1,18 @@
 ---
 tipo: board
 integrante: Bruno
-color: morado
 entorno: Kiro IDE Pro
-frente: Frontend y demo
 ---
-# 🟪 Board de Bruno — Frontend y demo
+# Board de Bruno
 
 | | |
 |---|---|
 | **Entorno** | Kiro IDE Pro |
-| **Carpetas de código propias** | `src/web/`, `20-arquitectura/ux-demo.md` |
-| **Ramas** | `bruno/T<nn>-<descripcion>` |
-| **Commits** | `T<nn>: <qué hiciste>` |
+| **Integración** | Commit del aporte → fetch/merge de `origin/main` → resolver y verificar → push |
 | **Bitácora** | [[bitacora-bruno]] |
-| **Equipo, mapa y reglas** | [[_equipo]] · [[_avance]] |
+| **Equipo y pipeline** | [[_equipo]] · [[_avance]] |
 
-Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
+Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
 - [ ] **T22** · P0 · B1 · Wireframe y flujo en `20-arquitectura/ux-demo.md`: invitación → aceptar o declinar → autorización → ruta y checklist → chat → sucursal — ✅ aprobado por el equipo antes de las 21:00 del miércoles · _borrador escrito, pendiente aprobación del equipo_
@@ -30,7 +26,7 @@ Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuan
 - [ ] **T28** · P0 · B4 · Guion de la demo, clic a clic, con 3 RUN elegidos (persona próxima a su hito que acepta la invitación, persona con antecedente faltante, persona que declina) — ✅ la demo dura menos de 3 minutos y se ensayó dos veces
 
 ## Bloqueos
--
+- 
 
 ## Hecho
--
+- 

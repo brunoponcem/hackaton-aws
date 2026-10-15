@@ -61,8 +61,20 @@ Ojo: `pfp_percentil` es una simulación, no la fórmula oficial (Res. Ex. N° 77
 - `proximo`: cumple 65 dentro de N meses → aviso anticipado con lo que debe tener listo.
 - `ya_recibe`: tiene PGU vigente.
 
+## Brecha: datos de contacto y ubicación
+Para la idea reestructurada ([[0005-asistente-contacto-escalonado]]) hacen falta datos que este dataset **no trae**:
+
+| Se necesita para | Dato | ¿Viene en el dataset A? |
+|---|---|---|
+| Etapa 1 · Email | Email | No |
+| Etapa 2 · Llamada | Teléfono | No |
+| Etapa 3 · Lugar de trabajo | Empleador y su contacto | No. Solo `trabaja_actualmente` y fechas; el README dice "no se identifica empleador" |
+| Etapa 4 · Puerta a puerta y heatmap | Dirección o comuna | No |
+
+Opciones y recomendación en [[contacto-y-campanas]]: pedirlo a los mentores o generar una capa sintética rotulada como tal.
+
 ## Pendientes
-- [ ] Preguntar a los mentores si habrá un dataset B o más (el nombre "A" sugiere que sí) y cómo se evalúa el uso de estos datos.
+- [ ] Preguntar a los mentores si habrá un dataset B o más (el nombre "A" sugiere que sí), si trae datos de contacto y ubicación, y cómo se evalúa el uso de estos datos.
 - [ ] Cargar los parámetros de la PGU (montos y umbrales vigentes) desde la ficha ChileAtiende con `fuente_url`.
 - [x] `data/raw/` se versiona en git (decidido el 2026-10-14).
 
