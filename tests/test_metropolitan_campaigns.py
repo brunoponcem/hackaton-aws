@@ -9,7 +9,7 @@ from src.app.ruta.datos import cargar_perfiles
 
 def state_with(communes):
     return {
-        "clock": {"now": "2026-10-27T09:00:00", "start": "2026-10-08T09:00:00"},
+        "clock": {"now": "2026-10-27T09:00:00", "start": "2026-10-08T09:00:00", "seed": 20261008},
         "people": [
             {
                 "run": f"PRIVATE-{i}",
@@ -107,10 +107,16 @@ def test_map_labels_color_bins_and_heat_resolution_are_consistent(monkeypatch):
     from pathlib import Path
 
     monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "src/app"))
-    from ui_campanas import campaign_map, concentration_color
+    from ui_campanas import campaign_map
 
-    rows = metropolitan_ranking(state_with(["Maipú"] * 23 + ["Santiago"] * 6), {})
-    payload = json.loads(campaign_map(rows).to_json())
+    from src.app.ruta.campanas import metropolitan_locations
+
+    state = state_with(["Maipú"] * 23 + ["Santiago"] * 6)
+    rows = metropolitan_ranking(state, {})
+    locations = metropolitan_locations(state, rows)
+    payload = json.loads(
+        campaign_map(rows, locations, show_points=True, show_totals=True).to_json()
+    )
     heat = next(layer for layer in payload["layers"] if layer["@@type"] == "HeatmapLayer")
     assert heat["weightsTextureSize"] == 2048
     labels = next(layer for layer in payload["layers"] if layer["@@type"] == "TextLayer")
@@ -118,10 +124,9 @@ def test_map_labels_color_bins_and_heat_resolution_are_consistent(monkeypatch):
     points = next(layer for layer in payload["layers"] if layer["@@type"] == "ScatterplotLayer")[
         "data"
     ]
-    assert [p["people"] for p in points] == [23, 6]
-    assert [p["color"] for p in points] == [concentration_color(23), concentration_color(6)]
-    assert "23  Maipú" in [p["label"] for p in points]
-    assert concentration_color(24) == concentration_color(20)
-    assert concentration_color(25) != concentration_color(24)
+    assert len(points) == 29 and sum(p["weight"] for p in points) == 29
+    assert len({(p["latitude"], p["longitude"]) for p in points}) == 29
+    assert "23  Maipú" in [p["label"] for p in labels["data"]]
+    assert heat["getWeight"] == "@@=weight"
     assert len(payload["layers"][0]["data"]["features"]) == 52
     assert "PRIVATE" not in json.dumps(payload)

@@ -130,6 +130,11 @@ def test_visual_campaign_map_tracks_clock_and_filters(tmp_path, monkeypatch):
     assert len(map_payload["layers"][0]["data"]["features"]) == 52
     assert "SIM-" not in json.dumps(map_payload)
     assert any("Propuesta:" in item.value for item in app.success)
+    next(box for box in app.checkbox if box.label == "Ver ubicaciones simuladas").check().run()
+    mapped = json.loads(app.get("deck_gl_json_chart")[0].proto.json)
+    homes = next(layer for layer in mapped["layers"] if layer["id"] == "rm-simulated-homes")
+    assert len(homes["data"]) == 84
+    assert all("SIMULADA" in point["address"] for point in homes["data"])
     from src.app.ruta.colador import Funnel
 
     state = Funnel(tmp_path / "map.db").snapshot()

@@ -1,13 +1,12 @@
 """High-resolution metropolitan campaign map with commune-level aggregates."""
 
 import json
-from math import sqrt
 from pathlib import Path
 
 import pandas as pd
 import pydeck as pdk
 import streamlit as st
-from ruta.campanas import deployment_proposal, metropolitan_ranking
+from ruta.campanas import deployment_proposal, metropolitan_locations, metropolitan_ranking
 
 LABELS = {
     "rank": "Orden",
@@ -18,21 +17,18 @@ LABELS = {
     "channel": "Canal sugerido",
 }
 MAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
-# Fixed count breaks make comparisons stable across clock changes and filters.
-COLORS = [
-    (5, [56, 189, 248]),
-    (10, [45, 212, 191]),
-    (15, [250, 204, 21]),
-    (20, [251, 146, 60]),
-    (25, [244, 63, 94]),
-]
 
 
-def concentration_color(count):
-    return next((color for limit, color in reversed(COLORS) if count >= limit), COLORS[0][1])
-
-
-def campaign_map(rows, *, overview=False, show_heat=True):
+def campaign_map(
+    rows,
+    locations=(),
+    *,
+    overview=False,
+    show_heat=True,
+    show_points=False,
+    show_totals=False,
+    detail="Barrios",
+):
     boundaries = json.loads(
         (Path(__file__).parent / "assets/metropolitana-comunas.geojson").read_text(encoding="utf-8")
     )
@@ -47,26 +43,21 @@ def campaign_map(rows, *, overview=False, show_heat=True):
             line_width_min_pixels=1,
         )
     ]
-    if rows:
-        points = [
-            {
-                **row,
-                "color": concentration_color(row["people"]),
-                "radius": sqrt(row["people"]) * 135,
-                "label": f"{row['people']}  {row['commune']}",
-            }
-            for row in rows
+    if locations:
+        homes = [
+            {**point, "tooltip_title": point["commune"], "tooltip_detail": point["address"]}
+            for point in locations
         ]
         if show_heat:
             layers.append(
                 pdk.Layer(
                     "HeatmapLayer",
-                    points,
+                    homes,
                     id="rm-heat",
                     get_position="[longitude, latitude]",
-                    get_weight="people",
-                    radius_pixels=140,
-                    intensity=1.1,
+                    get_weight="weight",
+                    radius_pixels=55 if detail == "Barrios" else 90,
+                    intensity=1.8,
                     threshold=0.008,
                     weights_texture_size=2048,
                     color_range=[
@@ -79,22 +70,35 @@ def campaign_map(rows, *, overview=False, show_heat=True):
                     ],
                 )
             )
-        layers.extend(
-            [
+        if show_points or not show_heat:
+            layers.append(
                 pdk.Layer(
                     "ScatterplotLayer",
-                    points,
-                    id="rm-counts",
+                    homes,
+                    id="rm-simulated-homes",
                     get_position="[longitude, latitude]",
-                    get_radius="radius",
-                    radius_min_pixels=8,
-                    radius_max_pixels=36,
-                    get_fill_color="color",
-                    get_line_color=[255, 255, 255, 230],
+                    get_radius=35,
+                    radius_min_pixels=3,
+                    radius_max_pixels=7,
+                    get_fill_color=[125, 225, 250, 220],
+                    get_line_color=[230, 250, 255, 200],
                     stroked=True,
-                    line_width_min_pixels=2,
+                    line_width_min_pixels=0.5,
                     pickable=True,
-                ),
+                )
+            )
+    if rows and show_totals:
+        points = [
+            {
+                **row,
+                "label": f"{row['people']}  {row['commune']}",
+                "tooltip_title": row["commune"],
+                "tooltip_detail": f"{row['people']} personas pendientes · total comunal",
+            }
+            for row in rows
+        ]
+        layers.extend(
+            [
                 pdk.Layer(
                     "TextLayer",
                     points,
@@ -131,9 +135,8 @@ def campaign_map(rows, *, overview=False, show_heat=True):
         height=650,
         parameters={"clearColor": [0.04, 0.07, 0.12, 1]},
         tooltip={
-            "html": "<b>{commune}</b><br/>{people} personas pendientes"
-            "<br/>Provincia: {province}<br/>Puntaje demo: {score}"
-            "<br/>Ubicación comunal de referencia · simulación",
+            "html": "<b>{tooltip_title}</b><br/>{tooltip_detail}"
+            "<br/>SIMULACIÓN · No es un domicilio RSH",
             "style": {"backgroundColor": "#0f172a", "color": "white", "fontSize": "14px"},
         },
     )
@@ -142,8 +145,8 @@ def campaign_map(rows, *, overview=False, show_heat=True):
 def render_campaigns(state, profiles):
     st.markdown("### Campañas · Región Metropolitana")
     st.caption(
-        "PLANIFICACIÓN TERRITORIAL · Casos ficticios agrupados por comuna. "
-        "El mapa muestra concentración de pendientes; no domicilios ni densidad de población."
+        "PLANIFICACIÓN TERRITORIAL · Calor calculado desde ubicaciones individuales ficticias "
+        "dentro de la RM. Direcciones simuladas, sin conexión con domicilios del RSH."
     )
     filters = st.columns([2, 1, 1])
     scope_label = filters[0].selectbox(
@@ -155,8 +158,13 @@ def render_campaigns(state, profiles):
         filters[1].selectbox("Encuadre", ["Gran Santiago", "Región completa"]) == "Región completa"
     )
     show_heat = filters[2].toggle("Mostrar calor", value=True)
+    display = st.columns([1, 1, 1])
+    show_points = display[0].checkbox("Ver ubicaciones simuladas", value=False)
+    show_totals = display[1].checkbox("Totales por comuna", value=True)
+    detail = display[2].selectbox("Detalle territorial", ["Barrios", "Sectores amplios"])
     scope = "in_person" if scope_label.startswith("Cola") else "active"
     rows = metropolitan_ranking(state, profiles, scope=scope)
+    locations = metropolitan_locations(state, rows, scope=scope)
     total = sum(row["people"] for row in rows)
     most = rows[0] if rows else None
     metrics = st.columns(3)
@@ -169,29 +177,38 @@ def render_campaigns(state, profiles):
         delta_color="off",
     )
     st.pydeck_chart(
-        campaign_map(rows, overview=overview, show_heat=show_heat),
+        campaign_map(
+            rows,
+            locations,
+            overview=overview,
+            show_heat=show_heat,
+            show_points=show_points,
+            show_totals=show_totals,
+            detail=detail,
+        ),
         use_container_width=True,
         height=650,
     )
     st.markdown(
         '<div style="display:flex;gap:22px;flex-wrap:wrap;padding:12px 16px;'
         "border:1px solid #dbe3ed;border-radius:12px;background:#f8fafc;color:#334155;"
-        'font-size:14px"><b>Personas por comuna</b>'
-        + "".join(
-            f'<span><span style="color:rgb{tuple(color)}">●</span> {label}</span>'
-            for (_, color), label in zip(
-                COLORS, ["5–9", "10–14", "15–19", "20–24", "25+"], strict=True
-            )
-        )
-        + "</div>",
+        'font-size:14px"><b>Concentración local</b><span>Baja</span>'
+        '<span style="display:inline-block;width:240px;height:12px;border-radius:8px;'
+        'background:linear-gradient(90deg,#38bdf8,#2dd4bf,#facc15,#fb923c,#f43f5e)"></span>'
+        "<span>Alta</span><span>Más ubicaciones cercanas → mayor intensidad</span>" + "</div>",
         unsafe_allow_html=True,
     )
     st.caption(
-        "Conteos y colores de los círculos usan una escala fija. El halo suaviza la concentración "
-        "para orientar la vista; la cifra exacta está en la etiqueta y el ranking. "
-        "Se omiten comunas con menos de 5 casos. Cartografía BCN (comunas2017); calles © CARTO / "
+        "Cada ubicación ficticia suma una persona al calor: ya no se coloca el total en el centro "
+        "de la comuna. La intensidad es relativa al encuadre y al suavizado; el ranking conserva "
+        "los conteos exactos. Solo comunas con 5+ casos. Cartografía BCN (comunas2017); © CARTO / "
         "OpenStreetMap, requieren internet. Se puede ampliar el mapa."
     )
+    if rows and len(locations) != total:
+        st.warning(
+            f"{len(locations)} de {total} casos visibles tienen una ubicación sintética válida; "
+            "los demás no se dibujan ni se concentran en un centroide."
+        )
     if not rows:
         st.info(
             "Sin grupos publicables en esta población. Para ver el escenario RM: nueva "

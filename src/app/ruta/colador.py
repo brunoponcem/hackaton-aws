@@ -14,6 +14,7 @@ from pathlib import Path
 from . import config, reglas
 from .casos import ESQUEMA
 from .contacto import Contact, stable_random
+from .geografia import with_simulated_location
 
 STAGES = {1: "Email", 2: "Llamada", 3: "Trabajo", 4: "Presencial"}
 ACTIVE = "active"
@@ -317,7 +318,9 @@ class Funnel:
         people = []
         for row in con.execute("SELECT * FROM funnel_people ORDER BY run"):
             person = dict(row)
-            person["contact"] = json.loads(person["contact"])
+            person["contact"] = with_simulated_location(
+                json.loads(person["contact"]), person["run"], clock["seed"] if clock else 0
+            )
             person["stage_label"] = STAGES[person["stage"]]
             person["alert_level"] = person["stage"] if person["status"] == ACTIVE else 0
             people.append(person)

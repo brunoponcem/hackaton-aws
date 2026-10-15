@@ -45,6 +45,10 @@ class Contact:
     province: str
     commune: str
     synthetic: bool = True
+    address: str = ""
+    latitude: float | None = None
+    longitude: float | None = None
+    location_source: str = ""
 
 
 def generate_contacts(
@@ -62,6 +66,11 @@ def generate_contacts(
             )[0]
             location = "Metropolitana de Santiago", province, commune
         works = bool((profile.get("situacion_laboral") or {}).get("trabaja_actualmente"))
+        location_details = {}
+        if territory == "metropolitana":
+            from .geografia import simulated_location
+
+            location_details = simulated_location(run, location[2], seed)
         contacts[run] = Contact(
             run=run,
             email=f"persona.{run}@example.com" if rng.random() >= 0.15 else "",
@@ -70,6 +79,7 @@ def generate_contacts(
             region=location[0],
             province=location[1],
             commune=location[2],
+            **location_details,
         )
     return contacts
 
@@ -88,6 +98,9 @@ def load_contacts(path: Path) -> dict[str, Contact]:
     with path.open(encoding="utf-8", newline="") as stream:
         for row in csv.DictReader(stream):
             row["synthetic"] = str(row["synthetic"]).lower() == "true"
+            for key in ("latitude", "longitude"):
+                if key in row:
+                    row[key] = float(row[key]) if row[key] else None
             contact = Contact(**row)
             if contact.run in contacts:
                 raise ValueError("RUN duplicado en contactos.")

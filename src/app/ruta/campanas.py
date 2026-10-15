@@ -6,6 +6,7 @@ from math import ceil
 
 from . import reglas
 from .contacto import METROPOLITAN_COMMUNES
+from .geografia import inside_commune, with_simulated_location
 
 # Representative city points, approximate WGS84; NOT provincial centroids or homes.
 PROVINCE_POINTS = {
@@ -17,6 +18,47 @@ PROVINCE_POINTS = {
     ("Tarapacá", "Iquique"): (-20.22, -70.14),
 }
 MIN_GROUP_SIZE = 5
+
+
+def metropolitan_locations(state, published_rows, *, scope="in_person"):
+    """One synthetic spatial input per eligible person; no RUN or name in map payload.
+
+    Only communes already meeting the publication threshold are included. This
+    synthetic-only capability is not an access-control policy for actual homes.
+    """
+    if scope not in {"in_person", "active"}:
+        raise ValueError("Población de campaña no reconocida.")
+    if not state.get("clock"):
+        return []
+    allowed = {
+        (r["province"], r["commune"]) for r in published_rows if r["people"] >= MIN_GROUP_SIZE
+    }
+    points = []
+    for person in sorted(state["people"], key=lambda p: p["run"]):
+        if person["status"] != "active" or (scope == "in_person" and person["stage"] != 4):
+            continue
+        contact = with_simulated_location(person["contact"], person["run"], state["clock"]["seed"])
+        if (
+            not contact.get("synthetic")
+            or contact.get("region") != "Metropolitana de Santiago"
+            or (contact.get("province"), contact.get("commune")) not in allowed
+            or contact.get("location_source") != "synthetic-address-v1"
+            or not inside_commune(
+                contact["commune"], contact.get("latitude"), contact.get("longitude")
+            )
+        ):
+            continue
+        points.append(
+            {
+                "latitude": contact["latitude"],
+                "longitude": contact["longitude"],
+                "commune": contact["commune"],
+                "address": contact["address"],
+                "weight": 1,
+                "synthetic": True,
+            }
+        )
+    return points
 
 
 def _priority_score(people, profiles, state):

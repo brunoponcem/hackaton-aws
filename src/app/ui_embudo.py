@@ -141,6 +141,12 @@ def render_funnel(profiles, db_path=None):
     selected = st.selectbox("Inspeccionar persona", [person["run"] for person in state["people"]])
     person = next(person for person in state["people"] if person["run"] == selected)
     st.caption(f"{person['name']} · {person['stage_label']} · {STATUS_LABELS[person['status']]}")
+    if person["contact"].get("location_source") == "synthetic-address-v1":
+        contact = person["contact"]
+        st.caption(
+            f"Dirección ficticia: {contact['address']} · "
+            f"Coordenadas simuladas: {contact['latitude']:.6f}, {contact['longitude']:.6f}"
+        )
     actions = st.columns(3)
     responses = ("opened" if person["stage"] == 1 else "answered", "started", "declined")
     for col, label, response in zip(

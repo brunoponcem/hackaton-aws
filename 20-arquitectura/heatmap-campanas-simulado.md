@@ -5,6 +5,22 @@ responsable: codex
 ---
 # Heatmap y despliegue simulado de campañas
 
+## Ubicaciones individuales ficticias (vista vigente)
+
+El usuario pidió mostrar dispersión dentro de la RM, conservando diseño/paleta, en vez de concentrar cada comuna en un círculo. Esta actualización sustituye la representación de centroide del apartado siguiente. [[0010-direcciones-simuladas]].
+
+Cada contacto metropolitano nuevo tiene dirección **ficticia**, latitud/longitud de seis decimales y `location_source=synthetic-address-v1`. `ruta/geografia.py` usa semilla/RUN/comuna y varios núcleos barriales con dispersión; rechaza candidatos fuera del polígono comunal BCN, incluidos huecos. No llama a un geocodificador ni utiliza domicilios RSH. El nombre «Pasaje Ficticio … (SIMULADA)» no corresponde a una calle verificada; una coordenada simulada puede coincidir con un lugar real por azar. No se asegura que sea una vivienda o esté sobre una calle.
+
+El mismo RUN y semilla conservan posición al consultar, filtrar, reiniciar el proceso o avanzar el reloj; iniciar/declinar retira su peso. Nuevos contactos guardan estos campos en SQLite/CSV. Los snapshots de escenarios antiguos se enriquecen de forma determinista sin reescribir sus contactos originales ni sus estados. El CSV nacional antiguo sigue siendo compatible.
+
+El motor publica **un aporte de peso 1 por persona** de comunas admitidas (mínimo cinco casos). Los 84 casos publicables de la demo generan 84 ubicaciones únicas, no seis puntos ponderados. El ranking mantiene los totales comunales. Coordenadas corruptas o ajenas a la comuna se omiten con aviso; nunca se trasladan silenciosamente al centro.
+
+La UI mantiene fondo, límites, paleta y resolución 2048. Calor continuo por cercanía de ubicaciones; opciones Barrios/Sectores amplios, «Ver ubicaciones simuladas» para puntos y tooltip con dirección ficticia, y «Totales por comuna» para etiquetas agregadas. Ocultar calor deja los puntos visibles. Los círculos grandes comunales desaparecen. Leyenda cualitativa de baja a alta concentración: intensidad relativa al encuadre/suavizado, no un conteo exacto por color ni tasa poblacional. El inspector de personas muestra la misma dirección/coordenadas simuladas.
+
+No se muestran RUN/nombres en los datos del mapa. La precisión individual y las direcciones se habilitan **solo con origen sintético**; no constituyen una política de acceso para domicilios reales. Los agregados conservan el umbral comunal; no se promete anonimato de las ubicaciones ficticias ni se intenta usar esta vista con información personal real.
+
+Verificación ampliada: **113 tests pasan**. Nuevas comprobaciones de 500 puntos únicos dentro de su comuna, reproducibilidad, CSV nuevo/antiguo, compatibilidad de snapshots, conservación de peso, dispersión dentro de cada comuna, exclusión al iniciar/declinar, coordenadas inválidas y controles de mapa/UI. Ruff y verificador de 500 perfiles OK. Demo en http://localhost:8502, sobre el mismo escenario RM conservado.
+
 ## Vista vigente: Región Metropolitana (rediseño solicitado)
 
 **Este apartado sustituye la vista nacional descrita debajo, que queda como registro del aporte inicial.** El mapa actual se limita a la RM y publica agregados por comuna. El usuario pidió más detalle, resolución y concentración legible. Decisión: [[0009-heatmap-metropolitano]].
