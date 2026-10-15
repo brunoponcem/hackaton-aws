@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Board: seguimiento por etapa y entrega de emails
+- A pedido de Clemente, agregado el flujo completo sin respuesta: email 7 días → hasta tres llamadas en cinco días → trabajo 7 días → cola presencial; saltos por falta de datos y salida al responder/aceptar o declinar.
+- Registrados como pendientes los estados reales de entrega/rebote/apertura/respuesta y la política ante rebotes. Se distingue seguimiento de contacto de acompañamiento del trámite; la demo no confirma entregas reales. [[board-clemente]] · [[0012-detener-contacto-confirmado]].
+
 ### 2026-10-15 · Detener al confirmar contacto · `0642159`
 - Clemente corrige el criterio: responder/aceptar detiene los siguientes canales, sin esperar inicio. Nuevo estado contacted; iniciar/declinar después sigue permitido. Enviar/abrir sin respuesta no confirma. Sin autorizaciones automáticas ni reescritura de historial; respuestas antiguas cancelan futuros intentos.
 - Aclaración: 92 personas detectadas, 255 intentos de llamada a 85 personas en la demo sin respuestas. UI diferencia personas/intentados/saltos/respuestas/estados. Ejemplo con respuestas: 66 contactos confirmados (34 inicios, 23 contactados sin inicio, 9 rechazos) y 26 pendientes; todos sintéticos.

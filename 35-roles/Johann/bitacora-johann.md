@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Integración para main · ff8c1d8
+- Aporte completo guardado en `ff8c1d8`. Integrada la documentación remota de seguimiento de contacto (`65e46bb`); la bitácora diaria conserva ambos aportes. No hay cambios remotos de código que alteren la validación: 139 pruebas y 500 perfiles OK.
+
 ### 2026-10-15 · Beneficios primero y documentos compartidos
 - Mi Gobierno separa Beneficios (inicial) de Datos personales. Cada beneficio permite desplegar requisitos y cargar documentos de apoyo, reutilizando el mismo archivo por persona/tipo en todos los beneficios y en el repositorio personal.
 - Se amplió el catálogo documental para FUAS/becas; los adjuntos no se convierten en requisitos validados automáticamente. Prueba de UI cubre reutilización PGU/FUAS/datos personales y conservación/revocación. [[mi-gobierno]].

@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- `ff8c1d8` · Mi Gobierno y portada: beneficios como vista inicial, datos personales separados, documentos compartidos por requisito, asistente y confirmación de revocación. 139 pruebas y verificador de 500 perfiles OK. [[mi-gobierno]].
 - Mi Gobierno validado localmente: panel separado de Inicio, autorización, documentos, declaración económica y guía PGU según requisitos. 139 pruebas, verificador 500 perfiles y recorrido Chrome escritorio/móvil OK. [[mi-gobierno]].
 - Portada de ChileAtiende reproducida desde los recursos públicos del 15-10-2026, con navegación al acompañamiento y 136 pruebas OK. [[portada-chileatiende]].
 - Revisión del aporte y correcciones de integración: grupo uv `app`, revocación de consentimiento/historial y verificador offline. 61 tests y verificación de 500 perfiles OK; lint completo de la app pendiente.
