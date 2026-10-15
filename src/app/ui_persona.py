@@ -350,10 +350,11 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
 
         if not sidebar:
             preguntas_rapidas()
+        input_area = st.container() if sidebar else st
         mensajes = st.container(height=420 if sidebar else 360)
         for m in hist:
             mensajes.chat_message(m["rol"], avatar="🧭" if m["rol"] == "assistant" else "🙂").write(m["texto"])
-        if q := st.chat_input("Pregúntale al asistente de trámites"):
+        if q := input_area.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
             st.rerun()
         st.caption("También puedes llamar al 101 o ir a una sucursal ChileAtiende: verán tu avance.")
