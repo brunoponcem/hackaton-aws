@@ -6,12 +6,15 @@ arquitectura: "[[arquitectura-chileatiende]]"
 ---
 # Equipo de desarrollo
 
-Clemente y Johann desarrollan el código **sin tareas asignadas**: ambos pueden aportar en cualquier parte del pipeline. El avance de cada uno se ve en [[_avance]].
+El equipo trabaja **sin tareas asignadas**: cada integrante puede aportar en cualquier parte del pipeline y registra lo que hace en su board y su bitácora. El avance de todos se ve en [[_avance]].
 
 | Integrante | Entorno | Board |
 |---|---|---|
 | Clemente | Claude Code + Codex | [[board-clemente]] |
 | Johann | Kiro IDE Pro, desde `src/app` | [[board-johann]] |
+| Jonmor | Kiro IDE Pro | [[board-jonmor]] |
+| Bruno | Kiro IDE Pro | [[board-bruno]] |
+| Jp | Kiro IDE Pro | [[board-jp]] |
 
 ## Forma de trabajo
 1. Commit del aporte propio.

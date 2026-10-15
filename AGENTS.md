@@ -26,7 +26,7 @@ Codex lo lee automáticamente; Claude Code lo importa desde `CLAUDE.md`.
 | `10-retos/` | Una nota por reto del hackatón + `_seleccion.md` con la matriz de decisión |
 | `20-arquitectura/` | Arquitectura objetivo y `adr/` (decisiones registradas) |
 | `30-tareas/` | `board.md`: tablero histórico del reparto inicial; **ya no es la lista de trabajo** |
-| `35-roles/` | **Lista de trabajo vigente.** `_equipo.md` (equipo, forma de trabajo, pipeline coloreado por estado), `_avance.md` (boards en una vista) y una carpeta por integrante (Clemente, Johann) con `board-<nombre>.md` (pendientes) y `bitacora-<nombre>.md` |
+| `35-roles/` | **Lista de trabajo vigente.** `_equipo.md` (equipo, forma de trabajo, pipeline coloreado por estado), `_avance.md` (boards en una vista) y una carpeta por integrante (Clemente, Johann, Jonmor, Bruno, Jp) con `board-<nombre>.md` (pendientes) y `bitacora-<nombre>.md` |
 | `40-bitacora/` | Una nota diaria con lo que pasó |
 | `50-prompts/` | Prompts reutilizables y roles de agentes |
 | `src/` | Código de la aplicación |
