@@ -8,7 +8,7 @@ Los archivos se guardan una sola vez por persona y tipo de documento, independie
 
 Tus datos se organiza en 01 Identidad personal, 02 Domicilio y contacto, 03 Documentos, 04 Información laboral y 05 Previsión y salud. Se conservan el carnet y controles de privacidad; los adjuntos quedan en Documentos. Profesión, ocupación y actividad económica se guardan como declaraciones. Previsión y salud exige consentimiento y una acción de mostrar datos; no se inventa sistema de salud cuando no existe en el dataset.
 
-El resumen junto al carnet muestra domicilio, comuna, región, correo, teléfono y estado civil en lugar de estados de cédula/licencia. Domicilio y comuna reutilizan la generación territorial sintética; email usa example.com y teléfono un valor de ejemplo. Son datos de presentación y no cambian elegibilidad ni canales de contacto persistidos.
+El resumen junto al carnet muestra domicilio, comuna, región, correo, teléfono y estado civil en lugar de estados de cédula/licencia. Domicilio, comuna, región, email y teléfono salen de la **misma fuente que el colador** (`ruta.ficha.contact_for`): el contacto que usó la campaña si la persona está en ella, y si no, la capa sintética. Si falta un canal, se muestra «Sin información». Antes el email se armaba con el nombre y el teléfono era fijo, lo que no coincidía con el colador. Ver [[ficha-beneficiario]].
 
 Para completar la maqueta, nacionalidad se muestra como CHILENA; emisión y vencimiento ausentes usan las fechas ficticias 15 OCT 2025 y 15 OCT 2035. La firma de ejemplo se compone tipográficamente del nombre y apellido sintéticos. Se conserva la etiqueta DEMO; estos valores no alimentan validaciones documentales.
 

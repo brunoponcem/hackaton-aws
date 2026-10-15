@@ -9,6 +9,7 @@ import streamlit as st
 
 import ui_persona
 import ui_government
+import ui_ficha
 from ui_embudo import render_funnel
 import portal
 from ruta import asistente, casos, config
@@ -269,10 +270,11 @@ portal.hero(section)
 with st.sidebar:
     st.title("Controles de demostración")
     st.caption("Perfiles sintéticos · El organismo valida y resuelve.")
-    vista = st.radio("Vista de demostración", ["Persona", "Vista ejecutivo", "Detectar e invitar", "Medición"])
+    vista = st.radio("Vista de demostración", ["Persona", "Vista ejecutivo", "Ficha del beneficiario", "Detectar e invitar", "Medición"])
     st.divider()
 if vista != "Persona":
-    {"Vista ejecutivo": vista_ejecutivo, "Detectar e invitar": vista_panel, "Medición": vista_kpis}[vista](diags)
+    {"Vista ejecutivo": vista_ejecutivo, "Ficha del beneficiario": ui_ficha.render,
+     "Detectar e invitar": vista_panel, "Medición": vista_kpis}[vista](diags)
 elif section == "Inicio":
     portal.render_discovery()
 elif section == "Mi Gobierno":

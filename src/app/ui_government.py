@@ -7,9 +7,9 @@ import streamlit as st
 import ui_persona
 from ruta import asistente, casos, config, government
 from ruta import reglas as rules
-from ruta.contacto import generate_contacts
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
+from ruta.ficha import contact_for
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
 
 CANAL = "Web ChileAtiende"
@@ -270,15 +270,15 @@ def _identity(d, profile, authorized: bool = False) -> None:
 
 
 def _contact_details(d, profile) -> None:
-    contact = generate_contacts({d.run: profile}, territory="metropolitana")[d.run]
-    rc = profile["registro_civil"]
-    email = f"{d.nombre.split()[0].lower()}.{rc['apellido_paterno'].lower()}@example.com"
+    # Same source as the funnel and the record, so a missing channel shows here too.
+    contact, _ = contact_for(d.run, profile)
+    missing = "Sin información"
     fields = (
-        ("Dirección", contact.address),
-        ("Comuna", contact.commune),
-        ("Región", contact.region),
-        ("Correo electrónico", email),
-        ("Teléfono", "+56 9 0000 0000"),
+        ("Dirección", contact.address or missing),
+        ("Comuna", contact.commune or missing),
+        ("Región", contact.region or missing),
+        ("Correo electrónico", contact.email or missing),
+        ("Teléfono", contact.phone or missing),
     )
     html = "".join(
         f'<div class="gov-id-row"><span>{escape(label)}</span><b>{escape(value)}</b></div>'

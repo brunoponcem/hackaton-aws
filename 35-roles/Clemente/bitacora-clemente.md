@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Ficha del beneficiario y fuente única de contacto (Claude)
+- Mi Gobierno armaba email y teléfono por su cuenta y no coincidía con el colador. Ahora todo lee `ruta.ficha.contact_for`: el contacto del colador si la persona está en la campaña y, si no, la capa sintética. Si falta un canal, se muestra «Sin información».
+- Formato legible y ficticio en la capa: `nombre.apellido@example.com` y `+56 9 0000 xxxx`; se mantienen la semilla y los canales vacíos. Se regeneró `data/synthetic/contacto.csv`.
+- Nueva vista «Ficha del beneficiario»: alerta, identidad, contacto, consentimiento, evaluación, ruta, documentos (solo con autorización), colador e historial. 145 pruebas y verificador OK. [[ficha-beneficiario]]
+
 ### 2026-10-15 · Board: seguimiento por etapa y entrega de emails
 - A pedido de Clemente, agregado el flujo completo sin respuesta: email 7 días → hasta tres llamadas en cinco días → trabajo 7 días → cola presencial; saltos por falta de datos y salida al responder/aceptar o declinar.
 - Registrados como pendientes los estados reales de entrega/rebote/apertura/respuesta y la política ante rebotes. Se distingue seguimiento de contacto de acompañamiento del trámite; la demo no confirma entregas reales. [[board-clemente]] · [[0012-detener-contacto-confirmado]].
