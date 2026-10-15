@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Campo debajo de una conversación más corta (Codex)
+- Corrección solicitada: entrada debajo del historial; altura del chat en Mi Gobierno de 420 a 240 px para evitar espacio vacío. Retirado el aviso del 101/sucursal del asistente compartido. Verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Acercar la entrada al chat y retirar aviso de atención».
+- 146 pruebas pasan (`pytest tests --ignore=tests/test_proactivo.py`); se excluye únicamente la suite nueva no versionada del aporte proactivo, ajeno a este cambio.
+
 ### 2026-10-15 · Campo de consulta arriba (Codex)
 - El campo para preguntar queda debajo del título y la descripción del asistente de Mi Gobierno, antes del historial, tanto en Beneficios como en la guía PGU. Se conserva el envío y registro de preguntas. Verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Subir el campo de consulta del asistente».
 - Cuatro pruebas de UI afectadas OK. Suite completa: 163 pasan y una falla en el orden de eventos de `tests/test_proactivo.py::test_no_answer_escalates_email_sms_field` (archivo nuevo no versionado de otro aporte); no se modifica ese módulo.

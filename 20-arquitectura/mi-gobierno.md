@@ -2,7 +2,7 @@
 
 Beneficios incorpora el Asistente de ayuda compartido al lado del listado. Usa el perfil seleccionado y el mismo motor/consentimiento que la ruta; antes de autorizar solo recibe el contexto permitido. Datos personales no renderiza otro chatbot. La guía de un beneficio conserva su asistente.
 
-El panel de ayuda ocupa el 40% del espacio entre columnas tanto en Beneficios como en la guía PGU. El campo para escribir está justo debajo del título y la descripción del asistente, antes de la conversación (420 px de alto), para poder preguntar sin bajar por el historial. A pedido del usuario se retiraron las preguntas frecuentes de Mi Gobierno. Hasta 1050 px de pantalla se apila bajo el contenido principal y ocupa el ancho disponible. Verificado en Chrome a 1440, 900 y 390 px, sin desbordamiento horizontal; acceso a la guía OK. Suite de 146 pruebas y verificador de 500 perfiles OK.
+El panel de ayuda ocupa el 40% del espacio entre columnas tanto en Beneficios como en la guía PGU. El campo para escribir aparece debajo de la conversación, cuya altura se redujo de 420 a 240 px para acercar la entrada al contenido y evitar el gran espacio vacío. A pedido del usuario se retiraron las preguntas frecuentes de Mi Gobierno y el aviso sobre llamar al 101 o ir a una sucursal. Hasta 1050 px de pantalla se apila bajo el contenido principal y ocupa el ancho disponible. La distribución adaptable fue verificada en Chrome a 1440, 900 y 390 px, sin desbordamiento horizontal; acceso a la guía OK.
 
 **Navegación vigente:** Mi Gobierno abre en Beneficios. Datos personales es una vista separada con las cinco secciones y todos los tipos de adjuntos. Cada beneficio despliega sus requisitos y permite adjuntar los documentos de apoyo faltantes allí mismo.
 
