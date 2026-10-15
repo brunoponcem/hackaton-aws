@@ -15,6 +15,8 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
+- [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): código y tests listos en `claude/deteccion-proactiva`; falta desplegar (credenciales vencidas) · [[deteccion-proactiva-aws]]
+- [ ] Dar al asistente una conversación más natural: responder saludos sin repetir el diagnóstico y distinguir mensajes de persona/asistente · [[mi-gobierno]].
 
 ## Por hacer
 ### Validar con los mentores
