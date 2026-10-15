@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 import ui_persona
+import ui_government
 from ui_embudo import render_funnel
 import portal
 from ruta import asistente, casos, config
@@ -261,6 +262,8 @@ def vista_kpis(diags):
 
 # --------------------------------------------------------------------------
 diags = diagnosticos()
+if next_section := st.session_state.pop("portal_next_section", None):
+    st.session_state["portal_section"] = next_section
 section = portal.render_header()
 portal.hero(section)
 with st.sidebar:
@@ -272,7 +275,8 @@ if vista != "Persona":
     {"Vista ejecutivo": vista_ejecutivo, "Detectar e invitar": vista_panel, "Medición": vista_kpis}[vista](diags)
 elif section == "Inicio":
     portal.render_discovery()
-    st.info("Entra a la pestaña Ayuda para tus trámites para preparar tu ruta y conversar con el asistente.")
+elif section == "Mi Gobierno":
+    ui_government.render(diags)
 else:
     if section == "Ayuda para tus trámites":
         portal.render_help_intro()

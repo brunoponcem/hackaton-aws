@@ -87,6 +87,14 @@ def test_portal_navigation_search_and_official_links(tmp_path, monkeypatch):
     next(button for button in app.button if button.label == "Buscar").click().run()
     assert app.session_state["portal_query"] == "certificados"
     assert not app.exception
-    app.radio(key="portal_section").set_value("Mi ruta").run()
+    assert "Trámites" not in app.radio(key="portal_section").options
+    assert "Mi ruta" not in app.radio(key="portal_section").options
+    app.radio(key="portal_section").set_value("Inicio").run()
+    assert not any(field.label == "Describe lo que necesitas" for field in app.text_input)
+    app.button(key="home_government_access").click().run()
+    assert not app.exception
+    assert app.session_state["portal_section"] == "Mi Gobierno"
+    assert any(button.label == "Activar Mi Gobierno" for button in app.button)
+    app.radio(key="portal_section").set_value("Ayuda para tus trámites").run()
     assert not app.exception
     assert any(button.label == "Sí, quiero que me acompañen" for button in app.button)

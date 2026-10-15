@@ -31,7 +31,7 @@ where = ["."]
 include = ["src", "src.*"]
 
 [tool.setuptools.package-data]
-"src.app" = ["assets/*.svg", "assets/*.geojson"]
+"src.app" = ["assets/*.svg", "assets/*.geojson", "assets/*.html", "assets/*.css"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

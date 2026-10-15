@@ -26,6 +26,8 @@ El equipo trabaja **sin tareas asignadas**: cada integrante puede aportar en cua
 Se mantienen las reglas del dominio: elegibilidad, montos e hitos en código y con fuente; `elegible` es orientación preliminar; sin autorización no se consulta el perfil; sin credenciales en el repo ([[AGENTS]]).
 
 ## Pipeline y estado del código
+
+Validación local de Johann, 15-10: [[mi-gobierno]] agrega el espacio personal separado de la portada ChileAtiende, documentos/declaración y guía PGU con el motor existente. El catálogo completo y los trámites automáticos no están integrados. 139 pruebas y recorrido de navegador OK.
 Es el pipeline de [[arquitectura-chileatiende]], según [[0005-asistente-contacto-escalonado]] y [[contacto-y-campanas]]. El color indica cuánto está construido en `main`.
 
 | Color | Estado |

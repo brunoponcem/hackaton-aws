@@ -11,57 +11,13 @@ import streamlit as st
 BASE_URL = "https://www.chileatiende.gob.cl"
 LOGO = Path(__file__).resolve().parent / "assets/logo-chileatiende.svg"
 
-CSS = """
-<style>
-:root {--portal-blue:#0f69b4;--portal-navy:#0d4d82;--portal-red:#eb3c46}
-.stApp {background:#fff;color:#272727;font-family:Roboto,Arial,sans-serif}
-.block-container {max-width:1280px;padding-top:2rem;padding-bottom:2rem}
-[data-testid="stSidebar"] {background:#f7f7f7}
-#MainMenu,footer {visibility:hidden}
-.portal-header {display:flex;align-items:center;justify-content:space-between;
- border-bottom:1px solid #d9e2eb;padding:0 0 1.3rem;margin-bottom:.6rem;gap:20px}
-.portal-logo {width:240px;max-width:48vw;height:65px;object-fit:contain;object-position:left}
-.portal-utilities {display:flex;align-items:center;gap:26px;font-size:14px;flex-wrap:wrap}
-.portal-utilities a {color:#0d4d82;text-decoration:none;font-weight:500}
-.portal-private {background:#0f69b4;color:white!important;padding:11px 18px;border-radius:4px}
-.portal-strip {height:4px;background:linear-gradient(to right,#0f69b4 50%,#eb3c46 50%);
- margin-top:14px}
-.portal-breadcrumb {font-size:13px;color:#687887;margin:1rem 0}
-.portal-breadcrumb a {color:#0f69b4;text-decoration:none}
-.portal-hero {background:#edf6fc;border-radius:6px;padding:30px 34px;margin:.5rem 0 1rem;
- border-left:5px solid #0f69b4}
-.portal-hero h1 {font-size:36px;color:#0d4d82;line-height:1.2;margin:8px 0 12px;
- letter-spacing:-.6px}
-.portal-hero p {font-size:17px;color:#405365;margin:0;max-width:760px;line-height:1.65}
-.portal-eyebrow {font-size:12px;font-weight:700;letter-spacing:1px;color:#0f69b4;
- text-transform:uppercase}
-.portal-tag {background:#d9edf7;color:#0d4d82;font-size:12px;border-radius:20px;padding:5px 10px}
-.portal-section {font-size:25px!important;color:#0d4d82;margin:26px 0 8px!important}
-.portal-card {min-height:128px;border:1px solid #dce5ed;border-top:3px solid #0f69b4;
- border-radius:5px;padding:18px 20px;background:white;height:100%}
-.portal-card h3 {font-size:18px;color:#0d4d82;margin:0 0 8px}
-.portal-card p {font-size:14px;color:#5b6b7a;line-height:1.6;margin:0}
-.portal-card small {color:#0f69b4;font-size:12px;font-weight:500}
-.portal-help-note {font-size:14px;color:#4a4a4a;line-height:1.6;margin:12px 0 18px}
-.portal-footer {visibility:visible;margin-top:45px;border-top:4px solid #0f69b4;padding:25px 5px;
- display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap;color:#4a4a4a;font-size:13px}
-.portal-footer a {color:#0d4d82;text-decoration:none}
-div[data-testid="stRadio"] > div {gap:1.5rem;border-bottom:1px solid #d9e2eb;padding-bottom:12px}
-[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"] {
- padding:10px 16px;margin-right:8px;border-bottom:3px solid transparent;color:#0d4d82}
-[role="radiogroup"][aria-label="Secciones del portal"]
- label[data-baseweb="radio"] > div:first-child {
- display:none}
-[role="radiogroup"][aria-label="Secciones del portal"]
- label[data-baseweb="radio"]:has(input:checked) {
- border-bottom-color:#0f69b4;background:#edf6fc;font-weight:700}
-[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"]:focus-within {
- outline:2px solid #0f69b4;outline-offset:2px}
-div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
-@media(max-width:700px){.portal-header{align-items:flex-start}.portal-utilities{gap:12px}
- .portal-hero{padding:22px}.portal-hero h1{font-size:27px}.portal-private{padding:7px 10px}}
-</style>
-"""
+
+CSS = (
+    "<style>"
+    + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
+    + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
+    + "</style>"
+)
 
 # Labels/URLs verified in the HTML of the official portal on 2026-10-14.
 SERVICES = (
@@ -82,22 +38,33 @@ SERVICES = (
 
 def render_header() -> str:
     st.markdown(CSS, unsafe_allow_html=True)
+    if st.session_state.get("portal_section") in ("Trámites", "Mi ruta"):
+        st.session_state["portal_section"] = "Inicio"
     logo = base64.b64encode(LOGO.read_bytes()).decode("ascii")
-    st.markdown(
-        f'<header class="portal-header"><a href="{BASE_URL}" target="_blank" '
-        f'rel="noopener noreferrer"><img class="portal-logo" alt="ChileAtiende" '
-        f'src="data:image/svg+xml;base64,{logo}"></a>'
-        '<div class="portal-utilities">'
-        f'<a href="{BASE_URL}/ayuda/centro-de-ayuda" target="_blank">Centro de ayuda</a>'
-        f'<a href="{BASE_URL}/ayuda" target="_blank">Red de atención</a>'
-        '<a class="portal-private" href="https://mi3.chileatiende.gob.cl/micha/inicio" '
-        'target="_blank">Mi ChileAtiende ↗</a></div></header>',
-        unsafe_allow_html=True,
-    )
+    with st.container(key="portal_header"):
+        brand, search, utilities = st.columns([1.2, 2.2, 1.8], vertical_alignment="center")
+        brand.markdown(
+            f'<a href="{BASE_URL}" target="_blank" rel="noopener noreferrer">'
+            f'<img class="portal-logo" alt="ChileAtiende" '
+            f'src="data:image/svg+xml;base64,{logo}"></a>',
+            unsafe_allow_html=True,
+        )
+        with search:
+            render_search()
+        with utilities:
+            network, account = st.columns([1, 1.1], vertical_alignment="center")
+            network.link_button("Red de atención", BASE_URL + "/ayuda", use_container_width=True)
+            account.button(
+                "Mi Gobierno",
+                key="header_government",
+                on_click=open_section,
+                args=("Mi Gobierno",),
+                use_container_width=True,
+            )
     return st.radio(
         "Secciones del portal",
-        ["Inicio", "Ayuda para tus trámites", "Mi ruta"],
-        index=1,
+        ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"],
+        index=0,
         horizontal=True,
         label_visibility="collapsed",
         key="portal_section",
@@ -105,14 +72,17 @@ def render_header() -> str:
 
 
 def hero(section: str) -> None:
-    st.markdown(
-        f'<div class="portal-breadcrumb"><a href="{BASE_URL}">Inicio</a>'
-        f" &nbsp;›&nbsp; {escape(section)}</div>",
-        unsafe_allow_html=True,
-    )
+    if section not in ("Inicio", "Mi Gobierno"):
+        st.markdown(
+            f'<div class="portal-breadcrumb"><a href="{BASE_URL}">Inicio</a>'
+            f" &nbsp;›&nbsp; {escape(section)}</div>",
+            unsafe_allow_html=True,
+        )
     title = (
-        "Encuentra beneficios y servicios del Estado"
+        "Encuentra beneficios y servicios del Estado de manera cercana y fácil"
         if section == "Inicio"
+        else "Encuentra tu trámite"
+        if section == "Trámites"
         else "Ayuda para todos tus trámites"
     )
     subtitle = (
@@ -121,21 +91,11 @@ def hero(section: str) -> None:
         else "No tienes que hacerlo a solas. Te ayudamos a entender qué necesitas, "
         "ordenar tus pasos y continuar tu trámite, por el canal que prefieras."
     )
-    st.markdown(
-        '<section class="portal-hero"><span class="portal-eyebrow">ChileAtiende a Tiempo</span>'
-        f"<h1>{title}</h1><p>{subtitle}</p></section>",
-        unsafe_allow_html=True,
-    )
-    with st.form("portal_search", border=False):
-        query_col, button_col = st.columns([5, 1])
-        query = query_col.text_input(
-            "¿Qué trámite necesitas?",
-            placeholder="Busca un trámite, beneficio o servicio",
-            label_visibility="collapsed",
+    if section not in ("Inicio", "Mi Gobierno"):
+        st.markdown(
+            f'<section class="portal-hero"><h1>{title}</h1><p>{subtitle}</p></section>',
+            unsafe_allow_html=True,
         )
-        submitted = button_col.form_submit_button("Buscar", use_container_width=True)
-    if submitted and query.strip():
-        st.session_state["portal_query"] = query.strip()
     if text := st.session_state.get("portal_query"):
         matches = search_services(text)
         st.caption(f"Resultados para “{text}”")
@@ -146,6 +106,19 @@ def hero(section: str) -> None:
         st.link_button(
             "Ver todos los resultados en ChileAtiende", BASE_URL + "/buscar?query=" + quote(text)
         )
+
+
+def render_search() -> None:
+    with st.form("portal_search", border=False):
+        query_col, button_col = st.columns([4, 1.3], vertical_alignment="center")
+        query = query_col.text_input(
+            "¿Qué trámite necesitas?",
+            placeholder="Buscar trámites y beneficios",
+            label_visibility="collapsed",
+        )
+        submitted = button_col.form_submit_button("Buscar", use_container_width=True)
+    if submitted and query.strip():
+        st.session_state["portal_query"] = query.strip()
 
 
 def search_services(query: str) -> list[tuple[str, str, str]]:
@@ -165,85 +138,70 @@ def search_services(query: str) -> list[tuple[str, str, str]]:
 
 
 def render_discovery() -> None:
-    st.markdown('<h2 class="portal-section">Destacamos</h2>', unsafe_allow_html=True)
-    featured = st.columns(3)
-    featured[0].markdown(
-        '<article class="portal-card"><small>NUEVO · AYUDA PARA TUS TRÁMITES</small>'
-        "<h3>Te acompañamos paso a paso</h3><p>Tu ruta, tus antecedentes y un asistente "
-        "para ayudarte a continuar.</p></article>",
-        unsafe_allow_html=True,
-    )
+    """Public ChileAtiende homepage with an invitation to the personal workspace."""
+    assets = LOGO.parent
+    styles = (assets / "official-home.css").read_text(encoding="utf-8")
+    content = (assets / "official-home.html").read_text(encoding="utf-8")
+    content = content.split("</section>", 1)[1]
+    with st.container(border=True, key="home_government"):
+        invitation, directory = st.columns([2.4, 1], gap="large")
+        with invitation:
+            st.markdown(
+                '<div class="home-government"><span class="agent-label">CONOCE MI GOBIERNO</span>'
+                "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+                "<p>Descubre cuáles podrían corresponderte según tu situación. "
+                "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
+                "en un solo lugar.</p>"
+                "</div>",
+                unsafe_allow_html=True,
+            )
+            st.button(
+                "Descubrir mis beneficios →",
+                type="primary",
+                on_click=open_section,
+                args=("Mi Gobierno",),
+                key="home_government_access",
+            )
+            st.caption("Tus datos · Tus documentos · Tu ruta de beneficios")
+        with directory:
+            st.markdown(
+                '<div class="home-directory"><span class="agent-label">'
+                "TRÁMITES Y SERVICIOS</span><h3>¿Buscas algo en particular?</h3>"
+                "<p>Encuentra certificados, pensiones y otros servicios del Estado.</p></div>",
+                unsafe_allow_html=True,
+            )
+            st.link_button(
+                "Ver trámites y beneficios →",
+                BASE_URL + "/temas",
+                use_container_width=True,
+            )
+    st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 
-    def open_help():
-        st.session_state["portal_section"] = "Ayuda para tus trámites"
 
-    featured[0].button(
-        "Recibir ayuda para mi trámite", on_click=open_help, use_container_width=True
+def open_section(section: str) -> None:
+    st.session_state["portal_section"] = section
+
+
+def render_directory() -> None:
+    st.markdown('<h2 class="portal-section">Trámites y beneficios</h2>', unsafe_allow_html=True)
+    st.write(
+        "Elige un trámite para consultar sus requisitos y canales de atención en ChileAtiende."
     )
-    featured[1].markdown(
-        '<article class="portal-card"><small>INFORMACIÓN PERSONAL</small>'
-        "<h3>Mi ChileAtiende</h3><p>Continúa en tu sesión privada del portal oficial.</p>"
-        "</article>",
-        unsafe_allow_html=True,
+    query = st.text_input("Filtrar trámites", placeholder="Jubilación, certificados, subsidio…")
+    entries = search_services(query) if query.strip() else list(SERVICES)
+    if not entries:
+        st.info("No hay coincidencias en esta selección. Busca en el catálogo oficial.")
+        st.link_button("Buscar en ChileAtiende ↗", BASE_URL + "/buscar?query=" + quote(query))
+    columns = st.columns(2)
+    for index, (title, description, path) in enumerate(entries):
+        with columns[index % 2], st.container(border=True):
+            st.subheader(title)
+            st.write(description)
+            st.link_button("Ver requisitos y dónde realizarlo ↗", BASE_URL + path)
+    st.link_button("Ver todos los servicios del Estado ↗", BASE_URL + "/temas")
+    st.button(
+        "Necesito ayuda para elegir", on_click=open_section, args=("Ayuda para tus trámites",)
     )
-    featured[1].link_button(
-        "Ir a Mi ChileAtiende ↗",
-        "https://mi3.chileatiende.gob.cl/micha/inicio",
-        use_container_width=True,
-    )
-    featured[2].markdown(
-        '<article class="portal-card"><small>MOMENTO DE VIDA</small>'
-        "<h3>Prepara tu jubilación</h3><p>Encuentra orientación oficial para este momento "
-        "de tu vida.</p></article>",
-        unsafe_allow_html=True,
-    )
-    featured[2].link_button(
-        "Revisar jubilación ↗", BASE_URL + "/temas/jubilacion", use_container_width=True
-    )
-    st.markdown('<h2 class="portal-section">Lo más buscado</h2>', unsafe_allow_html=True)
-    for col, (title, description, path) in zip(st.columns(4), SERVICES, strict=True):
-        with col:
-            st.markdown(
-                f'<article class="portal-card"><h3>{title}</h3><p>{description}</p></article>',
-                unsafe_allow_html=True,
-            )
-            st.link_button("Consultar información ↗", BASE_URL + path, use_container_width=True)
-    st.markdown('<h2 class="portal-section">Momentos de vida</h2>', unsafe_allow_html=True)
-    moments = (
-        (
-            "Iniciar jubilación",
-            "Organiza tu pensión y prepara tu solicitud de PGU.",
-            "/hito-vida/Iniciar+jubilación",
-        ),
-        (
-            "Acceder a una vivienda",
-            "Encuentra la orientación oficial para este momento.",
-            "/hito-vida/Acceder+a+una+vivienda",
-        ),
-        (
-            "Quedar sin trabajo",
-            "Consulta tus alternativas en el portal oficial.",
-            "/momentos-de-vida",
-        ),
-    )
-    for col, (title, description, path) in zip(st.columns(3), moments, strict=True):
-        with col:
-            st.markdown(
-                f'<article class="portal-card"><h3>{title}</h3><p>{description}</p></article>',
-                unsafe_allow_html=True,
-            )
-            st.link_button("Ver orientación ↗", BASE_URL + path, use_container_width=True)
-    st.markdown(
-        '<h2 class="portal-section">Servicios del Estado por temas</h2>', unsafe_allow_html=True
-    )
-    for col, (title, description, path) in zip(st.columns(3), SERVICES[:3], strict=True):
-        with col:
-            st.markdown(
-                f'<article class="portal-card"><h3>{title}</h3><p>{description}</p></article>',
-                unsafe_allow_html=True,
-            )
-            st.link_button("Explorar este tema ↗", BASE_URL + path, use_container_width=True)
-    st.link_button("Conoce todos los servicios por temas", BASE_URL + "/temas")
 
 
 def render_help_intro() -> None:

@@ -4,6 +4,22 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Beneficios primero y documentos compartidos
+- Mi Gobierno separa Beneficios (inicial) de Datos personales. Cada beneficio permite desplegar requisitos y cargar documentos de apoyo, reutilizando el mismo archivo por persona/tipo en todos los beneficios y en el repositorio personal.
+- Se amplió el catálogo documental para FUAS/becas; los adjuntos no se convierten en requisitos validados automáticamente. Prueba de UI cubre reutilización PGU/FUAS/datos personales y conservación/revocación. [[mi-gobierno]].
+
+### 2026-10-15 · Mi Gobierno
+- Portada ChileAtiende conservada; invitación y acceso a Mi Gobierno reemplazan el agente de Inicio. Espacio personal con consentimiento, identidad, declaración económica, documentos locales y resultado PGU según el motor existente.
+- Cobrar abre la ruta con sus dependencias, pasos e historial; el asistente acompaña dentro del recorrido. No se simula una aprobación/pago real, ni se conceden becas sin evaluar.
+- 139 pruebas, verificador 500 perfiles y flujo Chrome (autorización, subir/eliminar archivo, guía PGU y móvil) OK. [[mi-gobierno]] · [[0013-mi-gobierno]].
+
+### 2026-10-15 · Destacamos conversacional y directorio de trámites
+- Campo «Describe lo que necesitas» inspirado en america.gov, consulta transferida al chat existente sin cambiar permisos, y sección Trámites con filtro y enlaces oficiales. Pruebas de navegación, transferencia y acompañamiento OK. [[portada-chileatiende]].
+
+### 2026-10-15 · Portada ChileAtiende
+- Inicio reproduce las secciones públicas y estilos oficiales consultados hoy; fuentes e imágenes locales, CSS acotado y enlaces oficiales. Se conserva la ruta, el asistente y los permisos del MVP. Guía [[portada-chileatiende]].
+- 136 pruebas pasan; navegación/búsqueda y aceptación/autorización/revocación verificadas.
+
 Una entrada por avance o commit relevante, la más reciente arriba. Así se puede seguir el historial de cada tarea sin leer todo `git log`.
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.

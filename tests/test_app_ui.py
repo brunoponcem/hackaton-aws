@@ -20,6 +20,7 @@ def test_citizen_can_accept_authorize_and_revoke_without_stale_chat(tmp_path, mo
         next(button for button in app.button if button.label == label).click().run()
         assert not app.exception
 
+    app.radio(key="portal_section").set_value("Ayuda para tus trámites").run()
     click("Sí, quiero que me acompañen")
     click("Sí, autorizo")
     click("¿Cuánto recibiría?")

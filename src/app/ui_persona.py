@@ -322,15 +322,23 @@ def _asistente(d, run, canal, ctx):
         st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
         clave = f"chat-{run}"
         saludo = {"rol": "assistant", "texto": asistente.explicar_resumen(ctx)}
-        if not ctx["autorizado"] or len(st.session_state.get(clave, [])) <= 1:
+        permiso_clave = f"assistant_consent_{run}"
+        if (
+            st.session_state.get(permiso_clave) != ctx["autorizado"]
+            or len(st.session_state.get(clave, [])) <= 1
+        ):
             # Sin preguntas todavía: el saludo se recalcula para reflejar autorización y avance actuales.
             st.session_state[clave] = [saludo]
+        st.session_state[permiso_clave] = ctx["autorizado"]
         hist = st.session_state[clave]
 
         def preguntar(q: str):
             resp, motor = asistente.responder(q, ctx, hist)
             hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
             casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})
+
+        if pending_question := st.session_state.pop("portal_pending_question", None):
+            preguntar(pending_question)
 
         cols = st.columns(2)
         for i, q in enumerate(PREGUNTAS if ctx["autorizado"] else PREGUNTAS[:1] + PREGUNTAS[3:4]):

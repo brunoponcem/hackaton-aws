@@ -1,0 +1,19 @@
+# Portada basada en ChileAtiende
+
+**Diseño vigente:** Inicio conserva el portal público y una invitación a [[mi-gobierno]]. El agente ya no aparece en la portada; el espacio personal reúne identidad, antecedentes y beneficios, y el asistente acompaña dentro de la ruta. Los párrafos siguientes conservan la evolución previa de la portada.
+
+El buscador se ubica en el encabezado entre el logo y los accesos, y se retiró el rótulo «Destacamos» para dar entrada directa al agente. La búsqueda mantiene sus resultados y enlaces oficiales.
+
+La entrada del agente usa un saludo destacado, caja de consulta amplia y tres ejemplos que inician la conversación. El directorio queda como acceso lateral. Se retiró el título general sobre el buscador de Inicio a petición del usuario; las demás vistas conservan sus títulos.
+
+Destacamos incorpora una entrada conversacional inspirada en https://america.gov/: campo para describir una necesidad, envío al asistente existente y acceso a un directorio local de trámites. La pregunta pasa una sola vez al chat sin aceptar ni autorizar por la persona. La selección de trámites permite filtrar y abrir las fichas oficiales. El asistente conserva su alcance de jubilación/PGU y usa plantillas cuando Bedrock no está configurado.
+
+Referencia: https://www.chileatiende.gob.cl/, consultada el 15-10-2026.
+
+La app abre en Inicio. `src/app/assets/official-home.html` conserva una instantánea de las secciones públicas de la portada y su pie, sin scripts. Los enlaces abren el portal oficial; las imágenes y fuentes se incluyen en los recursos locales. `official-home.css` contiene los estilos oficiales dentro de `@scope (.official-home)` para evitar afectar los controles de Streamlit. `portal.css` adapta el encabezado y el buscador nativos.
+
+Ayuda para tus trámites y Mi ruta conservan el acompañamiento y los permisos del MVP. La navegación adicional y los controles de demostración pertenecen al prototipo; no se reproduce el inicio de sesión oficial. La etiqueta del prototipo se conserva en el pie.
+
+Los destacados son una instantánea editorial, no contenido actualizado automáticamente. Para renovarlos se debe revisar el portal oficial y actualizar los recursos locales. Los recursos HTML y CSS están incluidos en el paquete Python.
+
+Validación: 136 pruebas pasan, incluida navegación, búsqueda y aceptación/autorización/revocación. Ver [[portal-ayuda-tramites]].
