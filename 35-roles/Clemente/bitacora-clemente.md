@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Área de campaña según concentración · `66dbea8`
+- Área automática desde las mismas ubicaciones del heatmap: máxima cobertura para radio fijo, contorno amarillo, capacidad/jornadas y descargas JSON/GeoJSON. Radio UI 500–3000 m; cola presencial exclusivamente. Conserva fondo/paleta y ranking comunal.
+- Escenario actual: radio 1,5 km cubre 10/84 casos (11,9%) en San Bernardo; dos funcionarios × ocho atenciones/día → una jornada. Propuesta geométrica aproximada, sin sede habilitada, agenda ni despacho.
+- 126 tests pasan (13 nuevos), ruff/format y verificador de 500 perfiles OK. Chrome muestra contorno/etiqueta sin excepciones. [[0011-area-campana-segun-heatmap]] · [[heatmap-campanas-simulado]].
+
 ### 2026-10-15 · Direcciones individuales simuladas · `643a888`
 - A pedido del usuario: calor desde una ubicación ficticia por persona, con núcleos y dispersión dentro del polígono comunal. Misma paleta/fondo RM; desaparecen los círculos comunales ponderados. Puntos inspeccionables, etiquetas comunales opcionales y detalle Barrios/Sectores amplios.
 - Dirección rotulada SIMULADA, coordenadas a seis decimales y procedencia sintética; no son domicilios RSH ni calles verificadas. Nuevos contactos persisten ubicación; snapshots anteriores se enriquecen determinísticamente sin reescribir casos. Umbral comunal de cinco conservado.
