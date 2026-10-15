@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Rediseño metropolitano · `475100e`
+- A pedido del usuario: solo Región Metropolitana, calles vectoriales oscuras CARTO/OSM, contornos de 52 comunas BCN, calor 2048, etiquetas exactas y colores fijos por conteo. Ocho comunas sintéticas en nuevas inicializaciones, sin alterar canales ni casos previos. Base independiente `funnel-demo-rm.db`.
+- Ranking y propuesta por comuna; umbral mínimo de 5 ahora comunal. Escenario precargado sin respuestas: 92 casos, 84 publicables en seis comunas. Los restantes grupos se omiten, sin inventar personas ni domicilios. Fondo urbano requiere internet.
+- 99 tests pasan (9 nuevos), ruff check/format OK y verificador de 500 perfiles TODO OK. Chrome comprobado a doble densidad en 1440/1024 px, sin excepciones; todos los focos y etiquetas entran en pantalla. [[heatmap-campanas-simulado]] · [[0009-heatmap-metropolitano]].
+
 ### 2026-10-15 · Heatmap y campañas simuladas · `b4d517f`
 - Mapa para ejecutivos en laboratorio localhost:8502 y Detectar e invitar; cola presencial, diagnóstico de activos, filtro regional, ranking determinista y propuesta de jornadas por capacidad. Grupos menores de 5 se suprimen antes de frontend y exportación. No hay agenda ni despacho.
 - RSH del evento sin comuna/provincia; usa seis territorios de la capa sintética. Contornos Natural Earth locales, sin solicitudes remotas de mapa verificadas en Chrome. No son domicilios ni centroides oficiales.
