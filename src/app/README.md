@@ -50,3 +50,6 @@ Un incumplimiento verificable pesa más que un antecedente faltante, porque cons
 El motor de rutas y SQLite mantienen el aporte autónomo. El chatbot Bedrock ya usa `src/contracts/` y `src/agent/` mediante `ruta/chatbot.py`; la unificación de reglas/persistencia sigue pendiente. Para este agente compartido usar el entorno uv de la raíz. Los identificadores históricos siguen en español, a diferencia de la convención del repo.
 
 Revisión de integración en [[revision-aporte-johann]]. `futuro` y `excluido` no pertenecen a `PguStatus` del contrato compartido; hace falta acordar su representación antes de conectar los motores. Los montos/fechas se calculan en código con los parámetros del prototipo, no constituyen adjudicación ni validación completa de la normativa.
+# Campañas territoriales de la simulación
+
+La demo de embudo (`http://localhost:8502`) y Detectar e invitar incluyen mapa, ranking por provincia y propuesta de capacidad para ejecutivos. Para probar: nueva simulación → Sin respuestas → inicializar → +19 días. Datos territoriales sintéticos, grupos mínimos de cinco personas y ningún despacho real. Ver [[heatmap-campanas-simulado]].

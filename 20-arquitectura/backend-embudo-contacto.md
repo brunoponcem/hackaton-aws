@@ -73,6 +73,8 @@ Ejemplo verificado con semilla 20261008: 92 candidatos; tras siete días simulad
 El mensaje laboral no menciona PGU, montos o RUN. Cada intento declara `simulated=True` y `delivered=False`. No existe un proveedor de envío detrás de estos registros.
 
 ## Evidencia y pendientes
+Actualización: el heatmap y las propuestas de despliegue simulado ya están implementados en [[heatmap-campanas-simulado]] (90 tests). El siguiente párrafo conserva la evidencia del aporte inicial del embudo; las campañas reales, alertas y CESFAM siguen pendientes.
+
 `uv run --group app pytest`: **84 tests pasan**, incluidos CLI real, persistencia entre procesos, determinismo, límites temporales, casos sin canales, permisos/progreso, señales repetidas y recorrido de la UI. Ruff check/format OK en los módulos y tests nuevos. Verificador de 500 perfiles TODO OK; hay una advertencia de deprecación de Altair desde Streamlit, sin fallo funcional.
 
 Vista comprobada con Chrome headless, gráfico y tablas renderizados sin excepciones. Quedan fuera de este aporte: heatmap, campañas físicas, `alertas.py`, punto CESFAM, envío real, scheduler AWS y validación institucional de las políticas. El campo `alert_level` del snapshot es solo la etapa activa (0 en terminales); no equivale al servicio de alertas/CESFAM pendiente.

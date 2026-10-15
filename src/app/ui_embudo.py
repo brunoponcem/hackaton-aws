@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 from ruta.colador import ACTIVE, STAGES, Funnel
 from ruta.contacto import generate_contacts
+from ui_campanas import render_campaigns
 
 STATUS_LABELS = {"active": "En seguimiento", "started": "Trámite iniciado", "declined": "Declinó"}
 EVENT_LABELS = {
@@ -114,6 +115,8 @@ def render_funnel(profiles, db_path=None):
         hide_index=True,
         use_container_width=True,
     )
+
+    render_campaigns(state, profiles)
 
     st.markdown("### Personas y próximo contacto")
     rows = [
