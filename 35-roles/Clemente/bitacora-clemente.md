@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Direcciones individuales simuladas · `643a888`
+- A pedido del usuario: calor desde una ubicación ficticia por persona, con núcleos y dispersión dentro del polígono comunal. Misma paleta/fondo RM; desaparecen los círculos comunales ponderados. Puntos inspeccionables, etiquetas comunales opcionales y detalle Barrios/Sectores amplios.
+- Dirección rotulada SIMULADA, coordenadas a seis decimales y procedencia sintética; no son domicilios RSH ni calles verificadas. Nuevos contactos persisten ubicación; snapshots anteriores se enriquecen determinísticamente sin reescribir casos. Umbral comunal de cinco conservado.
+- 113 tests pasan (14 nuevos), ruff y verificador TODO OK. Chrome muestra calor y puntos con 84 ubicaciones para los 84 casos publicables, sin excepciones ni solicitudes de mapa fallidas. [[0010-direcciones-simuladas]] · [[heatmap-campanas-simulado]].
+
 ### 2026-10-15 · Rediseño metropolitano · `475100e`
 - A pedido del usuario: solo Región Metropolitana, calles vectoriales oscuras CARTO/OSM, contornos de 52 comunas BCN, calor 2048, etiquetas exactas y colores fijos por conteo. Ocho comunas sintéticas en nuevas inicializaciones, sin alterar canales ni casos previos. Base independiente `funnel-demo-rm.db`.
 - Ranking y propuesta por comuna; umbral mínimo de 5 ahora comunal. Escenario precargado sin respuestas: 92 casos, 84 publicables en seis comunas. Los restantes grupos se omiten, sin inventar personas ni domicilios. Fondo urbano requiere internet.

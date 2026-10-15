@@ -70,4 +70,4 @@ flowchart LR
 | 7. Acompañar | Portal estilo ChileAtiende con chatbot conectado al agente ([[portal-ayuda-tramites]]) | Checklist de documentos y guía del trámite paso a paso |
 | 8. Derivar | Vista del ejecutivo con requisitos, fuentes e historial | Resumen de derivación, historial del colador y alerta |
 | 9. Seguir | Vista de medición con los KPI del PPT | Estado de la solicitud hasta la resolución del organismo |
-| Heatmap y alerta | Mapa detallado de la RM, concentración comunal sintética, ranking por volumen, umbral 5 por comuna y propuesta descargable ([[heatmap-campanas-simulado]]) | Territorios reales, agenda/despacho de campañas y alerta/CESFAM |
+| Heatmap y alerta | Mapa RM con calor desde ubicaciones individuales ficticias, ranking comunal, umbral 5, inspector de direcciones simuladas y propuesta descargable ([[heatmap-campanas-simulado]]) | Territorios reales, autorización de domicilios, agenda/despacho y alerta/CESFAM |
