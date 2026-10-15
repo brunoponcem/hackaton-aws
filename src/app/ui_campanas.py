@@ -70,6 +70,7 @@ def campaign_map(rows):
                     points,
                     get_position="[longitude, latitude]",
                     get_text="province",
+                    character_set="auto",
                     get_color=[25, 45, 65],
                     get_size=13,
                     get_pixel_offset=[18, 0],
