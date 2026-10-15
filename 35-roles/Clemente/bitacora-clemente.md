@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Heatmap y campañas simuladas · `b4d517f`
+- Mapa para ejecutivos en laboratorio localhost:8502 y Detectar e invitar; cola presencial, diagnóstico de activos, filtro regional, ranking determinista y propuesta de jornadas por capacidad. Grupos menores de 5 se suprimen antes de frontend y exportación. No hay agenda ni despacho.
+- RSH del evento sin comuna/provincia; usa seis territorios de la capa sintética. Contornos Natural Earth locales, sin solicitudes remotas de mapa verificadas en Chrome. No son domicilios ni centroides oficiales.
+- 90 tests pasan, ruff OK y verificador de 500 perfiles TODO OK. [[heatmap-campanas-simulado]] · [[0008-heatmap-campanas-sinteticas]]. Siguen pendientes datos autorizados, campañas reales, alertas/CESFAM y acompañamiento.
+
 ### 2026-10-15 · Backend del embudo · `7d1d8e0`
 - Revisados los pendientes actuales y [[contacto-y-campanas]]. Implementados contactos sintéticos, backend persistente con reloj, simulación reproducible y embudo visual. Escala solo si no inició trámite; declinar detiene todo. No hay envíos/calls/visitas reales.
 - CLI `scripts/colador_backend.py`, laboratorio `src/app/demo_embudo.py` en localhost:8502 y componente compartido en Detectar e invitar. La demo usa una base separada y permite conservar escenarios.
