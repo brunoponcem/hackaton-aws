@@ -1,36 +1,58 @@
 ---
 tipo: board
 integrante: Clemente
-color: azul
 entorno: Claude Code + Codex
-frente: Agente e integración
 ---
-# 🟦 Board de Clemente — Agente e integración
+# Board de Clemente
 
 | | |
 |---|---|
 | **Entorno** | Claude Code + Codex |
-| **Carpetas de código propias** | `src/contracts/`, `src/agent/`, `src/tools/`, `50-prompts/` |
-| **Ramas** | `clemente/T<nn>-<descripcion>` |
-| **Commits** | `T<nn>: <qué hiciste>` |
+| **Integración** | Commit del aporte → fetch/merge de `origin/main` → resolver y verificar → push |
 | **Bitácora** | [[bitacora-clemente]] |
-| **Equipo, mapa y reglas** | [[_equipo]] · [[_avance]] |
+| **Equipo y pipeline** | [[_equipo]] · [[_avance]] |
 
-Cómo se usa: mueve la línea de la tarea entre secciones. Marca `[x]` solo cuando se cumpla el criterio ✅ y la tarea esté en `main`.
+Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
-- [ ] **T04** · P0 · B2 · Bucle del agente con Bedrock Converse + tool use, con límite de iteraciones y manejo de errores de herramientas ([[0003-orquestacion-agente]]) — ✅ `uv run agente --run <RUN>` devuelve ruta, hitos y checklist · depende de T03, T11 y T12
-  - Bucle, herramientas, ruta determinista y CLI ya están en `main` y probados con Bedrock real. Falta conectar `evaluar_pgu` y `calcular_hitos` de Johann (se registran solas desde `src/rules`) para cumplir el criterio · [[T04-agente]]
+- 
 
 ## Por hacer
-- [ ] **T06** · P0 · B3 · Integración de punta a punta: agente real detrás de la API (con Jonmor) — ✅ 5 RUN, uno por cada estado, dan una ruta correcta desde la API · depende de T04, T16 y T21
-- [ ] **T07** · P0 · B3–B4 · Revisión de PR (Claude), merges a `main` y congelamiento a las 09:30 del viernes — ✅ `main` siempre corre; bitácora del día al cierre
+### Validar con los mentores
+- [ ] ¿Hay un dataset con email, teléfono, empleador y provincia (¿dataset B?)?
+- [ ] Base legal para la alerta en CESFAM y para el contacto a través del trabajo
+- [ ] Uso de la marca e identidad visual de ChileAtiende en el portal
+- [ ] Hora exacta de entrega y formato de evaluación
+
+### Colador de contacto ([[contacto-y-campanas]])
+- [ ] Capa de contacto: la de los mentores o una sintética rotulada (`data/synthetic/contacto.csv`, con email, teléfono, empleador y región/provincia/comuna)
+- [ ] `src/app/ruta/colador.py`: email a todos → llamada → trabajo → presencial, con reloj simulado, "declinar detiene todo" y tests
+- [ ] Respuestas simuladas con semilla fija (iniciar el trámite por etapa, según la edad) y rotuladas como simuladas
+- [ ] Embudo por etapa en la vista "Detectar e invitar"
+
+### Heatmap y alerta de beneficio
+- [ ] Heatmap por provincia de quienes no respondieron a ninguna etapa, con ranking de campañas y sin mostrar provincias con menos de 5 personas
+- [ ] `src/app/ruta/alertas.py`: nivel de alerta por RUN; "nivel máximo" en la ficha del ejecutivo
+- [ ] Vista simulada del punto de atención CESFAM, con mensaje mínimo ("derivar a ChileAtiende")
+
+### Acompañamiento y back-office
+- [ ] Checklist de documentos (pendiente, recibido, validado) guiado por el asistente
+- [ ] Derivación al ejecutivo con un resumen del caso
+- [ ] Ficha del beneficiario: datos con fuente, consentimientos, historial del colador, documentos y estado de las solicitudes
+
+### Unificación y calidad
+- [ ] Unificar los dos motores (app de Johann y contratos/agente): estados `futuro` y `excluido`, repositorio e historial ([[revision-aporte-johann]]). Coordinar con Johann
+- [ ] Contratos: canales de contacto, `ContactAttempt`, `AlertLevel`, `DocumentItem`, `RequestStatus`
+- [ ] Prompt: sin una evaluación disponible, no explicar requisitos de memoria
+- [ ] `normalize_run`: aceptar RUN sin guion
+- [ ] Lint de `src/app` (190 observaciones pendientes)
+
+### Demo
+- [ ] Guion de la demo: embudo del colador → heatmap → persona que llega con alerta → acompañamiento → ejecutivo
 
 ## Bloqueos
-- T04 espera `evaluar_pgu(profile, fecha_ref) -> PguResult` y `calcular_hitos(profile, fecha_ref) -> list[Milestone]` exportadas desde `src/rules` (Johann, T11 y T12). T06 requiere además la API y el flujo autorizado (T16 y T21) de Jonmor.
+- El colador y el heatmap necesitan datos de contacto y provincia, que no vienen en el dataset A.
 
 ## Hecho
-- [x] **T05** · P0 · B2 · (Codex) Prompt del sistema y especificación de herramientas — ✅ en `main`, revisado (T07) · commit `36cd846` · [[agente-pgu]]
-- [x] **T03** · P0 · B1 · (Codex) `consultar_perfil(run)` con RUN normalizado, DV validado y autorización del caso — ✅ en `main`, revisado (T07) · commit `6ea8da0` · [[T03-consultar-perfil]]
-- [x] **T02** · P0 · B1 · (Claude) Contratos compartidos en `src/contracts/` (pydantic) — ✅ en `main`; 10 tests nuevos, los 500 perfiles del dataset cargan · [[T02-contratos]]
-- [x] **T01** · P0 · B1 · Scaffold del repo: `pyproject.toml` con uv, ruff y pytest; estructura `src/`; cliente Bedrock que lee el modelo desde `.env` (Codex) — ✅ `uv run pytest` pasa en `main` (11 tests) · commit `125f8f8` · [[T01-scaffold-python]]
+- [x] Base Python, contratos compartidos, consulta autorizada del perfil, prompt y herramientas, y agente con Bedrock Converse (T01–T05, ver [[bitacora-clemente]])
+- [x] Reestructuración de la idea central: [[0005-asistente-contacto-escalonado]] y [[contacto-y-campanas]]

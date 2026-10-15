@@ -14,7 +14,7 @@ Decisiones previas que se mantienen: [[0002-seleccion-reto]], [[0003-orquestacio
 ## Pipeline medular
 ```mermaid
 flowchart LR
-  D["1. Detectar<br/>hito próximo o<br/>PGU no cobrada"] --> C["2. Contactar<br/>escalera:<br/>email → llamada →<br/>trabajo → puerta a puerta"]
+  D["1. Detectar<br/>hito próximo o<br/>PGU no cobrada"] --> C["2. Contactar<br/>escalera:<br/>email → llamada →<br/>trabajo → presencial"]
   C --> I["3. Invitar y autorizar<br/>acepta o declina;<br/>fuentes y finalidad"]
   I --> Q["4. Consultar perfil<br/>solo con autorización"]
   Q --> V["5. Evaluar<br/>reglas en código,<br/>orientación preliminar"]
@@ -22,7 +22,7 @@ flowchart LR
   R --> A["7. Acompañar<br/>recolección de documentos<br/>y guía del trámite"]
   A --> X["8. Derivar al ejecutivo<br/>resumen del caso,<br/>pone en marcha el trámite"]
   X --> S["9. Seguir y cerrar<br/>estado de la solicitud<br/>y próximos hitos"]
-  C -. "sin respuesta en etapa 4" .-> H["Heatmap de campañas<br/>zonas priorizadas"]
+  C -. "sin respuesta en etapa 4" .-> H["Heatmap por provincia<br/>+ alerta nivel máximo"]
 ```
 
 ## Vista de componentes
@@ -33,7 +33,7 @@ flowchart LR
   end
   subgraph BackOffice["Back-office"]
     E["Ficha del beneficiario<br/>ejecutivo y trabajador social"]
-    M["Campañas<br/>heatmap por comuna"]
+    M["Campañas<br/>heatmap por provincia"]
   end
   P --> API
   E --> API
@@ -50,7 +50,7 @@ flowchart LR
   TC --> DB
   TD --> DB
   CT --> DB
-  CT --> CX[("Capa de contacto<br/>email, teléfono, empleador, comuna<br/>⚠ no viene en el dataset A")]
+  CT --> CX[("Capa de contacto<br/>email, teléfono, empleador, provincia<br/>⚠ no viene en el dataset A")]
   M --> CX
   DET["Detección por lotes<br/>a quién invitar"] --> CT
   DS --> DET
@@ -65,8 +65,9 @@ flowchart LR
 | 4 | **Perfil autorizado** (`src/tools/`) | Consulta por RUN solo con autorización | En `main` ([[T03-consultar-perfil]]) |
 | 5 | **Reglas** (`src/rules/`) | Evaluación PGU e hitos, en código | Por hacer |
 | 6 | **Detección por lotes** | Recorre los perfiles y genera alertas: a quién invitar y por qué | Por hacer |
-| 7 | **Orquestador de contacto** | Escalera email → llamada → trabajo → puerta a puerta, con reloj simulado y registro de intentos | Por hacer |
-| 8 | **Heatmap de campañas** | Ranking y mapa por comuna de personas pendientes en la etapa 4 | Por hacer |
+| 7 | **Colador de contacto** | Email a todos → llamada → trabajo → asistencia presencial; pasa a la etapa siguiente quien no inició su trámite. Reloj simulado y registro de intentos | Por hacer |
+| 8 | **Heatmap de campañas** | Ranking y mapa por provincia de quienes no respondieron a ninguna etapa | Por hacer |
+| 8b | **Alerta de beneficio** | Nivel por etapa; "nivel máximo" visible al ingresar el RUN en ChileAtiende y, con mensaje mínimo, en CESFAM | Por hacer |
 | 9 | **Casos** (API + repositorio) | Caso único por persona: contactos, consentimiento, ruta, documentos, solicitudes, mensajes por canal | Por hacer |
 | 10 | **Back-office** | Ficha del beneficiario para ejecutivo y trabajador social: qué se recopiló, de dónde y en qué estado está cada solicitud | Por hacer |
 | 11 | **Simulador y medición** | Personas simuladas con Haiku 4.5; métricas técnicas separadas de los KPI del piloto | Por hacer |
