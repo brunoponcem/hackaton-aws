@@ -26,6 +26,23 @@ Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de
 ### Colador de contacto ([[contacto-y-campanas]])
 - Backend del embudo y demo visual implementados; envíos y campañas presenciales reales quedan fuera de la simulación. Ver [[backend-embudo-contacto]].
 
+**Seguimiento por etapa vigente** ([[0012-detener-contacto-confirmado]]):
+
+| Situación | Siguiente acción |
+|---|---|
+| Email sin respuesta, aunque se haya abierto | Tras 7 días simulados, pasa a llamada |
+| Llamadas sin respuesta | Hasta 3 intentos en 5 días; luego pasa a contacto laboral |
+| Contacto laboral sin respuesta | Tras 7 días simulados, queda pendiente de campaña presencial |
+| Falta email, teléfono o empleador | Se salta ese canal y se registra el motivo |
+| Responde o acepta en cualquier etapa | Se detienen los canales posteriores y pasa a acompañamiento del trámite |
+| Declina | Se detiene todo; no se insiste por otros canales |
+
+Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento posterior al contacto debe guiar el próximo paso del trámite y registrar su avance; no debe reactivar la búsqueda por otros canales porque la persona siga pendiente de iniciar.
+
+**Pendientes para envíos reales:**
+- [ ] Registrar estados diferenciados de email: intento/envío, entregado, rebotado, abierto, respuesta y aceptación/rechazo. Hoy solo hay intentos simulados; no se confirma entrega real.
+- [ ] Definir y probar el siguiente canal según el resultado: entregado sin respuesta espera el plazo; rebote/dato inválido requiere una política explícita de recuperación o cambio de canal. No equiparar envío/apertura con contacto confirmado ni inventar que la persona ignoró un mensaje que quizá no recibió.
+
 ### Heatmap y alerta de beneficio
 - [ ] `src/app/ruta/alertas.py`: nivel de alerta por RUN; "nivel máximo" en la ficha del ejecutivo
 - [ ] Vista simulada del punto de atención CESFAM, con mensaje mínimo ("derivar a ChileAtiende")
