@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 import ui_persona
+from ui_embudo import render_funnel
 import portal
 from ruta import asistente, casos, config
 from ruta import reglas as R
@@ -54,6 +55,8 @@ def casos_demo(diags: dict[str, R.Diagnostico]) -> dict[str, str]:
 
 # --------------------------------------------------------------------------
 def vista_panel(diags):
+    render_funnel(cargar_perfiles())
+    st.divider()
     st.header("1 · Detectar e invitar")
     st.caption(f"Evaluación de los {len(diags)} perfiles del dataset A al {fmt(config.FECHA_REFERENCIA)}. "
                "Solo se usan datos autorizados para detectar el hito; las personas fallecidas quedan excluidas.")

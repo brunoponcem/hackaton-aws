@@ -1,3 +1,7 @@
 casos.db
+funnel-demo*.db
+*.db-journal
+*.db-wal
+*.db-shm
 .venv/
 __pycache__/

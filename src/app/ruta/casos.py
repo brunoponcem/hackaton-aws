@@ -143,4 +143,9 @@ def todos_los_casos() -> list[dict]:
 
 def reiniciar() -> None:
     with _conn() as con:
+        # The existing demo reset also clears its funnel, if initialized.
+        for table in ("funnel_events", "funnel_people", "funnel_clock"):
+            if con.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+                           (table,)).fetchone():
+                con.execute(f"DELETE FROM {table}")
         con.executescript("DELETE FROM pasos; DELETE FROM eventos; DELETE FROM casos;")
