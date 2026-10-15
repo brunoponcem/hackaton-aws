@@ -8,6 +8,12 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Detener al confirmar contacto · `0642159`
+- Clemente corrige el criterio: responder/aceptar detiene los siguientes canales, sin esperar inicio. Nuevo estado contacted; iniciar/declinar después sigue permitido. Enviar/abrir sin respuesta no confirma. Sin autorizaciones automáticas ni reescritura de historial; respuestas antiguas cancelan futuros intentos.
+- Aclaración: 92 personas detectadas, 255 intentos de llamada a 85 personas en la demo sin respuestas. UI diferencia personas/intentados/saltos/respuestas/estados. Ejemplo con respuestas: 66 contactos confirmados (34 inicios, 23 contactados sin inicio, 9 rechazos) y 26 pendientes; todos sintéticos.
+- KPI próximo paso válido en plazo, meta actual usuario ≥75%, aparece Sin medir; inicio es solo proxy. Instrumentación pendiente en board. Dos ejemplos locales conservados. AGENTS/diseño/pipeline actualizados para ambos agentes.
+- 136 tests (10 nuevos) y ruff/format OK; verificador de 500 perfiles TODO OK. Chrome sin excepciones muestra métricas y gráfico corregidos. [[0012-detener-contacto-confirmado]] · [[backend-embudo-contacto]].
+
 ### 2026-10-15 · Área de campaña según concentración · `66dbea8`
 - Área automática desde las mismas ubicaciones del heatmap: máxima cobertura para radio fijo, contorno amarillo, capacidad/jornadas y descargas JSON/GeoJSON. Radio UI 500–3000 m; cola presencial exclusivamente. Conserva fondo/paleta y ranking comunal.
 - Escenario actual: radio 1,5 km cubre 10/84 casos (11,9%) en San Bernardo; dos funcionarios × ocho atenciones/día → una jornada. Propuesta geométrica aproximada, sin sede habilitada, agenda ni despacho.
