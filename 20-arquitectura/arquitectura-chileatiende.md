@@ -7,6 +7,8 @@ revision: 2026-10-14 (reestructuración, ADR 0005)
 ---
 # Arquitectura — ChileAtiende a tiempo
 
+Actualización operativa 15-10: [[0012-detener-contacto-confirmado]] corrige el colador: responder/aceptar detiene los canales siguientes y pasa a acompañamiento. Inicio y próximo paso del trámite se miden aparte. Meta actual del usuario ≥75% para próximo paso válido en plazo, todavía sin instrumentación completa.
+
 > **Reestructurada el 14-10** según [[0005-asistente-contacto-escalonado]]: asistente frontal estilo ChileAtiende, contacto escalonado (email → llamada → trabajo → puerta a puerta), campañas por heatmap y acompañamiento completo con back-office. El detalle de contacto y campañas está en [[contacto-y-campanas]].
 
 Decisiones previas que se mantienen: [[0002-seleccion-reto]], [[0003-orquestacion-agente]] y [[0004-mvp-jubilacion-pgu]]. Datos en [[datos-dataset-A]].
@@ -65,7 +67,7 @@ flowchart LR
 | 4 | **Perfil autorizado** (`src/tools/`) | Consulta por RUN solo con autorización | En `main` ([[T03-consultar-perfil]]) |
 | 5 | **Reglas** (`src/rules/`) | Evaluación PGU e hitos, en código | Por hacer |
 | 6 | **Detección por lotes** | Recorre los perfiles y genera alertas: a quién invitar y por qué | Por hacer |
-| 7 | **Colador de contacto** | Email a todos → llamada → trabajo → asistencia presencial; pasa a la etapa siguiente quien no inició su trámite. Reloj simulado y registro de intentos | Por hacer |
+| 7 | **Colador de contacto** | Email → llamada → trabajo → presencial solo mientras no hay respuesta confirmada; contacted separado de started. Reloj y personas/intentos distintos | Implementado en simulación; faltan transportes reales |
 | 8 | **Heatmap de campañas** | Ranking y mapa por provincia de quienes no respondieron a ninguna etapa | Por hacer |
 | 8b | **Alerta de beneficio** | Nivel por etapa; "nivel máximo" visible al ingresar el RUN en ChileAtiende y, con mensaje mínimo, en CESFAM | Por hacer |
 | 9 | **Casos** (API + repositorio) | Caso único por persona: contactos, consentimiento, ruta, documentos, solicitudes, mensajes por canal | Por hacer |

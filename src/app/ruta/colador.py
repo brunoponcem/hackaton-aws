@@ -18,6 +18,7 @@ from .geografia import with_simulated_location
 
 STAGES = {1: "Email", 2: "Llamada", 3: "Trabajo", 4: "Presencial"}
 ACTIVE = "active"
+CONTACTED = "contacted"
 STARTED = "started"
 DECLINED = "declined"
 SCHEMA = """
@@ -163,7 +164,7 @@ class Funnel:
         self._event(con, person["run"], now, person["stage"], status, reason=reason)
 
     def _sync_case(self, con, person, now) -> bool:
-        """Acceptance/opening alone does not stop the funnel; explicit start does."""
+        """Confirmed response stops outreach; procedure initiation is tracked separately."""
         case = con.execute("SELECT invitacion FROM casos WHERE run=?", (person["run"],)).fetchone()
         if case and case["invitacion"] == "rechazado":
             self._terminal(con, person, DECLINED, now, "Rechazo registrado en el caso")
@@ -173,8 +174,17 @@ class Funnel:
             "SELECT 1 FROM eventos WHERE run=? AND tipo='tramite_iniciado' LIMIT 1",
             (person["run"], person["run"]),
         ).fetchone()
-        if progress and person["status"] == ACTIVE:
+        if progress and person["status"] in {ACTIVE, CONTACTED}:
             self._terminal(con, person, STARTED, now, "Inicio registrado en el caso")
+            return True
+        answered = con.execute(
+            "SELECT 1 FROM funnel_events WHERE run=? AND kind IN ('answered','contacted') LIMIT 1",
+            (person["run"],),
+        ).fetchone()
+        if person["status"] == ACTIVE and ((case and case["invitacion"] == "aceptado") or answered):
+            self._terminal(
+                con, person, CONTACTED, now, "Respuesta/aceptación confirmada: fin del contacto"
+            )
             return True
         return person["status"] != ACTIVE
 
@@ -238,7 +248,13 @@ class Funnel:
             if draw < 0.04:
                 self._terminal(con, person, DECLINED, now, "Rechazo simulado; hipótesis de demo")
             elif draw < 0.04 + rate:
-                self._terminal(con, person, STARTED, now, "Inicio simulado; hipótesis de demo")
+                self._terminal(con, person, CONTACTED, now, "Respuesta simulada; hipótesis de demo")
+                # Contact and subsequent initiation are different simulated outcomes.
+                starts = stable_random(seed, person["run"], "start-after-contact").random() < 0.65
+                if starts:
+                    self._terminal(
+                        con, person, STARTED, now, "Inicio tras contacto; hipótesis de demo"
+                    )
 
     def advance(self, days: int = 0, *, simulate: bool = False) -> dict:
         if isinstance(days, bool) or not isinstance(days, int) or days < 0:
@@ -277,7 +293,7 @@ class Funnel:
         return self.snapshot()
 
     def respond(self, run: str, response: str) -> dict:
-        if response not in {"opened", "answered", STARTED, DECLINED}:
+        if response not in {"opened", "answered", CONTACTED, STARTED, DECLINED}:
             raise ValueError("Respuesta no reconocida.")
         with self._transaction() as con:
             now = datetime.fromisoformat(self._clock(con)["now"])
@@ -287,11 +303,19 @@ class Funnel:
             self._sync_case(con, person, now)
             person = con.execute("SELECT * FROM funnel_people WHERE run=?", (run,)).fetchone()
             if person["status"] != ACTIVE:
-                if person["status"] == response:
+                if person["status"] == response or (
+                    person["status"] == CONTACTED and response == "answered"
+                ):
                     return self._snapshot(con)
-                raise ValueError("El seguimiento ya terminó para esta persona.")
-            if response in {STARTED, DECLINED}:
+                if person["status"] != CONTACTED or response not in {STARTED, DECLINED}:
+                    raise ValueError("El seguimiento de contacto ya terminó para esta persona.")
+            if response in {CONTACTED, STARTED, DECLINED}:
                 self._terminal(con, person, response, now, "Acción manual en demostración")
+            elif response == "answered":
+                self._event(
+                    con, run, now, person["stage"], "answered", reason="Respondió al contacto"
+                )
+                self._terminal(con, person, CONTACTED, now, "Respuesta confirmada: no se escala")
             else:
                 self._event(
                     con,
@@ -299,7 +323,7 @@ class Funnel:
                     now,
                     person["stage"],
                     response,
-                    reason="Responder/abrir no equivale a iniciar el trámite",
+                    reason="Abrir sin responder no confirma contacto ni inicio de trámite",
                 )
         return self.snapshot()
 
@@ -338,12 +362,26 @@ class Funnel:
             attempts = [
                 event for event in events if event["stage"] == stage and event["kind"] == "attempt"
             ]
+            confirmed = {
+                event["run"]
+                for event in events
+                if event["stage"] == stage and event["kind"] in {CONTACTED, STARTED, DECLINED}
+            }
             funnel.append(
                 {
                     "stage": stage,
                     "label": label,
                     "reached": len(reached),
                     "attempts": len(attempts),
+                    "attempted": len({event["run"] for event in attempts}),
+                    "skipped": len(
+                        {
+                            event["run"]
+                            for event in events
+                            if event["stage"] == stage and event["kind"] == "skipped"
+                        }
+                    ),
+                    "confirmed": len(confirmed),
                     "active": sum(p["stage"] == stage and p["status"] == ACTIVE for p in people),
                 }
             )
@@ -356,6 +394,10 @@ class Funnel:
             "totals": {
                 "detected": len(people),
                 "active": sum(p["status"] == ACTIVE for p in people),
+                "contacted": sum(p["status"] == CONTACTED for p in people),
+                "confirmed_contacts": sum(
+                    p["status"] in {CONTACTED, STARTED, DECLINED} for p in people
+                ),
                 "started": sum(p["status"] == STARTED for p in people),
                 "declined": sum(p["status"] == DECLINED for p in people),
                 "in_person": sum(p["stage"] == 4 and p["status"] == ACTIVE for p in people),

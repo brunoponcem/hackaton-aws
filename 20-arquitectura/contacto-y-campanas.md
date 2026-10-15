@@ -13,28 +13,30 @@ Las personas beneficiarias tienen 65 años o más, y muchas tienen dificultades 
 - La etapa 1, el email, es la tarea más sencilla: se automatiza y llega a **todos** los beneficiarios detectados.
 - Cada etapa siguiente cuesta más y llega a **menos personas**: solo a quienes quedaron en el colador.
 
-**Criterio para pasar a la etapa siguiente:** la persona **no inició su trámite** dentro del plazo de la etapa. Abrir un email o contestar una llamada no basta; lo que cuenta es iniciar el trámite.
+**Criterio corregido por Clemente el 15-10:** solo escala quien **no tiene contacto confirmado** dentro del plazo. Responder al email, contestar la llamada o aceptar la invitación detiene los siguientes canales y pasa a acompañamiento, aunque todavía no haya iniciado el trámite. Enviar o abrir sin responder no basta. Contacto, inicio y próximo paso válido son resultados distintos. [[0012-detener-contacto-confirmado]] sustituye el criterio anterior de esperar al inicio.
 
 ```mermaid
 flowchart LR
   AL["Alerta<br/>hito próximo o<br/>PGU posiblemente no cobrada"] --> E1["1. Email<br/>automático, a todos"]
-  E1 -- no inició trámite --> E2["2. Llamada telefónica"]
-  E2 -- no inició trámite --> E3["3. Contacto en su trabajo"]
-  E3 -- no inició trámite --> E4["4. Asistencia presencial<br/>+ mapeo de residencia"]
+  E1 -- sin respuesta confirmada --> E2["2. Llamada telefónica"]
+  E2 -- sin respuesta confirmada --> E3["3. Contacto en su trabajo"]
+  E3 -- sin respuesta confirmada --> E4["4. Asistencia presencial<br/>+ mapeo de residencia"]
   E4 --> HM["Heatmap por provincia<br/>→ campañas localizadas"]
   E4 --> AM["Alerta de beneficio<br/>NIVEL MÁXIMO<br/>CESFAM y ChileAtiende"]
-  E1 & E2 & E3 & E4 -- inicia trámite --> TR["Asistente acompaña<br/>documentos → ejecutivo"]
+  E1 & E2 & E3 & E4 -- confirma contacto --> TR["Asistente acompaña<br/>documentos → inicio → ejecutivo"]
   E1 & E2 & E3 & E4 -- declina --> FIN["Fin: se respeta y se registra"]
 ```
 
 | Etapa | A quién llega | Se salta si… | Plazo antes de escalar (propuesta) |
 |---|---|---|---|
 | 1. Email | Todos los beneficiarios detectados | No hay email | 7 días |
-| 2. Llamada | Quienes no iniciaron trámite tras el email | No hay teléfono | 3 intentos en 5 días |
-| 3. Trabajo | Quienes siguen sin iniciar | No trabaja o no hay empleador | 7 días |
+| 2. Llamada | Quienes no respondieron al email | No hay teléfono | Hasta 3 intentos en 5 días; se detiene al responder |
+| 3. Trabajo | Quienes siguen sin contacto confirmado | No trabaja o no hay empleador | 7 días |
 | 4. Presencial | Quienes no respondieron a nada | — (última etapa) | Según la campaña de su provincia |
 
 Reglas:
+- **Contacto confirmado detiene la búsqueda por otros canales.** `contacted` no es `started`. El seguimiento del trámite continúa en acompañamiento; nunca se escala a la persona solo porque aún no avanzó en su trámite.
+- **Personas ≠ intentos.** Los 255 del escenario sin respuestas son llamadas a 85 personas, no personas detectadas; 92 personas ingresaron al embudo. Saltar un canal sin datos tampoco es contacto efectivo.
 - **Declinar detiene todo.** No se escala a quien dijo que no, y tampoco se le pone alerta de nivel máximo.
 - **Una persona, un colador activo.** Si llega otra alerta para la misma persona, se suma a su caso.
 - **Cada intento queda en el caso**: canal, fecha y resultado. Es lo que verá el ejecutivo.

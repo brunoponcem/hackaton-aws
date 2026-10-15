@@ -62,7 +62,6 @@ def test_clock_boundaries_and_three_calls_in_five_days(engine):
     state = engine.advance(1)
     assert state["people"][0]["stage"] == 2
     assert state["funnel"][1]["attempts"] == 1
-    engine.respond(RUN, "answered")
     assert engine.advance(2)["funnel"][1]["attempts"] == 2
     state = engine.advance(3)
     assert state["funnel"][1]["attempts"] == 3
@@ -106,8 +105,10 @@ def test_missing_channels_skip_immediately_and_log_reason(tmp_path, profile):
 def test_existing_acceptance_and_authorization_are_not_started_progress(engine):
     casos.responder_invitacion(RUN, True, "Web ChileAtiende")
     casos.autorizar(RUN, True, "Web ChileAtiende")
-    assert engine.advance(7)["people"][0]["stage"] == 2
-    assert engine.snapshot()["people"][0]["status"] == "active"
+    state = engine.advance(7)
+    assert state["people"][0]["stage"] == 1
+    assert state["people"][0]["status"] == "contacted"
+    assert state["totals"]["started"] == 0
 
 
 @pytest.mark.parametrize("step", ["G1", "J2"])
@@ -153,7 +154,9 @@ def test_seeded_simulation_is_persistent_and_independent_of_tick_size(tmp_path):
     assert state == repeated
     assert Funnel(tmp_path / "one.db").snapshot() == state
     totals = state["totals"]
-    assert totals["detected"] == totals["active"] + totals["started"] + totals["declined"]
+    assert totals["detected"] == sum(
+        totals[k] for k in ("active", "contacted", "started", "declined")
+    )
     reached = [row["reached"] for row in state["funnel"]]
     assert reached == sorted(reached, reverse=True)
     assert totals["started"] > 0 and totals["in_person"] > 0

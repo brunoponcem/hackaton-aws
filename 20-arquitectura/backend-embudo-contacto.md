@@ -5,6 +5,26 @@ responsable: codex
 ---
 # Backend del embudo de contacto
 
+## Regla vigente: detener al contactar (corrección de Clemente)
+
+[[0012-detener-contacto-confirmado]] sustituye el criterio anterior de esperar al inicio del trámite. Ahora **responder o aceptar detiene todos los canales posteriores**, aunque la persona todavía no haya iniciado. Enviar o abrir sin responder no confirma contacto. `active` = sin respuesta confirmada; `contacted` = contactado pendiente de trámite; `started` y `declined` se registran aparte. Una persona contactada puede luego iniciar o declinar; nunca se reactiva el escalamiento por seguir pendiente su trámite.
+
+La aceptación en el caso compartido también detiene; G1/J2 o `tramite_iniciado` pueden convertir `contacted` en `started`. Ninguna respuesta simulada concede autorización. Respuestas históricas `answered` cancelan intentos futuros al leer/avanzar; se conserva el historial y no se finge que la nueva regla existía antes.
+
+**Aclaración de la demo sin respuestas:** 500 perfiles analizados, 92 detectados; 77 personas con email, 85 con teléfono y 38 con empleador sintético. Hubo 77 emails, **255 intentos de llamada para 85 personas (3 cada una)** y 38 intentos laborales. Los demás canales se saltaron; los 92 quedan en cola presencial, con cero contactos confirmados. No hay 255 personas detectadas ni visitas ejecutadas.
+
+La visual y JSON separan `reached` (incluye saltos), `attempted` (personas distintas con intento), `attempts` (intentos), `skipped`, `confirmed` y `active`. La barra representa personas con intento; el total de contactos confirmados incluye respuestas, aceptaciones y rechazos. Los estados disjuntos suman detectados: active + contacted + started + declined.
+
+En localhost:8502 se puede elegir **Embudo con respuestas** (`funnel-demo-contacto-ejemplo.db`) o **Sin respuestas · mapa de campañas** (`funnel-demo-rm.db`); escenarios anteriores se conservan. En un clon sin bases locales, inicializar y avanzar el reloj. El control de respuestas afecta los próximos intentos y no reescribe el pasado. `FUNNEL_DEMO_DB` conserva el override para tests/escenarios propios.
+
+Ejemplo nuevo con semilla 20261008 y 19 días: 92 detectados, 66 contactos confirmados (34 iniciaron, 23 contactados sin inicio, 9 declinaron), 26 sin contacto en presencial. Se detuvo a 25 en email; 67 pasaron a la etapa telefónica, con 60 personas que tenían teléfono y 131 intentos; 28 llegaron a trabajo (9 con empleador) y 26 quedan en presencial. No son KPI reales. Los datos históricos del apartado original debajo corresponden al modelo anterior.
+
+La probabilidad por canal ahora representa respuesta; un sorteo independiente del 65% ilustra inicio posterior. Es hipótesis sin calibrar; no se ajusta para forzar una meta. **Meta del usuario: ≥75% de próximo paso válido dentro del plazo**. Ese KPI aparece «Sin medir» hasta instrumentar evidencia/paso/plazo; inicio/detectados se muestra solo como proxy.
+
+Acciones del inspector: Abrió el correo (solo email activo), Confirmar contacto (detiene), Inició su trámite y Declinar (también disponibles desde contacted). CLI `respond --response answered` o `contacted` confirma respuesta. Regresiones: confirmar por email evita llamada/trabajo/presencial; contestar la primera llamada evita repeticiones; aceptar no inventa inicio; personas/intentos y reconciliación histórica comprobados.
+
+Verificación vigente: **136 tests pasan** (10 nuevos), ruff check/format y verificador de 500 perfiles OK. El mapa/área siguen usando los mismos estados activos; se conserva el escenario sin respuestas para pruebas espaciales. El diseño y las cifras originales siguientes son registro previo a esta corrección.
+
 Implementa los pendientes de colador en [[board-clemente]] y el diseño [[contacto-y-campanas]]. Decisión en [[0007-backend-embudo-simulado]].
 
 ## Verlo funcionar

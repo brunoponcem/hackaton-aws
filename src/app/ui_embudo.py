@@ -4,11 +4,16 @@ import json
 
 import pandas as pd
 import streamlit as st
-from ruta.colador import ACTIVE, STAGES, Funnel
+from ruta.colador import ACTIVE, CONTACTED, STAGES, Funnel
 from ruta.contacto import generate_contacts
 from ui_campanas import render_campaigns
 
-STATUS_LABELS = {"active": "En seguimiento", "started": "Trámite iniciado", "declined": "Declinó"}
+STATUS_LABELS = {
+    "active": "Sin contacto confirmado",
+    "contacted": "Contactado · pendiente de trámite",
+    "started": "Trámite iniciado",
+    "declined": "Declinó",
+}
 EVENT_LABELS = {
     "signal": "Nueva alerta agregada al caso",
     "entered": "Entró a la etapa",
@@ -16,9 +21,10 @@ EVENT_LABELS = {
     "attempt": "Intento simulado",
     "queued": "Pendiente de campaña presencial",
     "started": "Inició trámite",
+    "contacted": "Contacto confirmado: se detiene el escalamiento",
     "declined": "Declinó: se detiene",
     "opened": "Abrió correo (sin inicio)",
-    "answered": "Contestó (sin inicio)",
+    "answered": "Respondió al contacto",
 }
 
 
@@ -32,7 +38,9 @@ def render_funnel(profiles, db_path=None):
     )
     st.caption(
         "Fuente: contacto-y-campanas.md · Email → llamada → trabajo → presencial. "
-        "Solo sale del embudo quien inicia su trámite o declina; abrir/contestar no basta."
+        "Responder o aceptar detiene los siguientes canales; "
+        "iniciar el trámite se registra aparte. "
+        "Enviar o abrir un correo no confirma respuesta. Declinar detiene todo."
     )
     controls = st.columns([2, 1])
     mode = controls[0].radio(
@@ -73,10 +81,37 @@ def render_funnel(profiles, db_path=None):
     )
 
     totals = state["totals"]
-    metrics = ("Detectadas", "Iniciaron trámite", "Declinaron", "En seguimiento", "En presencial")
-    keys = ("detected", "started", "declined", "active", "in_person")
-    for col, label, key in zip(st.columns(5), metrics, keys, strict=True):
+    metrics = (
+        "Detectadas",
+        "Contacto confirmado",
+        "Iniciaron trámite",
+        "Declinaron",
+        "Sin contacto",
+        "En presencial",
+    )
+    keys = ("detected", "confirmed_contacts", "started", "declined", "active", "in_person")
+    for col, label, key in zip(st.columns(6), metrics, keys, strict=True):
         col.metric(label, totals[key])
+    st.caption(
+        f"{len(profiles)} perfiles analizados → {totals['detected']} personas detectadas. "
+        f"Distribución actual: {totals['active']} sin contacto + "
+        f"{totals['contacted']} contactadas sin "
+        f"inicio + {totals['started']} iniciaron + {totals['declined']} declinaron. "
+        "Contacto confirmado incluye respuestas, aceptaciones y rechazos; "
+        "no equivale a trámite iniciado."
+    )
+    denominator = totals["detected"]
+    started_pct = 100 * totals["started"] / denominator if denominator else 0
+    st.markdown("#### Avance del trámite · meta ≥75%")
+    kpi = st.columns(2)
+    kpi[0].metric("Inicios sobre detectadas (proxy)", f"{started_pct:.1f}%")
+    kpi[1].metric(
+        "Próximo paso válido dentro del plazo", "Sin medir", "Meta ≥75%", delta_color="off"
+    )
+    st.caption(
+        "El inicio es solo un indicador auxiliar. Falta instrumentar la evidencia del próximo "
+        "paso válido y su plazo; contacto o cambio de canal no cuentan para cumplir esa meta."
+    )
 
     st.markdown("### Del contacto general al acompañamiento presencial")
     import altair as alt
@@ -86,9 +121,7 @@ def render_funnel(profiles, db_path=None):
         alt.Chart(data)
         .mark_bar(cornerRadiusEnd=6)
         .encode(
-            x=alt.X(
-                "reached:Q", title="Personas que llegaron a cada etapa (incluye canales saltados)"
-            ),
+            x=alt.X("attempted:Q", title="Personas distintas con intento en cada canal"),
             y=alt.Y("label:N", sort=list(STAGES.values()), title=None),
             color=alt.Color(
                 "label:N",
@@ -99,19 +132,28 @@ def render_funnel(profiles, db_path=None):
             ),
             tooltip=[
                 alt.Tooltip("label:N", title="Etapa"),
-                alt.Tooltip("reached:Q", title="Llegaron"),
+                alt.Tooltip("attempted:Q", title="Personas con intento"),
                 alt.Tooltip("attempts:Q", title="Intentos simulados"),
+                alt.Tooltip("confirmed:Q", title="Contactos confirmados"),
                 alt.Tooltip("active:Q", title="Siguen en esta etapa"),
             ],
         )
     )
     st.altair_chart(chart.properties(height=240), use_container_width=True)
+    st.caption(
+        "Personas ≠ intentos: una persona puede tener hasta tres llamadas. Llegar a una etapa "
+        "o saltarla por falta de datos no significa haber sido contactada. Presencial es una "
+        "cola de campaña; todavía no simula visitas."
+    )
     st.dataframe(
         data.rename(
             columns={
                 "label": "Etapa",
-                "reached": "Llegaron",
+                "reached": "Pasaron por la etapa (incluye saltos)",
                 "attempts": "Intentos simulados",
+                "attempted": "Personas con intento",
+                "skipped": "Sin datos: canal saltado",
+                "confirmed": "Contactos confirmados",
                 "active": "Pendientes actuales",
             }
         ).drop(columns="stage"),
@@ -147,12 +189,18 @@ def render_funnel(profiles, db_path=None):
             f"Dirección ficticia: {contact['address']} · "
             f"Coordenadas simuladas: {contact['latitude']:.6f}, {contact['longitude']:.6f}"
         )
-    actions = st.columns(3)
-    responses = ("opened" if person["stage"] == 1 else "answered", "started", "declined")
+    actions = st.columns(4)
+    responses = ("opened", "answered", "started", "declined")
     for col, label, response in zip(
-        actions, ["Abrir / contestar", "Inició su trámite", "Declinar"], responses, strict=True
+        actions,
+        ["Abrió el correo", "Confirmar contacto", "Inició su trámite", "Declinar"],
+        responses,
+        strict=True,
     ):
-        if col.button(label, disabled=person["status"] != ACTIVE, use_container_width=True):
+        disabled = person["status"] not in {ACTIVE, CONTACTED}
+        if response in {"opened", "answered"}:
+            disabled = person["status"] != ACTIVE or (response == "opened" and person["stage"] != 1)
+        if col.button(label, disabled=disabled, use_container_width=True):
             engine.respond(selected, response)
             st.rerun()
 

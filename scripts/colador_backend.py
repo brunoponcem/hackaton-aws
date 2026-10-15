@@ -32,7 +32,9 @@ def main(argv=None):
     response = commands.add_parser("respond")
     response.add_argument("--run", required=True)
     response.add_argument(
-        "--response", choices=["opened", "answered", "started", "declined"], required=True
+        "--response",
+        choices=["opened", "answered", "contacted", "started", "declined"],
+        required=True,
     )
     commands.add_parser("status")
     args = parser.parse_args(argv)

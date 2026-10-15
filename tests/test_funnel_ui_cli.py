@@ -54,7 +54,7 @@ def test_visual_funnel_advances_and_declining_stops_further_contact(tmp_path, mo
     click("Inicializar embudo")
     assert next(metric for metric in app.metric if metric.label == "Detectadas").value == "92"
     selected = next(box for box in app.selectbox if box.label == "Inspeccionar persona").value
-    click("Abrir / contestar")
+    click("Confirmar contacto")
     click("Avanzar 7 días")
     click("Declinar")
     assert next(metric for metric in app.metric if metric.label == "Declinaron").value == "1"
