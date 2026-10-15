@@ -29,12 +29,13 @@ El heatmap propone comunas para campañas según casos sin respuesta en última 
 | App de Johann | `src/app/app.py`, Streamlit: persona, ejecutivo, invitaciones simuladas y métricas; `ui_persona.py` implementa la guía ciudadana |
 | Portal y ayuda | `src/app/portal.py`: estructura del portal oficial, Inicio/Ayuda/Mi ruta, búsqueda y links oficiales. `ruta/chatbot.py` conecta el chat Bedrock al Agent/cliente común con la ruta autorizada; plantilla sin configuración |
 | Motor y casos de la app | `src/app/ruta/`: reglas, hitos, rutas con dependencias, casos SQLite y asistente por plantillas/Bedrock opcional. Autónomo: aún no usa los contratos/agente comunes |
+| Embudo de contacto | `ruta/colador.py` y `contacto.py`: backend SQLite, reloj y respuestas simuladas; CLI `scripts/colador_backend.py`; `ui_embudo.py` en campañas y `demo_embudo.py` independiente (8502). No hay envíos reales |
 | Reglas y catálogo | `src/rules/` y `data/catalogo/` todavía no existen en el estado revisado |
 | API, persistencia y contactos | Por implementar; FastAPI y repositorio en memoria primero, DynamoDB después |
 | Frontend y back-office | Por implementar: chat, ficha de beneficiario y campañas/heatmap; framework pendiente |
 | Simulación e infraestructura | Por implementar: `src/sim/`, `infra/`; despliegue AWS opcional después de demo local |
 
-La app ya usa el agente común en su chatbot configurado (herramienta `leer_caso` con contexto de la ruta), pero las reglas/SQLite siguen propios. Falta reconciliar estados (`futuro`/`excluido`), historial y persistencia. Contacto escalonado y heatmap siguen pendientes. `20-arquitectura/portal-ayuda-tramites.md` describe la nueva pestaña; `revision-aporte-johann.md` conserva la revisión previa.
+La app ya usa el agente común en su chatbot configurado, pero las reglas/SQLite siguen propios. Falta reconciliar estados (`futuro`/`excluido`), historial y persistencia. El embudo funciona en simulación; heatmap y alertas siguen pendientes. `20-arquitectura/backend-embudo-contacto.md` documenta reloj/políticas; `portal-ayuda-tramites.md` la pestaña; `revision-aporte-johann.md` la revisión previa.
 
 ## Interfaces de integración
 

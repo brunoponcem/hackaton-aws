@@ -8,6 +8,12 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Backend del embudo · `7d1d8e0`
+- Revisados los pendientes actuales y [[contacto-y-campanas]]. Implementados contactos sintéticos, backend persistente con reloj, simulación reproducible y embudo visual. Escala solo si no inició trámite; declinar detiene todo. No hay envíos/calls/visitas reales.
+- CLI `scripts/colador_backend.py`, laboratorio `src/app/demo_embudo.py` en localhost:8502 y componente compartido en Detectar e invitar. La demo usa una base separada y permite conservar escenarios.
+- 84 tests pasan (20 nuevos), ruff de módulos nuevos OK y verificador de 500 perfiles TODO OK. Chrome muestra gráfico/tablas sin excepciones. Guía [[backend-embudo-contacto]] y [[0007-backend-embudo-simulado]].
+- Quedan heatmap, alerta/CESFAM, envíos reales y acompañamiento ampliado, sin marcarlos como implementados.
+
 ### 2026-10-14 · T04 · rama `clemente/T04-agente`
 - Agente con Converse + tool use: límite de iteraciones, formato común de errores, contexto del caso en el prompt e historial entre canales. Ruta y checklist deterministas. CLI `uv run agente --run <RUN>`. Guía en [[T04-agente]].
 - 57 tests (11 nuevos) y ruff OK. Prueba real con Bedrock Sonnet 5 y el RUN `100000010-4`: consulta el perfil, cita el dataset y no adjudica la PGU.

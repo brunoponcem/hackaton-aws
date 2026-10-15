@@ -24,6 +24,7 @@ La app no tiene login: es para demo local. `--server.address localhost` evita ex
 IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.claude-sonnet-5`) junto con `AWS_PROFILE=hackaton` y `AWS_REGION=us-east-1`. Sin ella, el asistente responde con plantillas a partir del mismo contexto.
 
 ## Vistas
+- Embudo de contacto: `uv run --group app streamlit run src/app/demo_embudo.py --server.port 8502 --server.address localhost`. Backend sin web: `uv run python scripts/colador_backend.py --db src/app/funnel-demo.db init --simulate` y `advance --days 7 --simulate`. Guía completa en [[backend-embudo-contacto]]. No se hacen envíos reales.
 - Portal inspirado en `https://www.chileatiende.gob.cl/`: Inicio, Ayuda para tus trámites (entrada del MVP) y Mi ruta. Buscador y enlaces al portal oficial. Chatbot integrado con el agente compartido cuando se configura Bedrock; sin configuración responde por plantillas. Ver [[portal-ayuda-tramites]].
 - **Ruta de la persona**: guía ciudadana paso a paso (invitación → autorización → tu situación → tu ruta) con asistente.
 - **Vista ejecutivo**: el mismo caso con requisitos, fuentes e historial, para sucursal o call center.

@@ -57,13 +57,15 @@ flowchart LR
   classDef pendiente fill:#e9ecef,stroke:#6c757d,color:#000
   class D,I,Q,V,R hecho
   class A,X,S parcial
-  class C1,C2,C3,C4,HM,AL,CX pendiente
+  class C1,C2,C3,CX hecho
+  class C4 parcial
+  class HM,AL pendiente
 ```
 
 | Etapa | Qué hay | Qué falta |
 |---|---|---|
-| 1. Detectar | Segmentos de campaña sobre los 500 perfiles en la app de Johann | Que alimenten el colador |
-| 2. Colador | Invitación simulada en la vista "Detectar e invitar" | Las cuatro etapas, el reloj simulado y la capa de contacto |
+| 1. Detectar | Segmentos de campaña sobre los 500 perfiles alimentan el backend del colador | Validación institucional de reglas/datos |
+| 2. Colador | Backend SQLite, cuatro etapas con saltos, reloj, semilla, contactos sintéticos y embudo visual/CLI (`7d1d8e0`, [[backend-embudo-contacto]]) | Transportes reales y ejecución de campañas presenciales; la etapa 4 queda en cola |
 | 3–6. Invitar → ruta | App de Johann (SQLite, reglas, rutas) y, en paralelo, contratos, perfil y agente CLI | Unificar los dos motores ([[revision-aporte-johann]]): estados `futuro` y `excluido`, repositorio e historial |
 | 7. Acompañar | Portal estilo ChileAtiende con chatbot conectado al agente ([[portal-ayuda-tramites]]) | Checklist de documentos y guía del trámite paso a paso |
 | 8. Derivar | Vista del ejecutivo con requisitos, fuentes e historial | Resumen de derivación, historial del colador y alerta |

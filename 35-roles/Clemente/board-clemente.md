@@ -15,7 +15,6 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
-- 
 
 ## Por hacer
 ### Validar con los mentores
@@ -25,10 +24,7 @@ Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de
 - [ ] Hora exacta de entrega y formato de evaluación
 
 ### Colador de contacto ([[contacto-y-campanas]])
-- [ ] Capa de contacto: la de los mentores o una sintética rotulada (`data/synthetic/contacto.csv`, con email, teléfono, empleador y región/provincia/comuna)
-- [ ] `src/app/ruta/colador.py`: email a todos → llamada → trabajo → presencial, con reloj simulado, "declinar detiene todo" y tests
-- [ ] Respuestas simuladas con semilla fija (iniciar el trámite por etapa, según la edad) y rotuladas como simuladas
-- [ ] Embudo por etapa en la vista "Detectar e invitar"
+- Backend del embudo y demo visual implementados; envíos y campañas presenciales reales quedan fuera de la simulación. Ver [[backend-embudo-contacto]].
 
 ### Heatmap y alerta de beneficio
 - [ ] Heatmap por provincia de quienes no respondieron a ninguna etapa, con ranking de campañas y sin mostrar provincias con menos de 5 personas
@@ -51,8 +47,12 @@ Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de
 - [ ] Guion de la demo: embudo del colador → heatmap → persona que llega con alerta → acompañamiento → ejecutivo
 
 ## Bloqueos
-- El colador y el heatmap necesitan datos de contacto y provincia, que no vienen en el dataset A.
+- Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Capa de contacto sintética rotulada (500 filas) — `7d1d8e0` · [[backend-embudo-contacto]]
+- [x] Backend `src/app/ruta/colador.py` y CLI por lotes: reloj, saltos, tres llamadas en cinco días, inicio/rechazo y persistencia — `7d1d8e0`
+- [x] Respuestas simuladas con semilla fija y efecto ilustrativo de edad; sin LLM ni envíos — `7d1d8e0`
+- [x] Embudo en Detectar e invitar y laboratorio independiente en localhost:8502 — `7d1d8e0`, 84 tests pasan · [[backend-embudo-contacto]]
 - [x] Base Python, contratos compartidos, consulta autorizada del perfil, prompt y herramientas, y agente con Bedrock Converse (T01–T05, ver [[bitacora-clemente]])
 - [x] Reestructuración de la idea central: [[0005-asistente-contacto-escalonado]] y [[contacto-y-campanas]]
